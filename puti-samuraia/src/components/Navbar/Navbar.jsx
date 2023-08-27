@@ -11,6 +11,7 @@ const Navbar = () => {
             <div className={classes.item}> <a> Music </a> </div>
             <div className={classes.item}> <a> Settings </a> </div>
         </nav>
+        
     );
 }
 
