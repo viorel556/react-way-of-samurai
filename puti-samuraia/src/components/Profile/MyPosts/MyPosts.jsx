@@ -4,35 +4,24 @@ import Post from "./Post/Post";
 
 
 
-const MyPosts = () => { 
-    return ( 
+const MyPosts = () => {
+    return (
         <>
-            <div> 
-                <textarea> 
-                </textarea>
-
-                <button> Add Post </button>
-            
-                <div> New Post </div>
-                
-                <div className={classes.posts}> 
-
-                <Post />     
-                <Post />
-                <Post />
-                <Post />
-                <Post />
-                <Post />
-                <Post />
-                
+            My Posts
+            <div>
+                <textarea> </textarea>
+                <button>Add Post</button>
+            </div>
 
 
-                </div>
-            
-            </div> 
+            <div className={classes.posts}>
 
+                <Post message='Hi, how are you?' likes='3'/> 
+                <Post message="Its my first post here!" likes='19'/>
+
+            </div>
         </>
-    ); 
+    );
 }
 
 export default MyPosts;
