@@ -1,22 +1,22 @@
 import React from "react";
-import classes from './Profile.module.css'; 
+import classes from './Profile.module.css';
 import MyPosts from "./MyPosts/MyPosts";
 
 
-const Profile = () => { 
-    return ( 
-        <div className={classes.content}>
+const Profile = () => {
+    return (
+        <div>
 
-            <img src='https://www.americanoceans.org/wp-content/uploads/2021/04/number-of-oceans.jpg'/>  
+            <img src='https://www.americanoceans.org/wp-content/uploads/2021/04/number-of-oceans.jpg'/>
 
-            <div> ava + description   
+            <div> ava + description
 
             </div>
 
-            <MyPosts /> 
+            <MyPosts/>
 
         </div>
-    ); 
+    );
 }
 
 export default Profile;
