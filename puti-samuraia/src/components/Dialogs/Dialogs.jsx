@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Dialogs.module.css';
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const DialogItem = (props) => {
 
@@ -18,27 +18,29 @@ const Message = (props) => {
 }
 
 const Dialogs = (props) => {
+
+    let dialogsData = [
+        { id: 1, name: "Dimych" },
+        { id: 2, name: "Andrey" },
+    ];
+
+    let messagesData = [
+        { id: 1, message: "Hello!" },
+        { id: 2, message: "How is IT-Kamasutra? " },
+    ];
+
     return (
         <div className={classes.dialogs}>
 
             <div className={classes.dialogsItems}>
-
-                <DialogItem name="Dimych" id='1'/>
-                <DialogItem name="Andrei" id='2'/>
-                <DialogItem name="Sveta"  id='3'/>
-                <DialogItem name="Sasha"  id='4'/>
-                <DialogItem name="Viktor" id='5'/>
-                <DialogItem name="Valera" id='6'/>
+                <DialogItem name={ dialogsData[0].name } id={ dialogsData[0].id } />
+                <DialogItem name={ dialogsData[1].name } id={ dialogsData[1].id } />
 
             </div>
 
             <div className={classes.messages}>
-
-                <Message message='Hello ! '/>
-                <Message message='How is your it-kamasutra?!'/>
-                <Message message='Yo ! '/>
-                <Message message='Yo ! '/>
-                <Message message='Yo ! '/>
+                <Message message={ messagesData[0].message } />
+                <Message message={ messagesData[1].message } />
 
             </div>
 
