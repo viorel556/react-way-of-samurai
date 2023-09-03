@@ -1,20 +1,13 @@
 import React from "react";
 import classes from './Profile.module.css';
 import MyPosts from "./MyPosts/MyPosts";
-
+import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 const Profile = () => {
     return (
         <div>
-
-            <img src='https://www.americanoceans.org/wp-content/uploads/2021/04/number-of-oceans.jpg'/>
-
-            <div> ava + description
-
-            </div>
-
+            <ProfileInfo/>
             <MyPosts/>
-
         </div>
     );
 }
