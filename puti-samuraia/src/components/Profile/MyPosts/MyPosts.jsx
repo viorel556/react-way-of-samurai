@@ -5,10 +5,9 @@ import Post from "./Post/Post";
 
 const MyPosts = (props) => {
 
-    let posts = props.data
-
-    let myPosts = posts
-        .map( pst => <Post message={ pst.message } likes={ pst.likesCount } />  )
+    // mapping data:
+    let myPosts = props.posts
+        .map( pst => <Post message={pst.message} likes={pst.likesCount}/> )
 
     return (
         <div className={classes.postsBlock}>
