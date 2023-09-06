@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import state from "./redux/state";
 
-//DATA:
+// DATA:
 let posts = [
     {id: 1, message: "Hey how are you!?!", likesCount: 20},
     {id: 1, message: "Hey how are you!?!", likesCount: 20},
@@ -24,7 +25,7 @@ let messages = [
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        <App posts={posts} dialogs={dialogs} messages={messages}/>
+        <App state={state} />
     </React.StrictMode>
 );
 
