@@ -4,19 +4,22 @@ import Post from "./Post/Post";
 
 
 const MyPosts = (props) => {
-    // mapping data:
+    // mapping data
     let myPosts = props.posts
-        .map( pst => <Post message={pst.message} likes={pst.likesCount}/> )
-    // creating a reference:
+        .map(pst => <Post message={pst.message} likes={pst.likesCount}/>)
+
     let newPostElement = React.createRef();
 
     let addPost = () => {
-
-        let text = newPostElement.current.value;
-        props.addPost(text);
-
-
+        // this func just FIXATES the current value in textarea and adds a post;
+        props.addPost();
     };
+
+    let onPostChange = () => {
+        // func LISTENS and UPDATES "newPostText" in BLL;
+        let text = newPostElement.current.value;
+        props.updateNewPostText(text);
+    }
 
     return (
         <div className={classes.postsBlock}>
@@ -24,16 +27,19 @@ const MyPosts = (props) => {
             <h3> My Posts </h3>
             <div>
                 <div>
-                    <textarea ref={ newPostElement }> </textarea>
+                    <textarea ref={newPostElement}
+                              value={ props.newPostText }
+                              onChange={ onPostChange }
+                    />
                 </div>
 
                 <div>
-                    <button onClick={ addPost } >Add Post</button>
+                    <button onClick={ addPost }>Add Post</button>
                 </div>
             </div>
 
             <div className={classes.posts}>
-                { myPosts }
+                {myPosts}
             </div>
 
         </div>

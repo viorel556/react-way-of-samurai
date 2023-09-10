@@ -22,8 +22,6 @@ const Dialogs = (props) => {
                 { messageElements }
             </div>
 
-            <textarea> </textarea>
-            <button> Send Message </button>
         </div>
     );
 }
