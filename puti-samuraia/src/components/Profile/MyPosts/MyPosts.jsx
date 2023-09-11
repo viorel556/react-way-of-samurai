@@ -11,6 +11,7 @@ const MyPosts = (props) => {
     let newPostElement = React.createRef();
 
     let addPost = () => {
+
         // this func just FIXATES the current value in textarea and adds a post;
         props.addPost();
     };

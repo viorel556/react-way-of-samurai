@@ -1,11 +1,11 @@
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import state, {addPost, updateNewPostText} from "./redux/state";
+import store from "./redux/state";
 import ReactDOM from "react-dom/client";
 import React from "react";
 import {BrowserRouter} from "react-router-dom";
 import App from "./App";
-import {subscribe} from "./redux/state";
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 let rerenderEntireTree = (state) => {
@@ -15,18 +15,17 @@ let rerenderEntireTree = (state) => {
             {/*OUR APP IS UNDER BROWSER ROUTER CONTROL*/}
             <BrowserRouter>
                 <App state={ state }
-                     addPost={ addPost }
-                     updateNewPostText={ updateNewPostText }
+                     addPost={ store.addPost.bind(store) }
+                     updateNewPostText={ store.updateNewPostText.bind(store) }
                 />
             </BrowserRouter>
-
         </React.StrictMode>
     );
 }
 
-rerenderEntireTree(state);
+rerenderEntireTree( store.getState() );
 
-subscribe( rerenderEntireTree );
+store.subscribe( rerenderEntireTree );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
