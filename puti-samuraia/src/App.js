@@ -13,7 +13,6 @@ import Settings from "./components/Settings/Settings";
 
 const App = (props) => {
     return (
-
         <div className='app-wrapper'>
 
             <Header/>
@@ -31,7 +30,6 @@ const App = (props) => {
                 </Routes>
             </div>
         </div>
-
     );
 }
 export default App;
