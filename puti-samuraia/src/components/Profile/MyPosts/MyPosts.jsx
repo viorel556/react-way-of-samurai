@@ -11,15 +11,14 @@ const MyPosts = (props) => {
     let newPostElement = React.createRef();
 
     let addPost = () => {
-
         // this func just FIXATES the current value in textarea and adds a post;
-        props.addPost();
+        props.dispatch( {type: "ADD-POST" });
     };
 
     let onPostChange = () => {
         // func LISTENS and UPDATES "newPostText" in BLL;
         let text = newPostElement.current.value;
-        props.updateNewPostText(text);
+        props.dispatch( {type: "UPDATE-NEW-POST-TEXT", newText: text} )
     }
 
     return (

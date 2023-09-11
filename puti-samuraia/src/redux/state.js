@@ -1,5 +1,6 @@
 
 let store = {
+    // Data (state):
     _state: { // a PRIVATE store
         profilePage: {
             posts: [
@@ -23,41 +24,34 @@ let store = {
         },
         sidebar: { },
     },
-
     // METHODS:
-    getState() { return this._state; },
-
     _callSubscriber () { // internal private method;
         console.log( "I don't do shit until my bro gives me a job");
     },
-
-    addPost() {
-
-
-        let newPost = {
-            id: 5,
-            message: this._state.profilePage.newPostText,
-            likesCount: 0
-        };
-
-        this._state.profilePage.newPostText = '';
-        this._state.profilePage.posts.push(newPost);
-        this._callSubscriber(this._state);
-
-    },
-
-    updateNewPostText (newText) {
-
-        this._state.profilePage.newPostText = newText;
-        this._callSubscriber(this._state); // <- re-rendering;
-
-    },
-
+    getState() { return this._state; },
     subscribe  (observer) {
         // I don't do shit until somebody calls me
         // with a parameter (which I can pass to my bro)
         this._callSubscriber = observer;
     },
+
+    dispatch( action ) { // action - is an object { type: 'ADD-POST' }
+        if (action.type === 'ADD-POST') {
+            let newPost = {
+                id: 5,
+                message: this._state.profilePage.newPostText,
+                likesCount: 0
+            };
+            this._state.profilePage.newPostText = '';
+            this._state.profilePage.posts.push(newPost);
+            this._callSubscriber(this._state);
+        }
+        else if (action.type === "UPDATE-NEW-POST-TEXT") {
+            this._state.profilePage.newPostText = action.newText;
+            this._callSubscriber(this._state); // <- re-rendering;
+        }
+    }
+
 }
 
 window.state = store.getState();
