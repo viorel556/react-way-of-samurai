@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {sendMessageCreator, updateNewMessageBodyCreator} from "../../redux/state";
+import {sendMessageCreator, updateNewMessageBodyCreator} from "../../redux/dialogs-reducer";
 
 
 const Dialogs = (props) => {
@@ -23,7 +23,6 @@ const Dialogs = (props) => {
     let onNewMessageChange = (e) => {
         let body = e.target.value; // we use target to avoid refs; target is <textarea>;
         props.store.dispatch( updateNewMessageBodyCreator(body) )
-        console.log(newMessageBody);
     }
 
     return (
