@@ -1,5 +1,8 @@
-import state from "./state";
-const sidebarReducer = (state, action) => {
+import state from "./store";
+
+let initialState = {};
+
+const sidebarReducer = (state = initialState, action) => {
 
     // Sidebar doesn't have any shit so, I'm empty for now;
     return state;

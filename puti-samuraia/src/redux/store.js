@@ -32,11 +32,14 @@ let store = {
 
         },
     },
+
     // METHODS:
     _callSubscriber () { // internal private method;
         console.log( "I don't do shit until my bro gives me a job");
     },
+
     getState() { return this._state; },
+
     subscribe  (observer) {
         // I don't do shit until somebody calls me
         // with a parameter (which I can pass to my bro)
