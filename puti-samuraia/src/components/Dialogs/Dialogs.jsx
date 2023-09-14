@@ -6,23 +6,21 @@ import {sendMessageCreator, updateNewMessageBodyCreator} from "../../redux/dialo
 
 
 const Dialogs = (props) => {
-
-    let state = props.store.getState().dialogsPage;
+    let state = props.dialogsPage;
 
     // Mapping data:
-    let dialogsElements = state.dialogs
-        .map(d => <DialogItem name={d.name} id={d.id}/>);
-    let messageElements = state.messages
-        .map(msg => <Message message={msg.message}/>);
+    let dialogsElements = state.dialogs.map(d => <DialogItem name={d.name} id={d.id}/>);
+    let messageElements = state.messages.map(msg => <Message message={msg.message}/>);
+
 
     let newMessageBody = state.newMessageBody;
     let onSendMessageClick = () => {
-        props.store.dispatch ( sendMessageCreator(newMessageBody));
+        props.onSendMessageClick(newMessageBody);
     }
 
     let onNewMessageChange = (e) => {
         let body = e.target.value; // we use target to avoid refs; target is <textarea>;
-        props.store.dispatch( updateNewMessageBodyCreator(body) )
+        props.updateNewMessageBody(body);
     }
 
     return (
@@ -41,7 +39,7 @@ const Dialogs = (props) => {
                         <textarea
                             value={newMessageBody}
                             placeholder="enter your message"
-                            onChange={ onNewMessageChange }
+                            onChange={onNewMessageChange}
                         >
 
                         </textarea>

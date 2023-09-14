@@ -3,23 +3,20 @@ import classes from './MyPosts.module.css';
 import Post from "./Post/Post";
 import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/profile-reducer";
 
-
 const MyPosts = (props) => {
     // mapping data
     let myPosts = props.posts
         .map(pst => <Post message={pst.message} likes={pst.likesCount}/>)
 
-    let newPostElement = React.createRef();
+    let newPostElement= React.createRef();
 
-    let addPost = () => {
-        // this func just FIXATES the current value in textarea and adds a post;
-        props.dispatch( addPostActionCreator() );
+    let onAddPost = () => { // FIXATES the current value in textarea and adds a post;
+        props.addPost();
     };
 
-    let onPostChange = () => {
-        // func LISTENS and UPDATES "newPostText" in BLL;
+    let onPostChange = () => { // func LISTENS and UPDATES "newPostText" in BLL;
         let text = newPostElement.current.value;
-        props.dispatch( updateNewPostTextActionCreator(text) );
+        props.updateNewPostText(text);
     }
 
     return (
@@ -35,7 +32,7 @@ const MyPosts = (props) => {
                 </div>
 
                 <div>
-                    <button onClick={ addPost }>Add Post</button>
+                    <button onClick={ onAddPost }>Add Post</button>
                 </div>
             </div>
 
@@ -46,5 +43,6 @@ const MyPosts = (props) => {
         </div>
     );
 }
+
 
 export default MyPosts;
