@@ -1,21 +1,29 @@
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import store from "./redux/redux-store";
-
-
 import ReactDOM from "react-dom/client";
 import React from "react";
 import {BrowserRouter} from "react-router-dom";
 import App from "./App";
+import { Provider } from 'react-redux';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 let rerenderEntireTree = (state) => {
     root.render(
         <React.StrictMode>
             {/*OUR APP IS UNDER BROWSER ROUTER CONTROL*/}
+            
             <BrowserRouter>
-                <App state={ state }  dispatch={ store.dispatch.bind(store) } store={ store } />
+
+                <Provider store={store}> 
+            
+                    <App />
+ 
+                </Provider>   
+
+
             </BrowserRouter>
         </React.StrictMode>
     );
