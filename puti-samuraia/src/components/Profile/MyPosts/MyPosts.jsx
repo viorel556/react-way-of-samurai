@@ -1,7 +1,7 @@
 import React from "react";
 import classes from './MyPosts.module.css';
 import Post from "./Post/Post";
-import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/profile-reducer";
+
 
 const MyPosts = (props) => {
     // mapping data
@@ -39,7 +39,6 @@ const MyPosts = (props) => {
             <div className={classes.posts}>
                 {myPosts}
             </div>
-
         </div>
     );
 }
