@@ -1,18 +1,16 @@
 import React from "react";
 import {connect} from "react-redux";
 import {
-    followAC,
-    loadUsersAC,
-    setCurrentPageAC,
-    setUsersTotalCountAC,
-    toggleIsFetchingAC,
-    unfollowAC
+    follow,
+    loadUsers,
+    setCurrentPage,
+    setTotalUsersCount,
+    toggleIsFetching,
+    unfollow
 } from "../../redux/users-reducer";
 import axios from "axios";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
-
-
 
 
 // CONTAINER COMPONENT 2: (this one makes AJAX requests and passes props)
@@ -23,7 +21,7 @@ class UsersContainer extends React.Component {
             .then(response => {
             this.props.toggleIsFetching(false);
             this.props.loadUsers(response.data.items);
-            this.props.setTotalUsersCount(response.data.totalCount);
+            this.props.setUsersTotalCount(response.data.totalCount);
         });
     }
 
@@ -34,7 +32,7 @@ class UsersContainer extends React.Component {
             .then(response => {
             this.props.toggleIsFetching(false);
             this.props.loadUsers(response.data.items);
-        });
+        }) ;
     }
 
     render() {
@@ -61,28 +59,17 @@ let mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        follow: (userId) => {
-            dispatch(followAC(userId))
-        },
-        unfollow: (userId) => {
-            dispatch(unfollowAC(userId))
-        },
-        loadUsers: (users) => {
-            dispatch(loadUsersAC(users))
-        },
-        setCurrentPage: (pageNumber) => {
-            dispatch(setCurrentPageAC(pageNumber))
-        },
-        setTotalUsersCount: (totalCount) => {
-            dispatch(setUsersTotalCountAC(totalCount));
-        },
-        toggleIsFetching: (isFetching) => {
-            dispatch(toggleIsFetchingAC(isFetching));
-        }
-    }
-}
 
 // CONTAINER COMPONENT 1 (communicates with the STORE)
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
+export default connect(mapStateToProps,
+
+    {
+        follow,
+        unfollow,
+        loadUsers,
+        setCurrentPage,
+        setTotalUsersCount,
+        toggleIsFetching
+    }
+
+    )(UsersContainer);
