@@ -1,4 +1,3 @@
-
 const FOLLOW = "FOLLOW";
 const UNFOLLOW= "UNFOLLOW";
 const LOAD_USERS = "LOAD_USERS";
@@ -14,7 +13,7 @@ let initialState = {
     currentPage: 1,
     isFetching: false
 }
-const usersReducer = (state=initialState, action) => {
+const usersReducer = (state= initialState, action) => {
 
     switch (action.type) {
 
