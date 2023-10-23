@@ -17,10 +17,12 @@ const ProfileInfo = (props) => {
             <div className={classes.descriptionBlock}>
 
                 <img  src={props.profile.photos.large} />
+
                 <p>{props.profile.fullName}</p>
                 <p>{props.profile.aboutMe} </p>
                 <p>GITHUB: {props.profile.contacts.github}</p>
             </div>
+
         </div>
     );
 }
