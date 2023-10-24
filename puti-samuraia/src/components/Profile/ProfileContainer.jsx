@@ -22,7 +22,6 @@ function withRouter(Component) {
 }
 
 class ProfileContainer extends React.Component {
-
     componentDidMount() {
         let userId = this.props.router.params.userId;
 

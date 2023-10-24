@@ -2,6 +2,8 @@ import profileReducer from "./profile-reducer";
 import dialogsReducer from "./dialogs-reducer";
 import sidebarReducer from "./sidebar-reducer";
 
+
+// THIS SHIT IS NOT USED NOW:
 let store = {
     // Data (state):
     _state: { // a PRIVATE state
