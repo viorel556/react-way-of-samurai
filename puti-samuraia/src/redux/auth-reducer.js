@@ -1,5 +1,7 @@
 
 // ACTIONS:
+import {profileAPI} from "../api/api";
+
 const SET_AUTH_USER_DATA = "SET_AUTH_USER_DATA";
 
 // INITIAL STATE:
@@ -32,5 +34,19 @@ export const setAuthUserData = (userId, email, login) => (
         data: { userId, email, login }
     }
 );
+
+// THUNKS ARE HERE:
+export const authorizeMe = () => {
+    // MAKES AN AUTHORIZATION REQUEST TO THE SERVER WITH THE COOKIES
+    return (dispatch) => {
+        profileAPI.authorizeMeRequest()
+            .then(response => {
+                if (response.data.resultCode === 0 ) {
+                    let {email, id, login} = response.data.data;
+                    dispatch( setAuthUserData(email, id, login) );
+                }
+            });
+    }
+}
 
 export default authReducer;

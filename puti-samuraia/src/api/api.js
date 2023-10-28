@@ -34,17 +34,18 @@ export const usersAPI = {
         return instance.delete(  `follow/${userId}`);
     },
 
-    getUser (userId) {
-        // SERVER REQUEST TO GET A SINGLE USER:
-        return instance.get(  `profile/`+userId);
-    }
 
 }
 
 export const profileAPI = {
+    // SERVER REQUEST FOR AUTHORIZATION:
+    authorizeMeRequest () {
+        return instance.get('auth/me');
+    },
 
-    authorizeMe () {
-
+    // SERVER REQUEST TO GET A SINGLE USER:
+    requestUser (userId) {
+        return instance.get(  `profile/`+userId);
     }
 
 }
