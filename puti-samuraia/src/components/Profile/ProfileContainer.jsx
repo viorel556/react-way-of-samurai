@@ -4,7 +4,7 @@ import axios from "axios";
 import {setUserProfile} from "../../redux/profile-reducer";
 import {connect} from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import {getUser} from "../../api/api";
+import {getUser, usersAPI} from "../../api/api";
 function withRouter(Component) {
     // MAKING THIS FUNC MANUALLY
     // because the previous withRouter() is deprecated. (now v6);
@@ -30,7 +30,7 @@ class ProfileContainer extends React.Component {
             userId = 2;
         }
 
-        getUser(userId).then(response => {
+        usersAPI.getUser(userId).then(response => {
 
                this.props.setUserProfile(response.data);
         });

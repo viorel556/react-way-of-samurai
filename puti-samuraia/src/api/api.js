@@ -11,7 +11,8 @@ const instance = axios.create(
 );
 
 export const usersAPI = {
-    getUsers (currentPage = 1 , pageSize = 5) {
+
+    requestUsers (currentPage = 1 , pageSize = 5) {
         // SERVER REQUEST TO GET A BUNCH OF USERS (for page rendering)
         return (
             axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`,
@@ -21,26 +22,33 @@ export const usersAPI = {
                     return response.data;
                 })
         );
+    },
+
+    requestFollowUser (userId) {
+        // SERVER REQUEST TO FOLLOW AN USER;
+        return instance.post(  `follow/${userId}`, {} );
+    },
+
+    requestUnfollowUser (userId) {
+        // SERVER REQUEST TO UNFOLLOW AN USER;
+        return instance.delete(  `follow/${userId}`);
+    },
+
+    getUser (userId) {
+        // SERVER REQUEST TO GET A SINGLE USER:
+        return instance.get(  `profile/`+userId);
     }
-}
-
-
-
-export const getUser = (userId) => {
-    // SERVER REQUEST TO GET A SINGLE USER:
-    return instance.get(  `profile/`+userId);
-}
-
-export const followUser = (userId) => {
-    // SERVER REQUEST TO FOLLOW AN USER;
-    return instance.post(  `follow/${userId}`, {} );
-}
-
-export const unfollowUser = (userId) => {
-    // SERVER REQUEST TO UNFOLLOW AN USER;
-    return instance.delete(  `follow/${userId}`);
 
 }
+
+export const profileAPI = {
+
+    authorizeMe () {
+
+    }
+
+}
+
 
 
 

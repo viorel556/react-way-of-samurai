@@ -1,3 +1,5 @@
+import {requestFollowUser, usersAPI} from "../api/api";
+
 const FOLLOW = "FOLLOW";
 const UNFOLLOW= "UNFOLLOW";
 const LOAD_USERS = "LOAD_USERS";
@@ -119,6 +121,53 @@ export const toggleFollowingProgress = (isFetching, userId) => (
         userId
     }
 )
+
+
+// THUNKS ARE HERE:
+export const getUsers = (currentPage, pageSize) => {
+    // to pass params to a Thunk we have to create a thunk Creator;
+
+    return (dispatch) => {
+        // THE THUNK ITSELF:
+        dispatch(toggleIsFetching(true));
+        // server request to get initial users
+        usersAPI.requestUsers(currentPage, pageSize).then(data => {
+            dispatch(toggleIsFetching(false));
+            dispatch(loadUsers(data.items));
+            dispatch(setTotalUsersCount(data.totalCount));
+        });
+    }
+}
+
+export const followUser = (userId) => {
+
+    return (dispatch) => {
+        // THE THUNK ITSELF:
+        dispatch( toggleFollowingProgress(true, userId) );
+        usersAPI.requestFollowUser(userId)
+            .then(response => {
+                if (response.data.resultCode === 0) {
+                    dispatch(follow(userId));
+                }
+                dispatch( toggleFollowingProgress(false, userId) );
+            });
+    }
+}
+
+export const unfollowUser = (userId) => {
+
+    return (dispatch) => {
+        // THE THUNK ITSELF:
+        dispatch( toggleFollowingProgress(true, userId));
+        usersAPI.requestUnfollowUser(userId)
+            .then(response => {
+                if (response.data.resultCode === 0) {
+                    dispatch( unfollow(userId) );
+                }
+                dispatch(toggleFollowingProgress(false, userId));
+            });
+    }
+}
 
 export default usersReducer;
 

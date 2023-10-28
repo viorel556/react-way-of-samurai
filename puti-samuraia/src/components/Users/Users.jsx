@@ -2,7 +2,8 @@ import styles from "./users.module.css";
 import userPhoto from "../../assets/images/user.png";
 import React from "react";
 import {NavLink} from "react-router-dom";
-import {followUser, unfollowUser} from "../../api/api";
+import {requestFollowUser, requestUnfollowUser, usersAPI} from "../../api/api";
+import users from "./Users";
 
 
 // just renders stuff:
@@ -40,37 +41,22 @@ const Users = (props) => {
                                 </div>
 
                                 <div>
-                                    {u.followed ?
-                                        <button disabled={props.followingInProgress.some(id => id === u.id)}
+                                    {u.followed
+                                        ? <button disabled={props.followingInProgress.some(id => id === u.id)}
+
                                                 onClick={() => {
-
-                                                    props.toggleFollowingProgress(true, u.id);
-
-                                                    unfollowUser(u.id)
-                                                        .then(response => {
-                                                            if (response.data.resultCode === 0) {
-                                                                props.unfollow(u.id);
-                                                            }
-                                                            props.toggleFollowingProgress(false, u.id);
-                                                        });
+                                                    // CALLING A THUNK:
+                                                    props.unfollowUser(u.id);
                                                 }
                                                 }>Unfollow</button>
 
                                         : <button disabled={props.followingInProgress.some(id => id === u.id)}
+
                                                   onClick={() => {
+                                                      // CALLING A THUNK:
+                                                      props.followUser(u.id)
 
-                                            props.toggleFollowingProgress(true, u.id);
-
-                                            followUser(u.id)
-                                                .then(response => {
-
-                                                    if (response.data.resultCode === 0) {
-                                                        props.follow(u.id);
-                                                    }
-                                                    props.toggleFollowingProgress(false, u.id);
-                                                });
-
-                                        }}>Follow</button>}
+                                                  }}>Follow</button>}
                                 </div>
                             </span>
 
