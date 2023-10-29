@@ -51,8 +51,7 @@ let  withUrlDataContainerComponent = withRouter(ProfileContainer);
 
 export default connect(mapStateToProps,
     {
-        setUserProfile,
-        getUser
+        getUser,
     }
 
 )(withUrlDataContainerComponent);
