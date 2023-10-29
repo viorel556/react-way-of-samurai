@@ -2,8 +2,8 @@ import React from "react";
 import Profile from "./Profile";
 import {getUser, setUserProfile} from "../../redux/profile-reducer";
 import {connect} from "react-redux";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { profileAPI, usersAPI} from "../../api/api";
+import {Navigate, useLocation, useNavigate, useParams} from "react-router-dom";
+import {profileAPI, usersAPI} from "../../api/api";
 
 function withRouter(Component) {
     // MAKING THIS FUNC MANUALLY
@@ -12,13 +12,16 @@ function withRouter(Component) {
         let location = useLocation();
         let navigate = useNavigate();
         let params = useParams();
+
+
         return (
             <Component
                 {...props}
-                router={{ location, navigate, params }}
+                router={{location, navigate, params}}
             />
         );
     }
+
     return ComponentWithRouterProp;
 }
 
@@ -34,24 +37,26 @@ class ProfileContainer extends React.Component {
         this.props.getUser(userId);
     }
 
-    render () {
+    render() {
+
+        if (!this.props.isAuth) return <Navigate to={"/login"} />
         return (
-            <Profile {...this.props} profile={this.props.profile} />
+            <Profile {...this.props} profile={this.props.profile}/>
         );
     }
 }
 
 let mapStateToProps = (state) => (
     {
-       profile: state.profilePage.profile
+        profile: state.profilePage.profile,
+        isAuth: state.auth.isAuth
     }
 );
 
-let  withUrlDataContainerComponent = withRouter(ProfileContainer);
+let withUrlDataContainerComponent = withRouter(ProfileContainer);
 
 export default connect(mapStateToProps,
     {
         getUser,
     }
-
 )(withUrlDataContainerComponent);

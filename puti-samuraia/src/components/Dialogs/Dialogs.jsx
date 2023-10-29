@@ -3,6 +3,8 @@ import classes from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {sendMessageCreator, updateNewMessageBodyCreator} from "../../redux/dialogs-reducer";
+import Login from "../Login/Login";
+import {Navigate} from "react-router-dom";
 
 
 const Dialogs = (props) => {
@@ -22,6 +24,9 @@ const Dialogs = (props) => {
         let body = e.target.value; // we use target to avoid refs; target is <textarea>;
         props.updateNewMessageBody(body);
     }
+
+    // CHECKS IF WE'RE LOGGED IN:
+    if (!props.isAuth) return <Navigate to={"/login"} />
 
     return (
         <div className={classes.dialogs}>
