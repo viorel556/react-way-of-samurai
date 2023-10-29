@@ -25,9 +25,6 @@ const Dialogs = (props) => {
         props.updateNewMessageBody(body);
     }
 
-    // CHECKS IF WE'RE LOGGED IN:
-    if (!props.isAuth) return <Navigate to={"/login"} />
-
     return (
         <div className={classes.dialogs}>
 

@@ -4,6 +4,7 @@ import {getUser, setUserProfile} from "../../redux/profile-reducer";
 import {connect} from "react-redux";
 import {Navigate, useLocation, useNavigate, useParams} from "react-router-dom";
 import {profileAPI, usersAPI} from "../../api/api";
+import withAuthRedirect from '../../hoc/withAuthRedirect';
 
 function withRouter(Component) {
     // MAKING THIS FUNC MANUALLY
@@ -39,24 +40,27 @@ class ProfileContainer extends React.Component {
 
     render() {
 
-        if (!this.props.isAuth) return <Navigate to={"/login"} />
         return (
             <Profile {...this.props} profile={this.props.profile}/>
         );
     }
 }
 
+// CREATING A CONTAINER WITH A HOC:
+let AuthRedirectComponent = withAuthRedirect(ProfileContainer);
+
 let mapStateToProps = (state) => (
     {
         profile: state.profilePage.profile,
-        isAuth: state.auth.isAuth
     }
 );
 
-let withUrlDataContainerComponent = withRouter(ProfileContainer);
+let withUrlDataContainerComponent = withRouter(AuthRedirectComponent);
 
 export default connect(mapStateToProps,
     {
         getUser,
     }
 )(withUrlDataContainerComponent);
+
+

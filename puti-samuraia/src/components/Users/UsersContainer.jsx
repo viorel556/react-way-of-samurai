@@ -9,6 +9,7 @@ import {
 } from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
+import withAuthRedirect from "../../hoc/withAuthRedirect";
 
 
 // CONTAINER COMPONENT 2:
@@ -49,6 +50,7 @@ let mapStateToProps = (state) => {
     }
 }
 
+let withRedirect = withAuthRedirect(UsersContainer);
 
 // CONTAINER COMPONENT 1 (communicates with the STORE)
 export default connect(mapStateToProps,
@@ -61,4 +63,4 @@ export default connect(mapStateToProps,
         followUser,
         unfollowUser
     }
-)(UsersContainer);
+)(withRedirect);
