@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import {Navigate} from "react-router-dom";
 import withAuthRedirect from "../../hoc/withAuthRedirect";
 import Dialogs from "./Dialogs";
+import {compose} from "redux";
 
 
 
@@ -15,7 +16,6 @@ let mapStateToProps = (state) => {
         dialogsPage: state.dialogsPage,
     }
 }
-
 let mapDispatchToProps = (dispatch) => {
     return {
         updateNewMessageBody: (body) => {
@@ -27,14 +27,10 @@ let mapDispatchToProps = (dispatch) => {
     }
 }
 
-// CREATING A CONTAINER WITH A HOC:
-let AuthRedirectComponent = withAuthRedirect(Dialogs);
 
-const DialogsContainer =
-    connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)
-// CREATES a container component;
-// RENDERS Dialogs component;
-// PASSES props from two objects f1, mapDispatchToProps;
-
-
-export default DialogsContainer;
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps), // KONVEIER 2
+    // 􀄨
+    withAuthRedirect, // KONVEIER 1
+    // 􀄨
+)(Dialogs);;

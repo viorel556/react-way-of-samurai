@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {Navigate, useLocation, useNavigate, useParams} from "react-router-dom";
 import {profileAPI, usersAPI} from "../../api/api";
 import withAuthRedirect from '../../hoc/withAuthRedirect';
-
+import {compose} from "redux";
 function withRouter(Component) {
     // MAKING THIS FUNC MANUALLY
     // because the previous withRouter() is deprecated. (now v6);
@@ -46,21 +46,17 @@ class ProfileContainer extends React.Component {
     }
 }
 
-// CREATING A CONTAINER WITH A HOC:
-let AuthRedirectComponent = withAuthRedirect(ProfileContainer);
-
 let mapStateToProps = (state) => (
     {
         profile: state.profilePage.profile,
     }
 );
 
-let withUrlDataContainerComponent = withRouter(AuthRedirectComponent);
-
-export default connect(mapStateToProps,
-    {
-        getUser,
-    }
-)(withUrlDataContainerComponent);
-
-
+export default compose(
+    connect(mapStateToProps, {getUser}),  // KONVEIER 3
+    // 􀄨
+    withRouter,                                             // KONVEIER 2
+    // 􀄨
+    withAuthRedirect,                                       // KONVEIER 1
+    // 􀄨
+)(ProfileContainer);

@@ -10,6 +10,7 @@ import {
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 import withAuthRedirect from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 
 // CONTAINER COMPONENT 2:
@@ -50,10 +51,7 @@ let mapStateToProps = (state) => {
     }
 }
 
-let withRedirect = withAuthRedirect(UsersContainer);
-
-// CONTAINER COMPONENT 1 (communicates with the STORE)
-export default connect(mapStateToProps,
+let mapDispatchToProps = (
     {
         follow,
         unfollow,
@@ -63,4 +61,13 @@ export default connect(mapStateToProps,
         followUser,
         unfollowUser
     }
-)(withRedirect);
+)
+
+export default compose(
+    withAuthRedirect,
+    // 􀄨
+    connect(mapStateToProps, mapDispatchToProps),
+    // ()
+    // 􀄨
+)
+(UsersContainer);
