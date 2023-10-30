@@ -1,10 +1,9 @@
 import React from "react";
 import Profile from "./Profile";
-import {getUser, setUserProfile} from "../../redux/profile-reducer";
+import {getUser, getUserStatus, setUserProfile, updateMyStatus} from "../../redux/profile-reducer";
 import {connect} from "react-redux";
 import {Navigate, useLocation, useNavigate, useParams} from "react-router-dom";
 import {profileAPI, usersAPI} from "../../api/api";
-import withAuthRedirect from '../../hoc/withAuthRedirect';
 import {compose} from "redux";
 function withRouter(Component) {
     // MAKING THIS FUNC MANUALLY
@@ -26,22 +25,29 @@ function withRouter(Component) {
     return ComponentWithRouterProp;
 }
 
+
+
 class ProfileContainer extends React.Component {
     componentDidMount() {
         let userId = this.props.router.params.userId;
 
         if (!userId) { // in case there is NO user ID, we will show our profile;
-            userId = 2;
+            userId = 30097; // my number: 30097
         }
 
-        // CALLING A THUNK:
+        // CALLING 2 THUNKS (when the component mounts):
         this.props.getUser(userId);
+        this.props.getUserStatus(userId)
     }
 
     render() {
 
         return (
-            <Profile {...this.props} profile={this.props.profile}/>
+            <Profile {...this.props}
+                     profile={this.props.profile}
+                     status={this.props.status}
+                     updateMyStatus={this.props.updateMyStatus}
+            />
         );
     }
 }
@@ -49,11 +55,20 @@ class ProfileContainer extends React.Component {
 let mapStateToProps = (state) => (
     {
         profile: state.profilePage.profile,
+        status: state.profilePage.status
     }
 );
 
+let mapDispatchToProps = (
+    {
+        getUser,
+        getUserStatus,
+        updateMyStatus
+    }
+)
+
 export default compose(
-    connect(mapStateToProps, {getUser}),  // KONVEIER 3
+    connect(mapStateToProps, mapDispatchToProps),  // KONVEIER 3
     // 􀄨
     withRouter,                                             // KONVEIER 2
     // 􀄨

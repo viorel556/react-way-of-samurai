@@ -41,6 +41,21 @@ export const profileAPI = {
     // SERVER REQUEST TO GET A SINGLE USER:
     requestUser(userId) {
         return instance.get(`profile/` + userId);
+    },
+
+    // SERVER REQUEST TO GET AN USER STATUS:
+    requestUserStatus(userId) {
+        return instance.get(`/profile/status/`+userId);
+    },
+
+    // UPDATE STATUS FOR CURRENT AUTHORIZED USER:
+    // the server expects an object with a status: ""
+    requestUpdateUserStatus(status) {
+        return instance.put(`/profile/status/`,
+            {
+                status: status
+            }
+        );
     }
 
 }
