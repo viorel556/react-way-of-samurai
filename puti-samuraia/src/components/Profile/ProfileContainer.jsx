@@ -57,6 +57,6 @@ export default compose(
     // 􀄨
     withRouter,                                             // KONVEIER 2
     // 􀄨
-    withAuthRedirect,                                       // KONVEIER 1
+    // withAuthRedirect,                                       // KONVEIER 1
     // 􀄨
 )(ProfileContainer);
