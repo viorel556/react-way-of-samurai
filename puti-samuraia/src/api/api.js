@@ -45,7 +45,7 @@ export const profileAPI = {
 
     // SERVER REQUEST TO GET AN USER STATUS:
     requestUserStatus(userId) {
-        return instance.get(`/profile/status/`+userId);
+        return instance.get(`/profile/status/` + userId);
     },
 
     // UPDATE STATUS FOR CURRENT AUTHORIZED USER:
@@ -56,6 +56,20 @@ export const profileAPI = {
                 status: status
             }
         );
+    },
+
+    requestAuthorizeWithCredentials(formData) {
+        return instance.post('/auth/login/',
+            {
+                email: formData.login,
+                password: formData.password,
+                rememberMe: formData.rememberMe
+            }
+        );
+    },
+
+    requestCaptcha() {
+        return instance.get('security/get-captcha-url')
     }
 
 }

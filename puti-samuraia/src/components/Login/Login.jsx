@@ -1,5 +1,8 @@
 import React from "react";
 import {Field, reduxForm} from "redux-form";
+import {profileAPI} from "../../api/api";
+import {getCaptcha} from "../../redux/auth-reducer";
+import {useHref} from "react-router-dom";
 
 const LoginForm = (props) => {
 
@@ -10,7 +13,10 @@ const LoginForm = (props) => {
                 <Field component={"input"} name={'login'} placeholder={"Login"}/>
             </div>
             <div>
-                <Field component={"input"} name={'password'} placeholder={"Password"}/>
+                <Field component={"input"}
+                       name={'password'}
+                       type={'password'}
+                       placeholder={"Password"}/>
             </div>
             <div>
                 <Field component={"input"}
@@ -33,15 +39,26 @@ const LoginReduxForm = reduxForm({form: "login"})(LoginForm);
 // FOCUS:
 const Login = (props) => {
 
+    debugger;
+
     const onSubmit = (formData) => {
-        console.log(formData);
+        // here we call a THUNK
+        props.authorizeWithCredentials(formData);
+
     }
 
     return (
         <div>
-            <h1> This is login Page </h1>
+            <h1> LOG IN </h1>
             <LoginReduxForm onSubmit={onSubmit}/>
+
+            <img src={props.auth.captcha}/>
+
+
+
         </div>
+
+
     );
 }
 

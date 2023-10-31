@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {Navigate, useLocation, useNavigate, useParams} from "react-router-dom";
 import {profileAPI, usersAPI} from "../../api/api";
 import {compose} from "redux";
+
 function withRouter(Component) {
     // MAKING THIS FUNC MANUALLY
     // because the previous withRouter() is deprecated. (now v6);
