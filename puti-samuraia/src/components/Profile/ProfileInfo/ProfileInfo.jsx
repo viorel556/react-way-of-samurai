@@ -30,6 +30,7 @@ const ProfileInfo = (props) => {
                 <p>GITHUB: {props.profile.contacts.github}</p>
             </div>
 
+
         </div>
     );
 }
