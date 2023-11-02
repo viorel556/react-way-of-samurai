@@ -39,8 +39,6 @@ const LoginReduxForm = reduxForm({form: "login"})(LoginForm);
 // FOCUS:
 const Login = (props) => {
 
-    debugger;
-
     const onSubmit = (formData) => {
         // here we call a THUNK
         props.authorizeWithCredentials(formData);
@@ -53,8 +51,6 @@ const Login = (props) => {
             <LoginReduxForm onSubmit={onSubmit}/>
 
             <img src={props.auth.captcha}/>
-
-
 
         </div>
 
