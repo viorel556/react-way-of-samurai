@@ -59,6 +59,7 @@ export const profileAPI = {
     },
 
     requestAuthorizeWithCredentials(formData) {
+
         return instance.post('/auth/login/',
             {
                 email: formData.login,
@@ -66,6 +67,11 @@ export const profileAPI = {
                 rememberMe: formData.rememberMe
             }
         );
+    },
+
+    requestLogOut() {
+
+        return instance.delete(`auth/login`);
     },
 
     requestCaptcha() {

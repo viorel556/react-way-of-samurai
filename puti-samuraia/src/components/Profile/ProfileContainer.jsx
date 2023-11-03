@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {Navigate, useLocation, useNavigate, useParams} from "react-router-dom";
 import {profileAPI, usersAPI} from "../../api/api";
 import {compose} from "redux";
+import withAuthRedirect from "../../hoc/withAuthRedirect";
 
 function withRouter(Component) {
     // MAKING THIS FUNC MANUALLY
@@ -73,6 +74,6 @@ export default compose(
     // 􀄨
     withRouter,                                             // KONVEIER 2
     // 􀄨
-    // withAuthRedirect,                                       // KONVEIER 1
+    withAuthRedirect,                                       // KONVEIER 1
     // 􀄨
 )(ProfileContainer);

@@ -2,7 +2,7 @@ import React from "react";
 import {Field, reduxForm} from "redux-form";
 import {profileAPI} from "../../api/api";
 import {getCaptcha} from "../../redux/auth-reducer";
-import {useHref} from "react-router-dom";
+import {Navigate, useHref} from "react-router-dom";
 import {Input} from "../common/FormsControls/FormsControls";
 import {required} from "../../utils/validators/validators";
 
@@ -47,11 +47,13 @@ const LoginReduxForm = reduxForm({form: "login"})(LoginForm);
 // FOCUS:
 const Login = (props) => {
 
+
     const onSubmit = (formData) => {
         // here we call a THUNK
         props.authorizeWithCredentials(formData);
-
     }
+
+    if (props.auth.isAuth) { return <Navigate to={"/profile"} /> }
 
     return (
         <div>
@@ -61,6 +63,8 @@ const Login = (props) => {
             <img src={props.auth.captcha}/>
 
         </div>
+
+
 
 
     );
