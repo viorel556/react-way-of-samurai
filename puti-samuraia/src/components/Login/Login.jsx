@@ -3,6 +3,8 @@ import {Field, reduxForm} from "redux-form";
 import {profileAPI} from "../../api/api";
 import {getCaptcha} from "../../redux/auth-reducer";
 import {useHref} from "react-router-dom";
+import {Input} from "../common/FormsControls/FormsControls";
+import {required} from "../../utils/validators/validators";
 
 const LoginForm = (props) => {
 
@@ -10,16 +12,22 @@ const LoginForm = (props) => {
 
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field component={"input"} name={'login'} placeholder={"Login"}/>
+                <Field component={Input}
+                       name={'login'}
+                       placeholder={"Login"}
+                       validate={[required]}
+                />
             </div>
             <div>
-                <Field component={"input"}
+                <Field component={Input}
                        name={'password'}
                        type={'password'}
-                       placeholder={"Password"}/>
+                       placeholder={"Password"}
+                       validate={[required]}
+                />
             </div>
             <div>
-                <Field component={"input"}
+                <Field component={Input}
                        type={"checkbox"}
                        name={'rememberMe'}
                 /> remember be
