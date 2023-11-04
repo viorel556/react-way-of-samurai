@@ -5,6 +5,7 @@ import {getCaptcha} from "../../redux/auth-reducer";
 import {Navigate, useHref} from "react-router-dom";
 import {Input} from "../common/FormsControls/FormsControls";
 import {required} from "../../utils/validators/validators";
+import classes from "../common/FormsControls/FormsControls.module.css";
 
 const LoginForm = (props) => {
 
@@ -32,6 +33,14 @@ const LoginForm = (props) => {
                        name={'rememberMe'}
                 /> remember be
             </div>
+
+
+            { props.error && // UI HANDLING OF THE ERROR OF WRONG EMAIL/PASS
+                <div className={classes.formSummaryError}>
+                    {props.error}
+                </div>
+            }
+
             <div>
                 <button>LOGIN</button>
             </div>

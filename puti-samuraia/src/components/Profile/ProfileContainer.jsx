@@ -6,40 +6,19 @@ import {Navigate, useLocation, useNavigate, useParams} from "react-router-dom";
 import {profileAPI, usersAPI} from "../../api/api";
 import {compose} from "redux";
 import withAuthRedirect from "../../hoc/withAuthRedirect";
-
-function withRouter(Component) {
-    // MAKING THIS FUNC MANUALLY
-    // because the previous withRouter() is deprecated. (now v6);
-    function ComponentWithRouterProp(props) {
-        let location = useLocation();
-        let navigate = useNavigate();
-        let params = useParams();
-
-
-        return (
-            <Component
-                {...props}
-                router={{location, navigate, params}}
-            />
-        );
-    }
-
-    return ComponentWithRouterProp;
-}
-
-
+import withRouter from "../../hoc/withRouter";
 
 class ProfileContainer extends React.Component {
     componentDidMount() {
         let userId = this.props.router.params.userId;
 
-        if (!userId) { // in case there is NO user ID, we will show our profile;
-            userId = 30097; // my number: 30097
+        if (!userId) {
+            userId = this.props.authorizedUserId; // my number: 30097
         }
 
         // CALLING 2 THUNKS (when the component mounts):
         this.props.getUser(userId);
-        this.props.getUserStatus(userId)
+        this.props.getUserStatus(userId);
     }
 
     render() {
@@ -57,7 +36,9 @@ class ProfileContainer extends React.Component {
 let mapStateToProps = (state) => (
     {
         profile: state.profilePage.profile,
-        status: state.profilePage.status
+        status: state.profilePage.status,
+        authorizedUserId: state.auth.userId,
+        isAuth: state.auth.isAuth
     }
 );
 
@@ -67,7 +48,7 @@ let mapDispatchToProps = (
         getUserStatus,
         updateMyStatus
     }
-)
+);
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),  // KONVEIER 3

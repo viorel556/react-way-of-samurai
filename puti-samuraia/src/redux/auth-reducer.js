@@ -1,6 +1,6 @@
 // ACTIONS:
 import {profileAPI} from "../api/api";
-
+import {stopSubmit} from "redux-form";
 const SET_AUTH_USER_DATA = "SET_AUTH_USER_DATA";
 const SET_CAPTCHA = "SET_CAPTCHA"
 
@@ -54,7 +54,8 @@ export const authorizeMe = () => {
             .then(response => {
                 if (response.data.resultCode === 0) {
                     let {email, id, login} = response.data.data;
-                    dispatch(setAuthUserData(email, id, login, true));
+
+                    dispatch(setAuthUserData(id, email, login, true));
                 }
             });
     }
@@ -67,14 +68,16 @@ export const authorizeWithCredentials = (formData) => {
             .then(response => {
 
                 if (response.data.resultCode === 0) {
+                    // OPTIMISE_1:
                     let email = formData.login;
-                    let id = response.data.userId;
+                    let id = response.data.data.userId;
                     let login = formData.login;
 
-                    dispatch(setAuthUserData(email, id, login, true));
-                    alert("YOU HAVE SUCCESFULLY LOGGED IN!");
+                    dispatch(setAuthUserData(id, email, login, true));
+                    alert("YOU HAVE SUCCESSFULLY LOGGED IN!");
 
-                } else if (response.data.resultCode === 10) {
+                }
+                else if (response.data.resultCode === 10) {
 
                     profileAPI.requestCaptcha()
                         .then(response => {
@@ -82,6 +85,16 @@ export const authorizeWithCredentials = (formData) => {
                                 dispatch(setCaptcha(response.data.url));
                             }
                         });
+                }
+
+                else {
+                    let message =
+                        response.data.messages.length > 0 ?
+                            response.data.messages[0]
+                            : "Some error";
+
+                    let action = stopSubmit('login', {_error: message});
+                    dispatch(action);
                 }
             });
     }
