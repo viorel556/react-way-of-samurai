@@ -1,8 +1,6 @@
 import React from "react";
 import {Field, reduxForm} from "redux-form";
-import {profileAPI} from "../../api/api";
-import {getCaptcha} from "../../redux/auth-reducer";
-import {Navigate, useHref} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import {Input} from "../common/FormsControls/FormsControls";
 import {required} from "../../utils/validators/validators";
 import classes from "../common/FormsControls/FormsControls.module.css";

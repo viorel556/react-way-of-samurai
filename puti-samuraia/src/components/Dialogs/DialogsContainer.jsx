@@ -1,10 +1,7 @@
 import React from 'react';
 import classes from './Dialogs.module.css';
-import DialogItem from "./DialogItem/DialogItem";
-import Message from "./Message/Message";
 import {sendMessageCreator} from "../../redux/dialogs-reducer";
 import {connect} from "react-redux";
-import {Navigate} from "react-router-dom";
 import withAuthRedirect from "../../hoc/withAuthRedirect";
 import Dialogs from "./Dialogs";
 import {compose} from "redux";
@@ -31,4 +28,4 @@ export default compose(
     // 􀄨
     withAuthRedirect, // KONVEIER 1
     // 􀄨
-)(Dialogs);;
+)(Dialogs);

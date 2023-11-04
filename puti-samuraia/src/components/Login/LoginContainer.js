@@ -3,7 +3,6 @@ import Login from "./Login";
 import {authorizeMe, authorizeWithCredentials, setCaptcha} from "../../redux/auth-reducer";
 import {connect} from "react-redux";
 import {compose} from "redux";
-import withRouter from "../Profile/ProfileContainer";
 
 class LoginContainer extends React.Component {
 

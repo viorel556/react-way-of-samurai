@@ -2,9 +2,6 @@ import React from 'react';
 import classes from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {sendMessageCreator, updateNewMessageBodyCreator} from "../../redux/dialogs-reducer";
-import Login from "../Login/Login";
-import {Navigate} from "react-router-dom";
 import {Field, reduxForm} from "redux-form";
 import {Textarea} from "../common/FormsControls/FormsControls";
 import {maxLengthCreator, required} from "../../utils/validators/validators";
@@ -36,7 +33,6 @@ const Dialogs = (props) => {
     // Mapping data:
     let dialogsElements = state.dialogs.map(d => <DialogItem name={d.name} key={d.id} id={d.id}/>);
     let messageElements = state.messages.map(msg => <Message message={msg.message} key={msg.id}/>);
-    let newMessageBody = state.newMessageBody;
 
     // FOCUS:
     let addNewMessage = (values) => {
