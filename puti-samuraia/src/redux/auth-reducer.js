@@ -1,6 +1,7 @@
 // ACTIONS:
 import {profileAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
+
 const SET_AUTH_USER_DATA = "SET_AUTH_USER_DATA";
 const SET_CAPTCHA = "SET_CAPTCHA"
 
@@ -26,7 +27,7 @@ const authReducer = (state = initialState, action) => {
 
             return {
                 ...state,
-                captcha:  action.captcha
+                captcha: action.captcha
             }
 
         default:
@@ -47,18 +48,17 @@ export const setAuthUserData = (userId, email, login, isAuth) => (
 
 
 // THUNKS ARE HERE:
-export const authorizeMe = () => {
+export const authorizeMe = () => (dispatch) => {
     // MAKES AN AUTHORIZATION REQUEST TO THE SERVER WITH THE COOKIES
-    return (dispatch) => {
-        profileAPI.authorizeMeRequest()
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    let {email, id, login} = response.data.data;
+    return profileAPI.authorizeMeRequest()
+        .then(response => {
+            if (response.data.resultCode === 0) {
+                let {email, id, login} = response.data.data;
 
-                    dispatch(setAuthUserData(id, email, login, true));
-                }
-            });
-    }
+                dispatch(setAuthUserData(id, email, login, true));
+            }
+        });
+
 }
 // THUNK:
 export const authorizeWithCredentials = (formData) => {
@@ -76,8 +76,7 @@ export const authorizeWithCredentials = (formData) => {
                     dispatch(setAuthUserData(id, email, login, true));
                     alert("YOU HAVE SUCCESSFULLY LOGGED IN!");
 
-                }
-                else if (response.data.resultCode === 10) {
+                } else if (response.data.resultCode === 10) {
 
                     profileAPI.requestCaptcha()
                         .then(response => {
@@ -85,9 +84,7 @@ export const authorizeWithCredentials = (formData) => {
                                 dispatch(setCaptcha(response.data.url));
                             }
                         });
-                }
-
-                else {
+                } else {
                     let message =
                         response.data.messages.length > 0 ?
                             response.data.messages[0]
@@ -107,7 +104,7 @@ export const logOut = () => (dispatch) => {
         .then(response => {
             if (response.data.resultCode === 0) {
                 dispatch(setAuthUserData(null, null, null, false));
-                alert("YOU HAVE LOGGED OUT!");
+                alert("YOU HAVE LOGGED OUT! GOODBYE!");
             }
         });
 }

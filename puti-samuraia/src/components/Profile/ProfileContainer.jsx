@@ -1,9 +1,7 @@
 import React from "react";
 import Profile from "./Profile";
-import {getUser, getUserStatus, setUserProfile, updateMyStatus} from "../../redux/profile-reducer";
+import {getUser, getUserStatus, updateMyStatus} from "../../redux/profile-reducer";
 import {connect} from "react-redux";
-import {Navigate, useLocation, useNavigate, useParams} from "react-router-dom";
-import {profileAPI, usersAPI} from "../../api/api";
 import {compose} from "redux";
 import withAuthRedirect from "../../hoc/withAuthRedirect";
 import withRouter from "../../hoc/withRouter";
