@@ -52,7 +52,7 @@ class App extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => (
+let mapStateToProps = (state) => (
     {
         initialized: state.app.initialized
     }
