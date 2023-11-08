@@ -5,12 +5,16 @@ import {Navigate} from "react-router-dom";
 
 const Profile = (props) => {
 
+
     return (
         <div>
             <ProfileInfo profile={props.profile}
                          status={props.status}
                          updateMyStatus={props.updateMyStatus}/>
             <MyPostsContainer/>
+
+
+
         </div>
 
     );
