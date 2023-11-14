@@ -29,9 +29,9 @@ export const initializedSuccessfully = () => (
 // THUNK:
 export const initializeApp = () => (dispatch) => {
     // creating a promise:
-    let promise1 = dispatch(authorizeMe());
+    let promise = dispatch(authorizeMe());
 
-    Promise.all([promise1])
+    Promise.all([promise])
         .then(() => { // 􀐫
             // 􀇾 WHEN ALL THE PROMISES ABOVE ARE DONE -> CODE BELLOW WILL FOLLOW:
             dispatch(initializedSuccessfully());

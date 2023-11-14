@@ -1,41 +1,45 @@
 import React from "react";
 import {Field, reduxForm} from "redux-form";
 import {Navigate} from "react-router-dom";
-import {Input} from "../common/FormsControls/FormsControls";
+import {createField, Input} from "../common/FormsControls/FormsControls";
 import {required} from "../../utils/validators/validators";
 import classes from "../common/FormsControls/FormsControls.module.css";
 
-const LoginForm = (props) => {
+
+const LoginForm = ({handleSubmit, error}) => {
 
     return (
 
-        <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field component={Input}
-                       name={'login'}
-                       placeholder={"Login"}
-                       validate={[required]}
-                />
-            </div>
-            <div>
-                <Field component={Input}
-                       name={'password'}
-                       type={'password'}
-                       placeholder={"Password"}
-                       validate={[required]}
-                />
-            </div>
-            <div>
-                <Field component={Input}
-                       type={"checkbox"}
-                       name={'rememberMe'}
-                /> remember be
-            </div>
+        <form onSubmit={handleSubmit}>
 
 
-            { props.error && // UI HANDLING OF THE ERROR OF WRONG EMAIL/PASS
+            {   // LOGIN FIELD
+                createField('email', 'login', [required], Input)
+
+            }
+
+            {   // PASSWORD FIELD
+                createField('password',
+                    'password',
+                    [required],
+                    Input,
+                    {type:'password'}
+                )
+            }
+
+            {   // CHECKBOX FIELD
+                createField(null,
+                    'rememberMe',
+                    null, Input,
+                    {type:'checkbox'},
+                    'Remember Me!'
+                )
+            }
+
+
+            {error && // UI HANDLING OF THE ERROR OF WRONG EMAIL/PASS
                 <div className={classes.formSummaryError}>
-                    {props.error}
+                    {error}
                 </div>
             }
 
@@ -60,7 +64,9 @@ const Login = (props) => {
         props.authorizeWithCredentials(formData);
     }
 
-    if (props.auth.isAuth) { return <Navigate to={"/profile"} /> }
+    if (props.auth.isAuth) {
+        return <Navigate to={"/profile"}/>
+    }
 
     return (
         <div>
@@ -70,8 +76,6 @@ const Login = (props) => {
             <img src={props.auth.captcha}/>
 
         </div>
-
-
 
 
     );

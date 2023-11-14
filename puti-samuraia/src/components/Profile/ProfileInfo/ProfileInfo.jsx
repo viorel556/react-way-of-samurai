@@ -5,30 +5,28 @@ import ProfileStatus from "./ProfileStatus/ProfileStatus";
 import ProfileStatusWithHooks from "./ProfileStatus/ProfileStatusWithHooks";
 
 
-const ProfileInfo = (props) => {
+const ProfileInfo = ({profile, status, updateMyStatus}) => {
 
 
-    if (!props.profile) {
+    if (!profile) {
         return <Preloader/>
     }
 
     return (
         <div>
-            {/*<div>*/}
-            {/*    <img src='https://www.americanoceans.org/wp-content/uploads/2021/04/number-of-oceans.jpg'/>*/}
-            {/*</div>*/}
+
 
             <div className={classes.descriptionBlock}>
 
-                <img src={props.profile.photos.large}/>
+                <img src={profile.photos.large}/>
 
-                <ProfileStatusWithHooks status={props.status}
-                               updateMyStatus={props.updateMyStatus}
+                <ProfileStatusWithHooks status={status}
+                               updateMyStatus={updateMyStatus}
                 />
 
-                <p>{props.profile.fullName}</p>
-                <p>{props.profile.aboutMe} </p>
-                <p>GITHUB: {props.profile.contacts.github}</p>
+                <p>{profile.fullName}</p>
+                <p>{profile.aboutMe} </p>
+                <p>GITHUB: {profile.contacts.github}</p>
             </div>
 
 

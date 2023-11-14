@@ -1,4 +1,5 @@
 import {usersAPI} from "../api/api";
+import {updateObjectInArray} from "../utils/object-helpers";
 
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
@@ -25,24 +26,33 @@ const usersReducer = (state = initialState, action) => {
         case FOLLOW: {
             return { // THIS IS A STATE COPY:
                 ...state,
-                users: state.users.map(u => {
-                    if (u.id === action.userId) {
-                        return {...u, followed: true}
-                    }
-                    return u;
-                }) // iterating and returning same array;
+
+                users: updateObjectInArray(
+                    state.users,
+                    action.userId,
+                    "id",
+                    {followed: true})
+                // iterating and returning same array;
             }
         }
 
         case UNFOLLOW: {
             return { // THIS IS A STATE COPY:
                 ...state,
-                users: state.users.map(u => {
-                    if (u.id === action.userId) {
-                        return {...u, followed: false}
-                    }
-                    return u;
-                })
+
+                users: updateObjectInArray(
+                    state.users,
+                    action.userId,
+                    "id",
+                    {followed: false})
+
+                // OLD LOGIC:
+                // users: state.users.map(u => {
+                //     if (u.id === action.userId) {
+                //         return {...u, followed: false}
+                //     }
+                //     return u;
+                // })
             }
         }
 
@@ -123,49 +133,48 @@ export const toggleFollowingProgress = (isFetching, userId) => (
 
 
 // THUNKS ARE HERE:
-export const getUsers = (page, pageSize) => {
+export const getUsers = (page, pageSize) => async (dispatch) => {
     // to pass params to a Thunk we have to create a thunk Creator;
-    return (dispatch) => {
-        // THE THUNK ITSELF:
-        dispatch(toggleIsFetching(true));
-        dispatch(setCurrentPage(page));
-        // server request to get initial users
-        usersAPI.requestUsers(page, pageSize).then(data => {
-            dispatch(toggleIsFetching(false));
-            dispatch(loadUsers(data.items));
-            dispatch(setTotalUsersCount(data.totalCount));
-        });
-    }
+
+    // THE THUNK ITSELF:
+    dispatch(toggleIsFetching(true));
+    dispatch(setCurrentPage(page));
+    // server request to get initial users
+    let data = await usersAPI.requestUsers(page, pageSize);
+
+    dispatch(toggleIsFetching(false));
+    dispatch(loadUsers(data.items));
+    dispatch(setTotalUsersCount(data.totalCount));
+
 }
 
-export const followUser = (userId) => {
+// THUNK:
+export const followUser = (userId) => async (dispatch) => {
 
-    return (dispatch) => {
-        // THE THUNK ITSELF:
-        dispatch(toggleFollowingProgress(true, userId));
-        usersAPI.requestFollowUser(userId)
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    dispatch(follow(userId));
-                }
-                dispatch(toggleFollowingProgress(false, userId));
-            });
-    }
+    let apiMethod = usersAPI.requestFollowUser.bind(usersAPI);
+
+    await followUnfollowFlow(dispatch, userId, apiMethod, follow)
+
 }
 
-export const unfollowUser = (userId) => {
+export const unfollowUser = (userId) => async (dispatch) => {
 
-    return (dispatch) => {
-        // THE THUNK ITSELF:
-        dispatch(toggleFollowingProgress(true, userId));
-        usersAPI.requestUnfollowUser(userId)
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    dispatch(unfollow(userId));
-                }
-                dispatch(toggleFollowingProgress(false, userId));
-            });
+    let apiMethod = usersAPI.requestUnfollowUser.bind(usersAPI);
+
+    await followUnfollowFlow(dispatch, userId, apiMethod, unfollow);
+
+}
+
+
+// EXTERNAL FUNCTIONAL:
+async function followUnfollowFlow(dispatch, userId, apiMethod, actionCreator)  {
+    // func was created to avoid code doubling; encapsulates follow/unfollow logic;
+    dispatch(toggleFollowingProgress(true, userId));
+    let response = await apiMethod(userId);
+    if (response.data.resultCode === 0) {
+        dispatch(actionCreator(userId));
     }
+    dispatch(toggleFollowingProgress(false, userId));
 }
 
 export default usersReducer;

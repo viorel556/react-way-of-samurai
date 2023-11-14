@@ -13,7 +13,6 @@ import ProfileContainer from "./components/Profile/ProfileContainer";
 import LoginContainer from "./components/Login/LoginContainer";
 import {connect} from "react-redux";
 import withRouter from "./hoc/withRouter";
-
 import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer";
 import Preloader from "./components/common/Preloader/Preloader";

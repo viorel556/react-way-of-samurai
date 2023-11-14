@@ -2,7 +2,7 @@
 import {profileAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
 
-const SET_AUTH_USER_DATA = "SET_AUTH_USER_DATA";
+const SET_AUTH_USER_DATA = "samurai-network/auth/SET_AUTH_USER_DATA";
 const SET_CAPTCHA = "SET_CAPTCHA"
 
 // INITIAL STATE:
@@ -48,65 +48,58 @@ export const setAuthUserData = (userId, email, login, isAuth) => (
 
 
 // THUNKS ARE HERE:
-export const authorizeMe = () => (dispatch) => {
+export const authorizeMe = () => async (dispatch) => {
     // MAKES AN AUTHORIZATION REQUEST TO THE SERVER WITH THE COOKIES
-    return profileAPI.authorizeMeRequest()
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                let {email, id, login} = response.data.data;
+    let response = await profileAPI.authorizeMeRequest()
 
-                dispatch(setAuthUserData(id, email, login, true));
-            }
-        });
+    if (response.data.resultCode === 0) {
+        let {email, id, login} = response.data.data;
+        dispatch(setAuthUserData(id, email, login, true));
+    }
 
 }
 // THUNK:
-export const authorizeWithCredentials = (formData) => {
+export const authorizeWithCredentials = (formData) => async (dispatch) => {
+    let response = await profileAPI.requestAuthorizeWithCredentials(formData);
 
-    return (dispatch) => {
-        profileAPI.requestAuthorizeWithCredentials(formData)
+    if (response.data.resultCode === 0) {
+        // FIXME: this can be optimized;
+        let email = formData.login;
+        let id = response.data.data.userId;
+        let login = formData.login;
+
+        dispatch(setAuthUserData(id, email, login, true));
+        alert("YOU HAVE SUCCESSFULLY LOGGED IN!");
+
+    } else if (response.data.resultCode === 10) {
+
+        profileAPI.requestCaptcha()
             .then(response => {
-
-                if (response.data.resultCode === 0) {
-                    // OPTIMISE_1:
-                    let email = formData.login;
-                    let id = response.data.data.userId;
-                    let login = formData.login;
-
-                    dispatch(setAuthUserData(id, email, login, true));
-                    alert("YOU HAVE SUCCESSFULLY LOGGED IN!");
-
-                } else if (response.data.resultCode === 10) {
-
-                    profileAPI.requestCaptcha()
-                        .then(response => {
-                            if (response.status === 200) {
-                                dispatch(setCaptcha(response.data.url));
-                            }
-                        });
-                } else {
-                    let message =
-                        response.data.messages.length > 0 ?
-                            response.data.messages[0]
-                            : "Some error";
-
-                    let action = stopSubmit('login', {_error: message});
-                    dispatch(action);
+                if (response.status === 200) {
+                    dispatch(setCaptcha(response.data.url));
                 }
             });
+    } else {
+        let message =
+            response.data.messages.length > 0 ?
+                response.data.messages[0]
+                : "Some error";
+
+        let action = stopSubmit('login', {_error: message});
+        dispatch(action);
     }
+
+
 }
 
 // THUNK:
-export const logOut = () => (dispatch) => {
+export const logOut = () => async (dispatch) => {
+    let response = await profileAPI.requestLogOut();
 
-    profileAPI.requestLogOut()
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(setAuthUserData(null, null, null, false));
-                alert("YOU HAVE LOGGED OUT! GOODBYE!");
-            }
-        });
+    if (response.data.resultCode === 0) {
+        dispatch(setAuthUserData(null, null, null, false));
+        alert("YOU HAVE LOGGED OUT! GOODBYE!");
+    }
 }
 
 export default authReducer;

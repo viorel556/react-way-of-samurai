@@ -16,9 +16,6 @@ let initialState = {
 
 const dialogsReducer = (state = initialState, action) => {
 
-
-    let stateCopy;
-
     switch (action.type) {
 
         case SEND_MESSAGE: {
@@ -28,8 +25,6 @@ const dialogsReducer = (state = initialState, action) => {
                 messages: [...state.messages, { id: 5, message: body } ]
             }
         }
-
-
 
         default:
             return state;

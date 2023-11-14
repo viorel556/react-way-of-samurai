@@ -26,11 +26,16 @@ class UsersContainer extends React.Component {
     componentDidMount() {
         // when the component is mounted we begin to request the user from the server;
         // we use here a thunkMiddleware to dispatch network requests and also other actions;
-        this.props.getUsers(this.props.currentPage, this.props.pageSize);
+
+        // DESTRUCTURIZATION OF PROPS:
+        let {currentPage, pageSize} = this.props
+        this.props.getUsers(currentPage, pageSize);
     }
 
     onPageChanged = (pageNumber) => {
-        this.props.getUsers(pageNumber, this.props.pageSize);
+        let {pageSize} = this.props;
+
+        this.props.getUsers(pageNumber, pageSize);
     }
 
     render() {

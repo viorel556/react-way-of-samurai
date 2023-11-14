@@ -28,7 +28,6 @@ const AddNewPostForm = (props) => {
 const AddNewPostFormRedux = reduxForm({form: "ProfileAddNewPostForm"})(AddNewPostForm);
 
 const MyPosts = React.memo(props => {
-        console.log("RENDER HAPPEND")
 
         // mapping data
         let myPosts = props.posts.map(pst => <Post message={pst.message} likes={pst.likesCount}/>)
