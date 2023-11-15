@@ -41,10 +41,12 @@
       "last 1 safari version"
     ]
   },
-
   "jest": {
     "transformIgnorePatterns": [
       "node_modules/(?!(react-leaflet|@react-leaflet|d3-*|axios))"
     ]
+  },
+  "devDependencies": {
+    "react-test-renderer": "^18.2.0"
   }
 }

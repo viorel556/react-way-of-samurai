@@ -4,18 +4,19 @@ import HeaderContainer from './components/Header/HeaderContainer';
 import Navbar from './components/Navbar/Navbar';
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
-import {Route} from "react-router-dom";
+import {BrowserRouter, Route} from "react-router-dom";
 import {Routes} from "react-router-dom";
 import Settings from "./components/Settings/Settings";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import LoginContainer from "./components/Login/LoginContainer";
-import {connect} from "react-redux";
+import {connect, Provider} from "react-redux";
 import withRouter from "./hoc/withRouter";
 import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer";
 import Preloader from "./components/common/Preloader/Preloader";
+import store from "./redux/redux-store";
 
 class App extends React.Component {
 
@@ -62,8 +63,26 @@ const mapDispatchToProps = (
     }
 );
 
-export default compose(
+let AppContainer =  compose(
     withRouter,
-    connect(mapStateToProps, mapDispatchToProps),
-)(App);
+    connect(mapStateToProps, mapDispatchToProps))(App);
+
+const SamuraiJSApp = (props) => {
+
+    return (
+        <BrowserRouter>
+
+            <Provider store={store}>
+
+                <AppContainer/>
+
+            </Provider>
+
+        </BrowserRouter>
+    );
+}
+
+export default SamuraiJSApp;
+
+
 

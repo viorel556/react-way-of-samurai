@@ -6,27 +6,18 @@ import React from "react";
 import {BrowserRouter} from "react-router-dom";
 import App from "./App";
 import {Provider} from 'react-redux';
+import SamuraiJSApp from "./App";
 
-
+// OLD CODE:
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
-
 root.render(
     <React.StrictMode>
         {/*OUR APP IS UNDER BROWSER ROUTER CONTROL*/}
-
-        <BrowserRouter>
-
-            <Provider store={store}>
-
-                <App/>
-
-            </Provider>
-
-        </BrowserRouter>
+       <SamuraiJSApp/>
 
     </React.StrictMode>
 );
+
 
 
 // If you want to start measuring performance in your app, pass a function
