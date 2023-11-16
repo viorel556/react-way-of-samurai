@@ -11,21 +11,6 @@ test('renders without crashing', () => {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // OLD SHITTY CODE:
 // // test('renders learn react link', () => {
 // //   render(<App />);
