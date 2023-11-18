@@ -13,13 +13,13 @@ const Navbar = () => {
                 </NavLink>
             </div>
 
-            <div className={`${classes.item} ${classes.active}`} >
+            <div className={`${classes.item} ${classes.active}`}>
                 <NavLink to='/dialogs' className={ navData => navData.isActive ? classes.active : classes.item }>
                     Messages
                 </NavLink>
             </div>
 
-            <div className={`${classes.item} ${classes.active}`} >
+            <div className={`${classes.item} ${classes.active}`}>
                 <NavLink to='/users' className={ navData => navData.isActive ? classes.active : classes.item }>
                     Users
                 </NavLink>

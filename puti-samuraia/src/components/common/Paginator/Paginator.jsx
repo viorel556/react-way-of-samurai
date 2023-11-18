@@ -2,6 +2,9 @@ import styles from "./Paginator.module.css";
 import React, {useState} from "react";
 import cn from "classnames";
 
+// FIXME: selected page is not displayed properly;
+//  The css selector is: .pageNumber.selectedPage;
+//  Figure it out;
 let Paginator = ({totalItemsCount,
                      pageSize,
                      currentPage,

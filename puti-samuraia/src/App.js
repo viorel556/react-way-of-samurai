@@ -1,5 +1,5 @@
 import './App.css';
-import React from "react";
+import React, {Suspense} from "react";
 import HeaderContainer from './components/Header/HeaderContainer';
 import Navbar from './components/Navbar/Navbar';
 import News from "./components/News/News";
@@ -7,9 +7,7 @@ import Music from "./components/Music/Music";
 import {BrowserRouter, Route} from "react-router-dom";
 import {Routes} from "react-router-dom";
 import Settings from "./components/Settings/Settings";
-import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import UsersContainer from "./components/Users/UsersContainer";
-import ProfileContainer from "./components/Profile/ProfileContainer";
 import LoginContainer from "./components/Login/LoginContainer";
 import {connect, Provider} from "react-redux";
 import withRouter from "./hoc/withRouter";
@@ -17,6 +15,10 @@ import {compose} from "redux";
 import {initializeApp} from "./redux/app-reducer";
 import Preloader from "./components/common/Preloader/Preloader";
 import store from "./redux/redux-store";
+import {withSuspense} from "./hoc/withSuspense";
+// LAZY IMPORTS:
+const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"));
+const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"));
 
 class App extends React.Component {
 
@@ -27,7 +29,7 @@ class App extends React.Component {
     render() {
 
         if (!this.props.initialized) {
-            return <Preloader />
+            return <Preloader/>
         }
 
         return (
@@ -35,6 +37,7 @@ class App extends React.Component {
 
                 <HeaderContainer/>
                 <Navbar/>
+
 
                 <div className='app-wrapper-content'>
                     <Routes>
@@ -47,6 +50,8 @@ class App extends React.Component {
                         <Route path="/login" element={<LoginContainer/>}/>
                     </Routes>
                 </div>
+
+
             </div>
         );
     }
@@ -63,8 +68,9 @@ const mapDispatchToProps = (
     }
 );
 
-let AppContainer =  compose(
+let AppContainer = compose(
     withRouter,
+    withSuspense,
     connect(mapStateToProps, mapDispatchToProps))(App);
 
 const SamuraiJSApp = (props) => {
