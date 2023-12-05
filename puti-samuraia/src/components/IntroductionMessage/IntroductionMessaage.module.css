@@ -1,0 +1,10 @@
+.introMessage {
+    width: 600px;
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px dashed black;
+    border-radius: 25px;
+    font-family: Onest, serif;
+    padding: 20px;
+}

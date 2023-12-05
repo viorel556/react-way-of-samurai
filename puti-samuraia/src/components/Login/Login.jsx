@@ -10,12 +10,12 @@ const LoginForm = ({handleSubmit, error}) => {
 
     return (
 
-        <form onSubmit={handleSubmit}>
+        <form className={classes.formContainer}
+            onSubmit={handleSubmit}>
 
 
             {   // LOGIN FIELD
                 createField('email', 'login', [required], Input)
-
             }
 
             {   // PASSWORD FIELD
@@ -23,18 +23,21 @@ const LoginForm = ({handleSubmit, error}) => {
                     'password',
                     [required],
                     Input,
-                    {type:'password'}
+                    {type:'password'},
                 )
             }
 
-            {   // CHECKBOX FIELD
-                createField(null,
-                    'rememberMe',
-                    null, Input,
-                    {type:'checkbox'},
-                    'Remember Me!'
-                )
-            }
+            <div className={classes.checkBox}>
+                {   // CHECKBOX FIELD
+                    createField(null,
+                        'rememberMe',
+                        null, Input,
+                        {type:'checkbox'},
+                        'Remember Me!'
+                    )
+                }
+            </div>
+
 
 
             {error && // UI HANDLING OF THE ERROR OF WRONG EMAIL/PASS
@@ -69,7 +72,7 @@ const Login = (props) => {
     }
 
     return (
-        <div>
+        <div className={classes.loginContainer}>
             <h1> LOG IN </h1>
             <LoginReduxForm onSubmit={onSubmit}/>
 
