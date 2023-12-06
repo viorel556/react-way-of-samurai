@@ -4,7 +4,7 @@ import HeaderContainer from './components/Header/HeaderContainer';
 import Navbar from './components/Navbar/Navbar';
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
-import {BrowserRouter, Route, Router} from "react-router-dom";
+import {HashRouter, Route } from "react-router-dom";
 import {Routes} from "react-router-dom";
 import Settings from "./components/Settings/Settings";
 import LoginContainer from "./components/Login/LoginContainer";
@@ -45,7 +45,7 @@ class App extends React.Component {
 
 
                     <Routes>
-                        <Route exact path="/" element={<IntroductionMessage/>}/>
+                        <Route exact path="/react-puti-samuraia" element={<IntroductionMessage/>}/>
                         <Route path="/dialogs*/" element={<DialogsContainer/>}/>
                         <Route path="/profile/:userId?" element={<ProfileContainer/>}/>
                         <Route path="/users" element={<UsersContainer/>}/>
@@ -83,7 +83,9 @@ let AppContainer = compose(
 const SamuraiJSApp = (props) => {
 
     return (
-        <BrowserRouter basename={process.env.PUBLIC_URL} >
+        <HashRouter >
+
+            {/*basename={process.env.PUBLIC_URL}*/}
 
             <Provider store={store}>
 
@@ -92,7 +94,7 @@ const SamuraiJSApp = (props) => {
 
             </Provider>
 
-        </BrowserRouter>
+        </HashRouter>
     );
 }
 
