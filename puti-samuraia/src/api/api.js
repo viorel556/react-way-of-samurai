@@ -72,12 +72,20 @@ export const profileAPI = {
     },
 
     requestLogOut() {
-
         return instance.delete(`auth/login`);
     },
 
     requestCaptcha() {
         return instance.get('security/get-captcha-url')
+    },
+
+    requestSavePhoto(photoFile) {
+        let formData = new FormData();
+        formData.append('image', photoFile);
+
+        return instance.put('profile/photo', formData, {
+            headers: { "Content-Type": "multipart/form-data" }
+        });
     }
 
 }

@@ -1,3 +1,7 @@
 .descriptionBlock {
     padding: 10px;
 }
+
+.profileImage {
+    max-width: 200px;
+}

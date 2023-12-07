@@ -1,15 +1,15 @@
 import React from "react";
 import Profile from "./Profile";
-import {getUser, getUserStatus, updateMyStatus} from "../../redux/profile-reducer";
+import {getUser, getUserStatus, savePhoto, updateMyStatus} from "../../redux/profile-reducer";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import withAuthRedirect from "../../hoc/withAuthRedirect";
 import withRouter from "../../hoc/withRouter";
 
 class ProfileContainer extends React.Component {
-    componentDidMount() {
-        let userId = this.props.router.params.userId;
 
+    refreshProfile() {
+        let userId = this.props.router.params.userId;
         if (!userId) {
             userId = this.props.authorizedUserId; // my number: 30097
         }
@@ -19,13 +19,40 @@ class ProfileContainer extends React.Component {
         this.props.getUserStatus(userId);
     }
 
+    checkOwner() {
+        const authorizedUser = this.props.authorizedUserId;
+        let displayedUser = this.props.router.params.userId;
+
+        if (!displayedUser) { displayedUser = authorizedUser; }
+
+        return authorizedUser === displayedUser;
+    }
+
+
+    isOwner = this.checkOwner();
+
+    componentDidMount() {
+        this.refreshProfile();
+    }
+
+
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    //     // FIXME: Find a way to update the profile to my profile when clicking to "Profile";
+    //     // we might need to convert it to a functional component;
+    // }
+
+
     render() {
 
+
         return (
+
             <Profile {...this.props}
+                     isOwner={this.isOwner}
                      profile={this.props.profile}
                      status={this.props.status}
                      updateMyStatus={this.props.updateMyStatus}
+                     savePhoto={this.props.savePhoto}
             />
         );
     }
@@ -44,7 +71,8 @@ let mapDispatchToProps = (
     {
         getUser,
         getUserStatus,
-        updateMyStatus
+        updateMyStatus,
+        savePhoto
     }
 );
 

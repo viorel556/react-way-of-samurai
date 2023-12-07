@@ -46,7 +46,7 @@ class App extends React.Component {
 
                     <Routes>
                         <Route exact path="/react-puti-samuraia" element={<IntroductionMessage/>}/>
-                        <Route path="/dialogs*/" element={<DialogsContainer/>}/>
+                        <Route path="/dialogs/" element={<DialogsContainer/>}/>
                         <Route path="/profile/:userId?" element={<ProfileContainer/>}/>
                         <Route path="/users" element={<UsersContainer/>}/>
                         <Route path="/news" element={<News/>}/>
@@ -54,8 +54,6 @@ class App extends React.Component {
                         <Route path="/settings" element={<Settings/>}/>
                         <Route path="/login" element={<LoginContainer/>}/>
                     </Routes>
-
-
                 </div>
 
 
