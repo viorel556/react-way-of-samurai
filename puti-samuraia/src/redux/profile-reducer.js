@@ -58,7 +58,6 @@ const profileReducer = (state = initialState, action) => {
         }
 
         case SAVE_PHOTO_SUCCESS: {
-
             return {
                 ...state,
                 profile: {...state.profile, photos: action.photos }
@@ -90,7 +89,6 @@ export const savePhotoSuccess = (photos) => (
     {type: SAVE_PHOTO_SUCCESS, photos }
 )
 
-
 // THUNKS ARE HERE:
 export const getUser = (userId) => async (dispatch) => {
     let response = await profileAPI.requestUser(userId)
@@ -117,6 +115,15 @@ export const savePhoto = (file) => async (dispatch) => {
 
     if (response.data.resultCode === 0 ) {
         dispatch(savePhotoSuccess(response.data.data.photos));
+    }
+}
+
+export const saveProfile = (formData) => async (dispatch, getState) => {
+    const userId = getState().auth.userId;
+    const response = await profileAPI.requestSaveProfileData(formData);
+
+    if (response.data.resultCode === 0 ) {
+        dispatch(getUser(userId));
     }
 }
 

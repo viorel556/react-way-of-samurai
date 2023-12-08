@@ -86,6 +86,12 @@ export const profileAPI = {
         return instance.put('profile/photo', formData, {
             headers: { "Content-Type": "multipart/form-data" }
         });
+    },
+
+    requestSaveProfileData(formData) {
+        return instance.put(`profile`,
+             formData
+        );
     }
 
 }

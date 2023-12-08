@@ -1,23 +1,32 @@
-import React from "react";
+import React, {useState} from "react";
 import classes from './ProfileInfo.module.css';
 import Preloader from "../../common/Preloader/Preloader";
-import ProfileStatus from "./ProfileStatus/ProfileStatus";
 import ProfileStatusWithHooks from "./ProfileStatus/ProfileStatusWithHooks";
 import userPhoto from "../../../assets/images/user.png";
+import jobChecker from "../../../assets/images/jobCheck.png"
+import {ProfileDataReduxForm} from "./ProfileDataForm";
 
 
-const ProfileInfo = ({profile, status, updateMyStatus, isOwner, savePhoto}) => {
+// FIXME [HARD]: ALL OF THIS REQUIRES URGENT REFACTORING;
+const ProfileInfo = ({profile, status, updateMyStatus, isOwner, savePhoto, saveProfile}) => {
+
+    let [editMode, setEditMode] = useState(false);
 
     if (!profile) {
         return <Preloader/>
     }
 
-    const onMainPhotoSelected = (e) => {
 
+    const onMainPhotoSelected = (e) => {
         if (e.target.files) {
             savePhoto(e.target.files[0]);
         }
+    }
 
+    const onSubmit = (formData) => {
+        // WE CERTAINLY RECEIVE FORM DATA!
+        saveProfile(formData);
+        setEditMode(false);
     }
 
     return (
@@ -28,20 +37,62 @@ const ProfileInfo = ({profile, status, updateMyStatus, isOwner, savePhoto}) => {
 
                 <img src={profile.photos.large || userPhoto} className={classes.profileImage}/>
 
-                { isOwner && <input type={"file"} onChange={onMainPhotoSelected}/> }
+                {isOwner && <input type={"file"} onChange={onMainPhotoSelected}/>}
 
-                <ProfileStatusWithHooks status={status}
-                               updateMyStatus={updateMyStatus}
-                />
+                {editMode
+                    ? <ProfileDataReduxForm onSubmit={onSubmit} initialValues={profile} profile={profile} />
+                    : <ProfileData profile={profile} isOwner={isOwner} goToEditMode={() => setEditMode(true)}/>}
+
+
+                <ProfileStatusWithHooks status={status} updateMyStatus={updateMyStatus}/>
 
                 <p>{profile.fullName}</p>
                 <p>{profile.aboutMe} </p>
                 <p>GITHUB: {profile.contacts.github}</p>
-            </div>
 
+            </div>
 
         </div>
     );
+}
+
+export const ProfileData = ({profile, isOwner, goToEditMode}) => {
+    return (
+        <div>
+            {isOwner && <div>
+                <button onClick={goToEditMode}>edit</button>
+            </div>}
+
+            <div>
+                <b>Full name: </b> {profile.fullName}
+            </div>
+
+            <div>
+                {/*<img className={classes.jobChecker} src={jobChecker}/>*/}
+                <b>Looking for a job:</b> {profile.lookingForAJob ? "Yes" : "No"}
+            </div>
+
+            <div>
+                <b>My professional skills: </b> {profile.lookingForAJob ? profile.lookingForAJobDescription : ""}
+            </div>
+
+            <div>
+                <b>About me: </b> {profile.aboutMe || "..."}
+            </div>
+
+            <div>
+                <b>Contacts: </b> {Object.keys(profile.contacts).map(key => {
+                return <Contact contactTitle={key} contactValue={profile.contacts[key]}/>
+            })}
+            </div>
+        </div>
+    )
+}
+
+
+export const Contact = ({contactTitle, contactValue}) => {
+    // MINI-COMPONENT
+    return <div className={classes.contactStyle}><b>{contactTitle}</b>: {contactValue} </div>
 }
 
 export default ProfileInfo;

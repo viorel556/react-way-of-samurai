@@ -1,6 +1,6 @@
 import React from "react";
 import Profile from "./Profile";
-import {getUser, getUserStatus, savePhoto, updateMyStatus} from "../../redux/profile-reducer";
+import {getUser, getUserStatus, savePhoto, saveProfile, updateMyStatus} from "../../redux/profile-reducer";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import withAuthRedirect from "../../hoc/withAuthRedirect";
@@ -20,14 +20,15 @@ class ProfileContainer extends React.Component {
     }
 
     checkOwner() {
+        // CHECKS IF THE DISPLAYED PROFILE MATCHES THE LOGIN PROFILE
         const authorizedUser = this.props.authorizedUserId;
         let displayedUser = this.props.router.params.userId;
 
         if (!displayedUser) { displayedUser = authorizedUser; }
 
-        return authorizedUser === displayedUser;
+        return authorizedUser === displayedUser; // returns true/false
+        // (didn't find a better implementation for this)
     }
-
 
     isOwner = this.checkOwner();
 
@@ -72,7 +73,8 @@ let mapDispatchToProps = (
         getUser,
         getUserStatus,
         updateMyStatus,
-        savePhoto
+        savePhoto,
+        saveProfile
     }
 );
 
