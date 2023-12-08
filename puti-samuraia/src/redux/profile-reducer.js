@@ -1,4 +1,5 @@
 import {profileAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 const ADD_POST = "ADD-POST";
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
@@ -124,6 +125,9 @@ export const saveProfile = (formData) => async (dispatch, getState) => {
 
     if (response.data.resultCode === 0 ) {
         dispatch(getUser(userId));
+    } else {
+        dispatch(stopSubmit('edit-profile', {_error: response.data.messages[0]}));
+        return Promise.reject(response.data.messages[0]);
     }
 }
 
