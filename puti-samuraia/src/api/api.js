@@ -66,7 +66,8 @@ export const profileAPI = {
             {
                 email: formData.login,
                 password: formData.password,
-                rememberMe: formData.rememberMe
+                rememberMe: formData.rememberMe,
+                captcha: formData.captcha //additionally
             }
         );
     },

@@ -14,7 +14,6 @@ class LoginContainer extends React.Component {
         return (
           <Login {...this.props}
                  authorizeMe={this.props.authorizeMe}
-                 captcha={this.props.captcha}
           />
         );
     }

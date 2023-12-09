@@ -6,12 +6,12 @@ import {required} from "../../utils/validators/validators";
 import classes from "../common/FormsControls/FormsControls.module.css";
 
 
-const LoginForm = ({handleSubmit, error}) => {
+const LoginForm = ({handleSubmit, error, captcha}) => {
 
     return (
 
         <form className={classes.formContainer}
-            onSubmit={handleSubmit}>
+              onSubmit={handleSubmit}>
 
 
             {   // LOGIN FIELD
@@ -23,7 +23,7 @@ const LoginForm = ({handleSubmit, error}) => {
                     'password',
                     [required],
                     Input,
-                    {type:'password'},
+                    {type: 'password'},
                 )
             }
 
@@ -32,12 +32,28 @@ const LoginForm = ({handleSubmit, error}) => {
                     createField(null,
                         'rememberMe',
                         null, Input,
-                        {type:'checkbox'},
+                        {type: 'checkbox'},
                         'Remember Me!'
                     )
                 }
             </div>
 
+            <div>
+                {   // IF CAPTCHA EXISTS:
+                    // a) we render the image;
+                    // b) we create a field to enter captcha data
+                    captcha && <div>
+                        <img src={captcha} alt="Captcha Image"/>
+                        {
+                            createField('captcha',
+                                'captcha',
+                                null, Input,
+                                'Enter captcha!'
+                            )
+                        }
+                    </div>
+                }
+            </div>
 
 
             {error && // UI HANDLING OF THE ERROR OF WRONG EMAIL/PASS
@@ -61,7 +77,6 @@ const LoginReduxForm = reduxForm({form: "login"})(LoginForm);
 // FOCUS:
 const Login = (props) => {
 
-
     const onSubmit = (formData) => {
         // here we call a THUNK
         props.authorizeWithCredentials(formData);
@@ -74,14 +89,12 @@ const Login = (props) => {
     return (
         <div className={classes.loginContainer}>
             <h1> LOG IN </h1>
-            <LoginReduxForm onSubmit={onSubmit}/>
-
-            <img src={props.auth.captcha}/>
-
+            <LoginReduxForm onSubmit={onSubmit} captcha={props.auth.captcha}/>
         </div>
 
 
     );
 }
+
 
 export default Login;
