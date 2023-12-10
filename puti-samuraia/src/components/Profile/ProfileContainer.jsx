@@ -37,10 +37,10 @@ class ProfileContainer extends React.Component {
     }
 
 
-    // componentDidUpdate(prevProps, prevState, snapshot) {
-    //     // FIXME: Find a way to update the profile to my profile when clicking to "Profile";
-    //     // we might need to convert it to a functional component;
-    // }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        // FIXME: Find a way to update the profile to my profile when clicking to "Profile";
+        // if (this.props.match.params.userId != prevProps.match.params.userId) { this.refreshProfile() }
+    }
 
 
     render() {
@@ -81,8 +81,8 @@ let mapDispatchToProps = (
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),  // KONVEIER 3
     // 􀄨
-    withRouter,                                             // KONVEIER 2
+    withRouter,                                    // KONVEIER 2
     // 􀄨
-    withAuthRedirect,                                       // KONVEIER 1
+    withAuthRedirect,                              // KONVEIER 1
     // 􀄨
 )(ProfileContainer);

@@ -92,9 +92,18 @@ export const savePhotoSuccess = (photos) => (
 
 // THUNKS ARE HERE:
 export const getUser = (userId) => async (dispatch) => {
-    let response = await profileAPI.requestUser(userId)
+    // FIXME[EASY]: We're missing error handling in our project as per bellow example:
 
-    dispatch(setUserProfile(response.data));
+    try {
+        let response = await profileAPI.requestUser(userId)
+        dispatch(setUserProfile(response.data));
+    }
+    catch (error) {
+        console.log(error)
+        // or maybe show some window with that;
+        // we will be able to access the error somehow because we caught it;
+    }
+
 }
 
 export const getUserStatus = (userId) => async (dispatch) => {

@@ -69,7 +69,7 @@ export const authorizeWithCredentials = (formData) => async (dispatch) => {
         let login = formData.login;
 
         dispatch(setAuthUserData(id, email, login, true));
-        alert("YOU HAVE SUCCESSFULLY LOGGED IN!");
+        alert("SUCCESSFULLY LOGGED IN! WELCOME TO MY SOCIAL NETWORK!");
 
     } else if (response.data.resultCode === 10) {
 

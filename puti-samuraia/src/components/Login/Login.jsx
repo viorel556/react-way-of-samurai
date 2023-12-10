@@ -10,36 +10,25 @@ const LoginForm = ({handleSubmit, error, captcha}) => {
 
     return (
 
-        <form className={classes.formContainer}
-              onSubmit={handleSubmit}>
-
+        <form className={classes.formContainer} onSubmit={handleSubmit}>
 
             {   // LOGIN FIELD
                 createField('email', 'login', [required], Input)
             }
 
             {   // PASSWORD FIELD
-                createField('password',
-                    'password',
-                    [required],
-                    Input,
-                    {type: 'password'},
-                )
+                createField('password', 'password', [required], Input, {type: 'password'},)
             }
 
             <div className={classes.checkBox}>
                 {   // CHECKBOX FIELD
-                    createField(null,
-                        'rememberMe',
-                        null, Input,
-                        {type: 'checkbox'},
-                        'Remember Me!'
-                    )
+                    createField(null, 'rememberMe', null, Input,
+                        {type: 'checkbox'}, 'Remember Me!')
                 }
             </div>
 
             <div>
-                {   // IF CAPTCHA EXISTS:
+                {   // CAPTCHA FIELD (if captcha exists)
                     // a) we render the image;
                     // b) we create a field to enter captcha data
                     captcha && <div>
@@ -47,7 +36,7 @@ const LoginForm = ({handleSubmit, error, captcha}) => {
                         {
                             createField('captcha',
                                 'captcha',
-                                null, Input,
+                                [required], Input,
                                 'Enter captcha!'
                             )
                         }

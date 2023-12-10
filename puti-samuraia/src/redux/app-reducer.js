@@ -5,6 +5,7 @@ const INITIALIZED_SUCCESSFULLY = "INITIALIZED_SUCCESSFULLY";
 // INITIAL STATE:
 let initialState = {
     initialized: false,
+    globalError: null // FIXME[MEDIUM] this needs to be DISPATCHED IN STORE;
 }
 
 const appReducer = (state = initialState, action) => {

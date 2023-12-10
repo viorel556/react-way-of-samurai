@@ -4,7 +4,7 @@ import HeaderContainer from './components/Header/HeaderContainer';
 import Navbar from './components/Navbar/Navbar';
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
-import {HashRouter, Route } from "react-router-dom";
+import {HashRouter, Route} from "react-router-dom";
 import {Routes} from "react-router-dom";
 import Settings from "./components/Settings/Settings";
 import LoginContainer from "./components/Login/LoginContainer";
@@ -24,8 +24,17 @@ const UsersContainer = React.lazy(() => import('./components/Users/UsersContaine
 
 class App extends React.Component {
 
+    catchAllUnhandledErrors = (reason, promise) => {
+        alert('SOME ERROR OCCURED');
+    }
+
     componentDidMount() {
-        this.props.initializeApp(); // calling the init
+        this.props.initializeApp(); // calling the init of the app;
+        window.addEventListener('unhandledrejection', this.catchAllUnhandledErrors);
+    }
+
+    componentWillUnmount() { // ending the event listener. UNSUBSCRIBING:
+        window.removeEventListener('unhandledrejection', this.catchAllUnhandledErrors);
     }
 
     render() {
@@ -42,9 +51,8 @@ class App extends React.Component {
 
 
                 <div className='app-wrapper-content'>
-
-
                     <Routes>
+                        <Route exact path="/" element={<IntroductionMessage/>}/>
                         <Route exact path="/react-puti-samuraia" element={<IntroductionMessage/>}/>
                         <Route path="/dialogs/" element={<DialogsContainer/>}/>
                         <Route path="/profile/:userId?" element={<ProfileContainer/>}/>
@@ -53,6 +61,7 @@ class App extends React.Component {
                         <Route path="/music" element={<Music/>}/>
                         <Route path="/settings" element={<Settings/>}/>
                         <Route path="/login" element={<LoginContainer/>}/>
+                        <Route path='*' element={ () => <div>404 NOT FOUND</div>}/>
                     </Routes>
                 </div>
 
@@ -81,7 +90,7 @@ let AppContainer = compose(
 const SamuraiJSApp = (props) => {
 
     return (
-        <HashRouter >
+        <HashRouter>
 
             {/*basename={process.env.PUBLIC_URL}*/}
 

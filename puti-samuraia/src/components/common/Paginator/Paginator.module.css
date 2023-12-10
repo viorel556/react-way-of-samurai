@@ -11,7 +11,7 @@
     margin: 10px;
 }
 .pageNumber {
-    padding: 2px;
+    padding: 4px;
     border: 1px solid grey;
 }
 
@@ -19,5 +19,6 @@
     font-weight: bold;
     border-color: black;
     color: orange;
+    background-color: black;
 }
 

@@ -5,20 +5,23 @@ import cn from "classnames";
 // FIXME: selected page is not displayed properly;
 //  The css selector is: .pageNumber.selectedPage;
 //  Figure it out;
-let Paginator = ({totalItemsCount,
+let Paginator = ({
+                     totalItemsCount,
                      pageSize,
                      currentPage,
                      onPageChanged,
-                     portionSize = 5}) => {
+                     portionSize = 10
+                 }) => {
 
     let pagesCount = Math.ceil(totalItemsCount / pageSize);
     let pages = [];
+
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i);
     }
 
     let portionCount = Math.ceil(pagesCount / portionSize);
-    let [portionNumber , setPortionNumber] = useState(1);
+    let [portionNumber, setPortionNumber] = useState(1);
     let leftPortionPageNumber = (portionNumber - 1) * portionSize + 1;
     let rightPortionPageNumber = portionNumber * portionSize;
 
@@ -34,16 +37,18 @@ let Paginator = ({totalItemsCount,
 
             {
                 pages
-                .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
-                .map((p) => {
-                    return <span className={cn({
-                        [styles.selectedPage]: currentPage === p
-                    }, styles.pageNumber)}
-                                 key={p}
-                                 onClick={(e) => {
-                                     onPageChanged(p);
-                                 }}>{p}</span>
-                })
+                    .filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
+                    .map((p) => {
+
+                        return <span className={cn({
+                            [styles.selectedPage]: currentPage === p
+                        }, styles.pageNumber)}
+                                     key={p}
+                                     onClick={(e) => {
+                                         onPageChanged(p);
+                                     }}>{p}</span>
+
+                    })
             }
 
             {
