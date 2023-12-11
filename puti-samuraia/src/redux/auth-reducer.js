@@ -37,7 +37,7 @@ const authReducer = (state = initialState, action) => {
 
 export const setCaptcha = (captcha) => (
     {type: SET_CAPTCHA, captcha}
-)
+);
 
 export const setAuthUserData = (userId, email, login, isAuth) => (
     {
@@ -46,24 +46,27 @@ export const setAuthUserData = (userId, email, login, isAuth) => (
     }
 );
 
-
 // THUNKS ARE HERE:
 export const authorizeMe = () => async (dispatch) => {
     // MAKES AN AUTHORIZATION REQUEST TO THE SERVER WITH THE COOKIES
-    let response = await profileAPI.authorizeMeRequest()
-
-    if (response.data.resultCode === 0) {
-        let {email, id, login} = response.data.data;
-        dispatch(setAuthUserData(id, email, login, true));
+    try {
+        let response = await profileAPI.authorizeMeRequest()
+        if (response.data.resultCode === 0) {
+            let {email, id, login} = response.data.data;
+            dispatch(setAuthUserData(id, email, login, true));
+        }
     }
-
+    catch (error) {
+        console.log(error);
+    }
 }
+
 // THUNK:
 export const authorizeWithCredentials = (formData) => async (dispatch) => {
     let response = await profileAPI.requestAuthorizeWithCredentials(formData);
 
     if (response.data.resultCode === 0) {
-        // FIXME: this can be optimized;
+        // FIXME[MEDIUM]: this can be optimized;
         let email = formData.login;
         let id = response.data.data.userId;
         let login = formData.login;
@@ -88,17 +91,19 @@ export const authorizeWithCredentials = (formData) => async (dispatch) => {
         let action = stopSubmit('login', {_error: message});
         dispatch(action);
     }
-
-
 }
 
 // THUNK:
 export const logOut = () => async (dispatch) => {
-    let response = await profileAPI.requestLogOut();
-
-    if (response.data.resultCode === 0) {
-        dispatch(setAuthUserData(null, null, null, false));
-        alert("YOU HAVE LOGGED OUT! GOODBYE!");
+    try {
+        let response = await profileAPI.requestLogOut();
+        if (response.data.resultCode === 0) {
+            dispatch(setAuthUserData(null, null, null, false));
+            alert("YOU HAVE LOGGED OUT! GOODBYE!");
+        }
+    }
+    catch (error) {
+        console.log(error);
     }
 }
 

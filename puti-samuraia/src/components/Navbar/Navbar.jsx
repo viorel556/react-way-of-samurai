@@ -5,40 +5,46 @@ import {NavLink} from "react-router-dom";
 
 
 const Navbar = () => {
+
+    function conditionalActiveStyle(navData) {
+        // FUNC TO CONDITIONALLY STYLE NAV ELEMENTS IF WE CLICK ON THEM;
+       return navData.isActive ? classes.active : classes.item;
+    }
+
     return ( 
         <nav className={classes.nav}>
             <div className={classes.item}>
-                <NavLink to='/profile' className={ navData => navData.isActive ? classes.active : classes.item }>
+                <NavLink to='/profile' className={ conditionalActiveStyle }>
                     Profile
                 </NavLink>
             </div>
 
             <div className={`${classes.item} ${classes.active}`}>
-                <NavLink to='/dialogs' className={ navData => navData.isActive ? classes.active : classes.item }>
+                <NavLink to='/dialogs' className={ conditionalActiveStyle }>
                     Messages
                 </NavLink>
             </div>
 
             <div className={`${classes.item} ${classes.active}`}>
-                <NavLink to='/users' className={ navData => navData.isActive ? classes.active : classes.item }>
+                <NavLink to='/users' className={ conditionalActiveStyle }>
                     Users
                 </NavLink>
             </div>
 
             <div className={classes.item}>
-                <NavLink to='/news' className={ navData => navData.isActive ? classes.active : classes.item }>
+                <NavLink to='/news' className={ conditionalActiveStyle }>
                     News
                 </NavLink>
             </div>
 
             <div className={classes.item}>
-                <NavLink to='/music' className={ navData => navData.isActive ? classes.active : classes.item }>
+                <NavLink to='/music' className={ conditionalActiveStyle }>
                     Music
                 </NavLink>
             </div>
 
             <div className={classes.item}>
-                <NavLink to='/settings' className={ navData => navData.isActive ? classes.active : classes.item }>
+                <NavLink to='/settings' className={ conditionalActiveStyle }>
                     Settings
                 </NavLink>
             </div>
@@ -48,11 +54,3 @@ const Navbar = () => {
 }
 
 export default Navbar;
- 
-
-//// Example code 
-// "classes" looks like this: 
-// let classes = { 
-//     'nav': japanese_shit,  
-//     'item': japanese_shit 
-// }-

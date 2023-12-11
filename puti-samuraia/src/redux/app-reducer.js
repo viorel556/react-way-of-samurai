@@ -31,7 +31,6 @@ export const initializedSuccessfully = () => (
 export const initializeApp = () => (dispatch) => {
     // creating a promise:
     let promise = dispatch(authorizeMe());
-
     Promise.all([promise])
         .then(() => { // 􀐫
             // 􀇾 WHEN ALL THE PROMISES ABOVE ARE DONE -> CODE BELLOW WILL FOLLOW:

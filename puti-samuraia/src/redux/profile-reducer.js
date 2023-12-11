@@ -92,51 +92,62 @@ export const savePhotoSuccess = (photos) => (
 
 // THUNKS ARE HERE:
 export const getUser = (userId) => async (dispatch) => {
-    // FIXME[EASY]: We're missing error handling in our project as per bellow example:
-
     try {
         let response = await profileAPI.requestUser(userId)
         dispatch(setUserProfile(response.data));
     }
     catch (error) {
         console.log(error)
-        // or maybe show some window with that;
-        // we will be able to access the error somehow because we caught it;
     }
-
 }
 
 export const getUserStatus = (userId) => async (dispatch) => {
-    let response = await profileAPI.requestUserStatus(userId)
-
-    dispatch(setStatus(response.data));
+    try {
+        let response = await profileAPI.requestUserStatus(userId)
+        dispatch(setStatus(response.data));
+    }
+    catch (error) {
+        console.log(error);
+    }
 }
 
 export const updateMyStatus = (status) => async (dispatch) => {
-    let response = await profileAPI.requestUpdateUserStatus(status)
-
-    if (response.data.resultCode === 0) {
-        dispatch(setStatus(status));
+    try {
+        let response = await profileAPI.requestUpdateUserStatus(status)
+        if (response.data.resultCode === 0) {
+            dispatch(setStatus(status));
+        }
+    }
+    catch (error) {
+        console.log(error);
     }
 }
 
 export const savePhoto = (file) => async (dispatch) => {
-    let response = await profileAPI.requestSavePhoto(file);
-
-    if (response.data.resultCode === 0 ) {
-        dispatch(savePhotoSuccess(response.data.data.photos));
+    try {
+        let response = await profileAPI.requestSavePhoto(file);
+        if (response.data.resultCode === 0 ) {
+            dispatch(savePhotoSuccess(response.data.data.photos));
+        }
+    }
+    catch (error) {
+        console.log(error)
     }
 }
 
 export const saveProfile = (formData) => async (dispatch, getState) => {
-    const userId = getState().auth.userId;
-    const response = await profileAPI.requestSaveProfileData(formData);
-
-    if (response.data.resultCode === 0 ) {
-        dispatch(getUser(userId));
-    } else {
-        dispatch(stopSubmit('edit-profile', {_error: response.data.messages[0]}));
-        return Promise.reject(response.data.messages[0]);
+    try {
+        const userId = getState().auth.userId;
+        const response = await profileAPI.requestSaveProfileData(formData);
+        if (response.data.resultCode === 0 ) {
+            dispatch(getUser(userId));
+        } else {
+            dispatch(stopSubmit('edit-profile', {_error: response.data.messages[0]}));
+            return Promise.reject(response.data.messages[0]);
+        }
+    }
+    catch (error) {
+        console.log(error);
     }
 }
 

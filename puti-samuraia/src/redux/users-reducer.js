@@ -135,34 +135,34 @@ export const toggleFollowingProgress = (isFetching, userId) => (
 // THUNKS ARE HERE:
 export const getUsers = (page, pageSize) => async (dispatch) => {
     // to pass params to a Thunk we have to create a thunk Creator;
-
-    // THE THUNK ITSELF:
-    dispatch(toggleIsFetching(true));
-    dispatch(setCurrentPage(page));
-    // server request to get initial users
-    let data = await usersAPI.requestUsers(page, pageSize);
-
-    dispatch(toggleIsFetching(false));
-    dispatch(loadUsers(data.items));
-    dispatch(setTotalUsersCount(data.totalCount));
-
+    try {
+        dispatch(toggleIsFetching(true));
+        dispatch(setCurrentPage(page));
+        // server request to get initial users
+        let data = await usersAPI.requestUsers(page, pageSize);
+        dispatch(toggleIsFetching(false));
+        dispatch(loadUsers(data.items));
+        dispatch(setTotalUsersCount(data.totalCount));
+    }
+    catch (error) { console.log(error) }
 }
 
 // THUNK:
 export const followUser = (userId) => async (dispatch) => {
-
-    let apiMethod = usersAPI.requestFollowUser.bind(usersAPI);
-
-    await followUnfollowFlow(dispatch, userId, apiMethod, follow)
-
+    try {
+        let apiMethod = usersAPI.requestFollowUser.bind(usersAPI);
+        await followUnfollowFlow(dispatch, userId, apiMethod, follow);
+    }
+    catch (error) { console.log(error) }
 }
 
+// THUNK:
 export const unfollowUser = (userId) => async (dispatch) => {
-
-    let apiMethod = usersAPI.requestUnfollowUser.bind(usersAPI);
-
-    await followUnfollowFlow(dispatch, userId, apiMethod, unfollow);
-
+    try {
+        let apiMethod = usersAPI.requestUnfollowUser.bind(usersAPI);
+        await followUnfollowFlow(dispatch, userId, apiMethod, unfollow);
+    }
+    catch (error) { console.log(error) }
 }
 
 
