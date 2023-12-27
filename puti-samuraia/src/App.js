@@ -11,7 +11,7 @@ import LoginContainer from "./components/Login/LoginContainer";
 import {connect, Provider} from "react-redux";
 import withRouter from "./hoc/withRouter";
 import {compose} from "redux";
-import {initializeApp} from "./redux/app-reducer";
+import {initializeApp} from "./redux/app-reducer.ts";
 import Preloader from "./components/common/Preloader/Preloader";
 import store from "./redux/redux-store";
 import {withSuspense} from "./hoc/withSuspense";
@@ -25,7 +25,7 @@ const UsersContainer = React.lazy(() => import('./components/Users/UsersContaine
 class App extends React.Component {
 
     catchAllUnhandledErrors = (reason, promise) => {
-        alert('SOME ERROR OCCURED');
+        alert('SOME ERROR OCCURRED');
     }
 
     componentDidMount() {

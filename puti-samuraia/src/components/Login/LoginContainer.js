@@ -1,6 +1,6 @@
 import React from "react";
 import Login from "./Login";
-import {authorizeMe, authorizeWithCredentials, setCaptcha} from "../../redux/auth-reducer";
+import {authorizeMe, authorizeWithCredentials, setCaptcha} from "../../redux/auth-reducer.ts";
 import {connect} from "react-redux";
 import {compose} from "redux";
 

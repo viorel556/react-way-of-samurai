@@ -3,10 +3,42 @@ import {profileAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
 
 const SET_AUTH_USER_DATA = "samurai-network/auth/SET_AUTH_USER_DATA";
-const SET_CAPTCHA = "SET_CAPTCHA"
+const SET_CAPTCHA = "SET_CAPTCHA";
 
-// INITIAL STATE:
-let initialState = {
+// DECLARING TYPES:
+export type InitialStateType = {
+    // all types of the initial state:
+    userId: number | null
+    email: string | null
+    login: string | null
+    isAuth: boolean
+    captcha: string | null
+}
+type SetAuthUserDataActionPayloadType = {
+    userId: number
+    email: string
+    login: string
+    isAuth: boolean
+}
+type SetAuthUserDataActionType = {
+    // [!] if we change "data" -> "payload" it doesn't work for some reason;
+    type: typeof SET_AUTH_USER_DATA,
+    data: SetAuthUserDataActionPayloadType
+}
+type SetCaptchaActionType = {
+    type: typeof SET_CAPTCHA,
+    captcha: string
+}
+
+type AuthorizationCredentialsType = {
+    // WRITTEN BY MYSELF CONSIDERING I HAVE A DIFFERENT IMPLEMENTATION OF THE THUNK;
+    login: string
+    password: string
+    rememberMe: boolean
+}
+
+// DECLARING THE INITIAL STATE:
+let initialState: InitialStateType = {
     userId: null,
     email: null,
     login: null,
@@ -14,7 +46,8 @@ let initialState = {
     captcha: ''
 }
 
-const authReducer = (state = initialState, action) => {
+// THE MAIN REDUCER:
+const authReducer = (state = initialState, action: any): InitialStateType => {
     switch (action.type) {
 
         case SET_AUTH_USER_DATA:
@@ -35,35 +68,43 @@ const authReducer = (state = initialState, action) => {
     }
 }
 
-export const setCaptcha = (captcha) => (
-    {type: SET_CAPTCHA, captcha}
-);
+export const setCaptcha = (captcha: string): SetCaptchaActionType => {
+    return (
+        {
+            type: SET_CAPTCHA,
+            captcha
+        }
+    );
+};
 
-export const setAuthUserData = (userId, email, login, isAuth) => (
-    {
-        type: SET_AUTH_USER_DATA,
-        data: {userId, email, login, isAuth}
-    }
-);
+export const setAuthUserData = (userId: number, email: string,
+                                login: string, isAuth: boolean): SetAuthUserDataActionType => {
+    return (
+        {
+            type: SET_AUTH_USER_DATA,
+            data: {userId, email, login, isAuth}
+        }
+    );
+};
 
 // THUNKS ARE HERE:
-export const authorizeMe = () => async (dispatch) => {
+export const authorizeMe = () => async (dispatch: any) => {
     // MAKES AN AUTHORIZATION REQUEST TO THE SERVER WITH THE COOKIES
     try {
-        let response = await profileAPI.authorizeMeRequest()
+        let response = await profileAPI.authorizeMeRequest();
         if (response.data.resultCode === 0) {
             let {email, id, login} = response.data.data;
             dispatch(setAuthUserData(id, email, login, true));
         }
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error);
     }
 }
 
 // THUNK:
-export const authorizeWithCredentials = (formData) => async (dispatch) => {
+export const authorizeWithCredentials = (formData: AuthorizationCredentialsType) => async (dispatch: any) => {
     let response = await profileAPI.requestAuthorizeWithCredentials(formData);
+
 
     if (response.data.resultCode === 0) {
         // FIXME[MEDIUM]: this can be optimized;
@@ -83,10 +124,9 @@ export const authorizeWithCredentials = (formData) => async (dispatch) => {
                 }
             });
     } else {
-        let message =
-            response.data.messages.length > 0 ?
-                response.data.messages[0]
-                : "Some error";
+        let message = response.data.messages.length > 0
+            ? response.data.messages[0]
+            : "Some error";
 
         let action = stopSubmit('login', {_error: message});
         dispatch(action);
@@ -94,15 +134,14 @@ export const authorizeWithCredentials = (formData) => async (dispatch) => {
 }
 
 // THUNK:
-export const logOut = () => async (dispatch) => {
+export const logOut = () => async (dispatch: any) => {
     try {
         let response = await profileAPI.requestLogOut();
         if (response.data.resultCode === 0) {
             dispatch(setAuthUserData(null, null, null, false));
             alert("YOU HAVE LOGGED OUT! GOODBYE!");
         }
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error);
     }
 }
