@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "../App.js";
-import profileReducer, {addPostActionCreator, deletePost} from "./profile-reducer";
+import profileReducer, {addPostActionCreator, deletePostAction} from "./profile-reducer";
 
 let state =
     {
@@ -42,7 +42,7 @@ it('after deletion, length of array should be decremented', () => {
 
     // 1. test data:
     let action =
-        deletePost(1);
+        deletePostAction(1);
 
     // 2. action
     let newState = profileReducer(state, action );

@@ -15,9 +15,9 @@ export type InitialStateType = {
     captcha: string | null
 }
 type SetAuthUserDataActionPayloadType = {
-    userId: number
-    email: string
-    login: string
+    userId: number | null
+    email: string | null
+    login: string | null
     isAuth: boolean
 }
 type SetAuthUserDataActionType = {
@@ -29,8 +29,7 @@ type SetCaptchaActionType = {
     type: typeof SET_CAPTCHA,
     captcha: string
 }
-
-type AuthorizationCredentialsType = {
+type AuthCredentialsType = {
     // WRITTEN BY MYSELF CONSIDERING I HAVE A DIFFERENT IMPLEMENTATION OF THE THUNK;
     login: string
     password: string
@@ -39,6 +38,8 @@ type AuthorizationCredentialsType = {
 
 // DECLARING THE INITIAL STATE:
 let initialState: InitialStateType = {
+    // [!] the author declares this type differently;
+    // via a variable assigment;
     userId: null,
     email: null,
     login: null,
@@ -77,8 +78,8 @@ export const setCaptcha = (captcha: string): SetCaptchaActionType => {
     );
 };
 
-export const setAuthUserData = (userId: number, email: string,
-                                login: string, isAuth: boolean): SetAuthUserDataActionType => {
+export const setAuthUserData = (userId: number | null, email: string | null,
+                                login: string | null, isAuth: boolean): SetAuthUserDataActionType => {
     return (
         {
             type: SET_AUTH_USER_DATA,
@@ -96,18 +97,19 @@ export const authorizeMe = () => async (dispatch: any) => {
             let {email, id, login} = response.data.data;
             dispatch(setAuthUserData(id, email, login, true));
         }
-    } catch (error) {
+    }
+    catch (error) {
         console.log(error);
     }
 }
 
-// THUNK:
-export const authorizeWithCredentials = (formData: AuthorizationCredentialsType) => async (dispatch: any) => {
+// THUNK (login):
+export const authorizeWithCredentials = (formData: AuthCredentialsType) => async (dispatch: any) => {
+
     let response = await profileAPI.requestAuthorizeWithCredentials(formData);
 
-
     if (response.data.resultCode === 0) {
-        // FIXME[MEDIUM]: this can be optimized;
+
         let email = formData.login;
         let id = response.data.data.userId;
         let login = formData.login;
@@ -133,7 +135,7 @@ export const authorizeWithCredentials = (formData: AuthorizationCredentialsType)
     }
 }
 
-// THUNK:
+// THUNK (logout):
 export const logOut = () => async (dispatch: any) => {
     try {
         let response = await profileAPI.requestLogOut();
@@ -141,9 +143,8 @@ export const logOut = () => async (dispatch: any) => {
             dispatch(setAuthUserData(null, null, null, false));
             alert("YOU HAVE LOGGED OUT! GOODBYE!");
         }
-    } catch (error) {
-        console.log(error);
     }
+    catch (error) { console.log(error); }
 }
 
 export default authReducer;
