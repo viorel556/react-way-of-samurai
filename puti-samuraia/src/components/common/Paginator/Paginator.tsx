@@ -3,23 +3,20 @@ import styles from "./Paginator.module.css";
 import React, {useState} from "react";
 import cn from "classnames";
 
- // FIXME: selected page is not displayed properly;
-//  The css selector is: .pageNumber.selectedPage;
-
-type PropsType  = {
+type PropsType = {
     totalItemsCount: number
     pageSize: number
     currentPage: number
     onPageChanged: (pageNumber: number) => void
     portionSize?: number
 }
-let Paginator: React.FC<PropsType>= ({
-                     totalItemsCount,
-                     pageSize,
-                     currentPage,
-                     onPageChanged,
-                     portionSize = 10
-                 }) => {
+let Paginator: React.FC<PropsType> = ({
+                                          totalItemsCount,
+                                          pageSize,
+                                          currentPage,
+                                          onPageChanged,
+                                          portionSize = 10
+                                      }) => {
 
     let pagesCount = Math.ceil(totalItemsCount / pageSize);
     let pages: Array<number> = [];
@@ -55,7 +52,6 @@ let Paginator: React.FC<PropsType>= ({
                                      onClick={(e) => {
                                          onPageChanged(p);
                                      }}>{p}</span>
-
                     })
             }
 

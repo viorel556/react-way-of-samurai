@@ -6,9 +6,11 @@
     border-radius: 100%;
 }
 
-
 .paginator {
+    display: flex;
+    justify-content: center;
     margin: 10px;
+    cursor: pointer;
 }
 .pageNumber {
     padding: 4px;
@@ -21,4 +23,6 @@
     color: orange;
     background-color: black;
 }
+
+button { cursor: pointer}
 

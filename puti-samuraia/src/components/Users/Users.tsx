@@ -10,8 +10,8 @@ type PropsType = {
     pageSize: number
     users: Array<UserType>
     followingInProgress: Array<number>
-    followUser: () => void
-    unfollowUser: () => void
+    followUser: (userId: number) => void
+    unfollowUser: (userId: number) => void
 }
 const Users: FC<PropsType> = ({
                    currentPage,

@@ -1,5 +1,5 @@
 import React from "react";
-import {connect} from "react-redux";
+import {connect, MapDispatchToProps} from "react-redux";
 import {
     follow, followUser,
     getUsers,
@@ -22,21 +22,31 @@ import {
 import {UserType} from "../../types/types";
 import {AppStateType} from "../../redux/redux-store";
 
-type PropsType = {
-    // VARIABLES:
-    pageTitle: string
+type MapStateToPropsType = {
     currentPage: number
     pageSize: number
     isFetching: boolean
     totalUsersCount: number
-    // ARRAYS:
     users: Array<UserType>
     followingInProgress: Array<number>
-    // CALLBACKS
-    getUsers: (currentPage: number, pageSize: number) => void
-    followUser: () => void
-    unfollowUser: () => void
 }
+
+type MapDispatchToPropsType = {
+     // FIXME[EASY]: setCurrentPage, toggleFollowingProgress
+    // these seems to be redundant. Try to delete and test if anything breaks
+    getUsers: (currentPage: number, pageSize: number) => void
+    followUser: (userId: number) => void // +redundant
+    unfollowUser: (userId: number) => void // +redundant
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
+    setCurrentPage: (currentPage: number) => void
+    toggleFollowingProgress: (isFetching: boolean, userId: number) => void
+}
+
+type OwnPropsType = { pageTitle: string }
+
+// COMBINES: MapStateToPropsType, MapDispatchToPropsType, OwnPropsType
+type PropsType = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType
 
 // CONTAINER COMPONENT 2:
 class UsersContainer extends React.Component<PropsType> {
@@ -59,6 +69,7 @@ class UsersContainer extends React.Component<PropsType> {
             <Users totalUsersCount={this.props.totalUsersCount}
                    pageSize={this.props.pageSize}
                    onPageChanged={this.onPageChanged}
+                   currentPage={this.props.currentPage}
                    users={this.props.users}
                    followingInProgress={this.props.followingInProgress}
                    followUser={this.props.followUser}
@@ -68,7 +79,7 @@ class UsersContainer extends React.Component<PropsType> {
     }
 }
 
-let mapStateToProps = (state: AppStateType) => {
+let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
         users: getAllUsers(state),
         pageSize: getPageSize(state),
@@ -79,7 +90,7 @@ let mapStateToProps = (state: AppStateType) => {
     }
 }
 
-let mapDispatchToProps = (
+let mapDispatchToProps: MapDispatchToPropsType = (
     {
         // CALLBACKS:
         follow,
@@ -92,10 +103,11 @@ let mapDispatchToProps = (
     }
 );
 
-export default compose(
+export default compose<React.Component<PropsType>>(
     withAuthRedirect,
     // 􀄨
-    connect(mapStateToProps, mapDispatchToProps),
+    connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>
+    (mapStateToProps, mapDispatchToProps),
     // ()
     // 􀄨
 )
