@@ -19,22 +19,37 @@ import {
     getPageSize,
     getTotalUsersCount
 } from "../../redux/users-selectors";
+import {UserType} from "../../types/types";
+import {AppStateType} from "../../redux/redux-store";
 
+type PropsType = {
+    // VARIABLES:
+    pageTitle: string
+    currentPage: number
+    pageSize: number
+    isFetching: boolean
+    totalUsersCount: number
+    // ARRAYS:
+    users: Array<UserType>
+    followingInProgress: Array<number>
+    // CALLBACKS
+    getUsers: (currentPage: number, pageSize: number) => void
+    followUser: () => void
+    unfollowUser: () => void
+}
 
 // CONTAINER COMPONENT 2:
-class UsersContainer extends React.Component {
+class UsersContainer extends React.Component<PropsType> {
     componentDidMount() {
         // when the component is mounted we begin to request the user from the server;
         // we use here a thunkMiddleware to dispatch network requests and also other actions;
-
         // DESTRUCTURIZATION OF PROPS:
         let {currentPage, pageSize} = this.props
         this.props.getUsers(currentPage, pageSize);
     }
 
-    onPageChanged = (pageNumber) => {
+    onPageChanged = (pageNumber: number) => {
         let {pageSize} = this.props;
-
         this.props.getUsers(pageNumber, pageSize);
     }
 
@@ -53,7 +68,7 @@ class UsersContainer extends React.Component {
     }
 }
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state: AppStateType) => {
     return {
         users: getAllUsers(state),
         pageSize: getPageSize(state),
@@ -66,6 +81,7 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (
     {
+        // CALLBACKS:
         follow,
         unfollow,
         setCurrentPage,
@@ -74,7 +90,7 @@ let mapDispatchToProps = (
         followUser,
         unfollowUser,
     }
-)
+);
 
 export default compose(
     withAuthRedirect,

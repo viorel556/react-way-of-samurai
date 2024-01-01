@@ -56,7 +56,7 @@ class App extends React.Component {
                         <Route exact path="/react-puti-samuraia" element={<IntroductionMessage/>}/>
                         <Route path="/dialogs/" element={<DialogsContainer/>}/>
                         <Route path="/profile/:userId?" element={<ProfileContainer/>}/>
-                        <Route path="/users" element={<UsersContainer/>}/>
+                        <Route path="/users" element={<UsersContainer pageTitle={"Samurai"}/>}/>
                         <Route path="/news" element={<News/>}/>
                         <Route path="/music" element={<Music/>}/>
                         <Route path="/settings" element={<Settings/>}/>
