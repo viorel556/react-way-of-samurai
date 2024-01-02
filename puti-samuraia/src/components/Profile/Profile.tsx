@@ -1,10 +1,21 @@
-import React from "react";
+import React, {FC} from "react";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
-import {Navigate} from "react-router-dom";
+import {ProfileType} from "../../types/types.ts";
+import {see} from "../../utils/object-helpers.ts";
 
-const Profile = (props) => {
+type PropsType = {
+    profile: ProfileType
+    isOwner: boolean
+    status: string
+    saveProfile: (profile: ProfileType) => Promise<void>
+    updateMyStatus: (status: string) => void
+    savePhoto: (file: any) => void
+}
 
+const Profile: FC<PropsType> = (props) => {
+
+    if (props) see(props)
 
     return (
         <div>
@@ -16,9 +27,7 @@ const Profile = (props) => {
                          savePhoto={props.savePhoto}
             />
             <MyPostsContainer/>
-
         </div>
-
     );
 }
 

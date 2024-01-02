@@ -4,11 +4,22 @@ import Preloader from "../../common/Preloader/Preloader";
 import ProfileStatusWithHooks from "./ProfileStatus/ProfileStatusWithHooks";
 import userPhoto from "../../../assets/images/user.png";
 import jobChecker from "../../../assets/images/jobCheck.png"
-import {ProfileDataReduxForm} from "./ProfileDataForm";
+import {ProfileDataReduxForm} from "./ProfileDataForm.jsx";
+import {ProfileType} from "../../../types/types.ts";
 
 
 // FIXME [HARD]: ALL OF THIS REQUIRES URGENT REFACTORING;
-const ProfileInfo = ({profile, status, updateMyStatus, isOwner, savePhoto, saveProfile}) => {
+
+type PropsType = {
+    profile: ProfileType
+    status: string
+    isOwner: boolean
+    updateMyStatus: (status: string) => void
+    savePhoto: (file: any) => void
+    saveProfile: (profile: ProfileType) => Promise<void>
+}
+
+const ProfileInfo: React.FC<PropsType> = ({profile, status, updateMyStatus, isOwner, savePhoto, saveProfile}) => {
 
     let [editMode, setEditMode] = useState(false);
 
@@ -16,14 +27,13 @@ const ProfileInfo = ({profile, status, updateMyStatus, isOwner, savePhoto, saveP
         return <Preloader/>
     }
 
-
     const onMainPhotoSelected = (e) => {
         if (e.target.files) {
             savePhoto(e.target.files[0]);
         }
     }
 
-    const onSubmit =  (formData) => {
+    const onSubmit = (formData) => {
         // WE CERTAINLY RECEIVE FORM DATA!
         saveProfile(formData).then(() => setEditMode(false));
     }
@@ -39,7 +49,7 @@ const ProfileInfo = ({profile, status, updateMyStatus, isOwner, savePhoto, saveP
                 {isOwner && <input type={"file"} onChange={onMainPhotoSelected}/>}
 
                 {editMode
-                    ? <ProfileDataReduxForm onSubmit={onSubmit} initialValues={profile} profile={profile} />
+                    ? <ProfileDataReduxForm onSubmit={onSubmit} initialValues={profile} profile={profile}/>
                     : <ProfileData profile={profile} isOwner={isOwner} goToEditMode={() => setEditMode(true)}/>}
 
 

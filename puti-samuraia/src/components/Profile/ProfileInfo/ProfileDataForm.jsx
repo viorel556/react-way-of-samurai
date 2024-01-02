@@ -1,15 +1,18 @@
-import React from "react";
+import React, {FC} from "react";
 import classes from "./ProfileInfo.module.css";
 import jobChecker from "../../../assets/images/jobCheck.png";
 import {Contact} from "./ProfileInfo";
 import {createField, Input, Textarea} from "../../common/FormsControls/FormsControls";
 import {reduxForm} from "redux-form";
+import {ProfileType} from "../../../types/types.ts";
 
-// FIXME[HARD]: I FUCKING HATE THIS; MAJOR REFACTORING REQUIRED;
-// just put all this shit in settings and make separate functional (api & thunks) for each piece of data;
+  // FIXME[HARD]: I FUCKING HATE THIS; MAJOR REFACTORING REQUIRED;
+ // just put all this shit in settings and make separate functional (api & thunks) for each piece of data;
 // at the end of the day nobody edits their profile BY SUBMITTING A FUCKING FORM really;
-const ProfileDataForm = ({handleSubmit, profile, error}) => {
 
+
+
+const ProfileDataForm = ({handleSubmit, profile, error}) => {
 
     return (
         <form onSubmit={handleSubmit}>

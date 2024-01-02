@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Settings.module.css';
-const Settings = (props) => {
+const Settings = () => {
     return (
         <div>
             <h2> Settings </h2>

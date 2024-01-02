@@ -1,8 +1,12 @@
 import React from "react";
 import classes from './Post.module.css';
+import {see} from "../../../../utils/object-helpers";
+import {PostType} from "../../../../types/types.ts";
 
 
-const Post = (props) => {
+
+const Post: React.FC<PostType> = (props) => {
+
     return (
         <>
             <div className={classes.item} >

@@ -10,6 +10,10 @@ export const updateObjectInArray = (items, itemId, objPropName, newObjProps) => 
     })
 }
 
+export function see(...args) { // my func to shorten the printing syntax
+    console.log(...args);
+}
+
 
 
 

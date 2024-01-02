@@ -21,12 +21,14 @@ export type PhotosType = {
 }
 
 export type ProfileType = {
+    aboutMe: string
     userId: number
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string
     contacts: ContactsType
     photos: PhotosType
+
 }
 
 export type UserType = {
@@ -35,4 +37,10 @@ export type UserType = {
     status: string
     photos: PhotosType
     followed: boolean
+}
+
+export type PostType = {
+    likes: number
+    message: string
+    key: any // FIXME[EASY] find the actual type
 }

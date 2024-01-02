@@ -9,7 +9,6 @@ const DELETE_POST = "DELETE_POST";
 const SAVE_PHOTO_SUCCESS = "SAVE_PHOTO_SUCCESS";
 
 // INITIAL STATE RELATED TYPES:
-
 type InitialStateType = {
     posts: PostsType[]
     profile: ProfileType
