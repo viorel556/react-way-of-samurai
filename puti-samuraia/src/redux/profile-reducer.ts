@@ -1,7 +1,11 @@
 import {profileAPI} from "../api/api";
 import {stopSubmit} from "redux-form";
 import {PhotosType, PostsType, ProfileType} from "../types/types";
-
+import {Dispatch} from "redux";
+import {AppStateType} from "./redux-store.ts";
+import {ThunkAction} from 'redux-thunk';
+import {GetUsersResponseType, ResultCodeEnum} from "../api/ApiTypes.ts";
+import {see} from "../utils/object-helpers.ts";
 const ADD_POST = "ADD-POST";
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = "SET_STATUS";
@@ -38,6 +42,17 @@ type SavePhotoSuccessActionType = {
     photos: PhotosType
 }
 
+type ActionTypes =
+    AddPostActionCreatorType
+    | SetUserProfileActionType
+    | SetStatusActionType
+    | DeletePostActionType
+    | SavePhotoSuccessActionType
+
+type DispatchType = Dispatch<ActionTypes>
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>
+
+
 
 let initialState: InitialStateType = {
     posts: [
@@ -50,7 +65,7 @@ let initialState: InitialStateType = {
 }
 
 // PROFILE REDUCER:
-const profileReducer = (state = initialState, action: any): InitialStateType => {
+const profileReducer = (state = initialState, action: ActionTypes): InitialStateType => {
 
     switch (action.type) {
 
@@ -120,56 +135,59 @@ export const savePhotoSuccessAction = (photos: PhotosType): SavePhotoSuccessActi
 );
 
 // THUNKS ARE HERE:
-export const getUser = (userId: number) => async (dispatch: any) => {
+export const getUser = (userId: number): ThunkType => async (dispatch: DispatchType) => {
     try {
         let response = await profileAPI.requestUser(userId)
         dispatch(setUserProfileAction(response.data));
-    } catch (error) {
-        console.log(error)
+    }
+    catch (error) {
+        console.log(error);
     }
 }
-export const getUserStatus = (userId: number) => async (dispatch: any) => {
+export const getUserStatus = (userId: number): ThunkType => async (dispatch: DispatchType) => {
     try {
-        let response = await profileAPI.requestUserStatus(userId)
+        let response = await profileAPI.requestUserStatus(userId);
         dispatch(setStatusAction(response.data));
+          // [!] IMPORTANT
+         // this is wild but for some stupid reason the server just returns as payload:
+        // "Status is here" <- a string fucking object without a key not a json;
     } catch (error) {
         console.log(error);
     }
 }
-export const updateMyStatus = (status: string) => async (dispatch: any) => {
+export const updateMyStatus = (status: string): ThunkType => async (dispatch: DispatchType) => {
     try {
         let response = await profileAPI.requestUpdateUserStatus(status)
-        if (response.data.resultCode === 0) {
+        if (response.data.resultCode === ResultCodeEnum.Success) {
             dispatch(setStatusAction(status));
         }
     } catch (error) {
-        console.log(error);
+        see(error)
     }
 }
-export const savePhoto = (file: any) => async (dispatch: any) => {
+export const savePhoto = (file: any): ThunkType => async (dispatch: DispatchType) => {
     try {
         let response = await profileAPI.requestSavePhoto(file);
-        if (response.data.resultCode === 0) {
+        if (response.data.resultCode === ResultCodeEnum.Success) {
             dispatch(savePhotoSuccessAction(response.data.data.photos));
         }
     } catch (error) {
-        console.log(error);
+        see(error)
     }
 }
 export const saveProfile = (profile: ProfileType) => async (dispatch: any, getState: any) => {
+    // FIXME: GIVES AN ERROR WHEN TRYING TO ASSIGN THUNK-TYPE
     try {
         const userId = getState().auth.userId;
         const response = await profileAPI.requestSaveProfileData(profile);
-        if (response.data.resultCode === 0) {
+        if (response.data.resultCode === ResultCodeEnum.Success) {
             dispatch(getUser(userId));
         } else {
             dispatch(stopSubmit('edit-profile', {_error: response.data.messages[0]}));
             return Promise.reject(response.data.messages[0]);
         }
     }
-    catch (error) {
-        console.log(error);
-    }
+    catch (error) { see(error) }
 }
 
 export default profileReducer;

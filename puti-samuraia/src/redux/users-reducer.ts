@@ -1,6 +1,10 @@
 import {usersAPI} from "../api/api";
-import {updateObjectInArray} from "../utils/object-helpers";
-import {UserType} from "../types/types";
+import {see, updateObjectInArray} from "../utils/object-helpers";
+import {GetStateType, UserType} from "../types/types";
+import {AppStateType} from "./redux-store.ts";
+import {Dispatch} from "redux";
+import {ThunkAction} from 'redux-thunk';
+
 
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
@@ -41,7 +45,21 @@ type ToggleFollowingProgressActionType = {
     userId: number
 }
 
- // [!] USING THE INFERENCE TYPE ASSIGMENT APPROACH:
+// COMBINING ACTION TYPES
+type ActionTypes =
+    FollowActionType
+    | UnfollowActionType
+    | LoadUsersActionType
+    | SetCurrentPageActionType
+    | SetTotalUsersCountActionType
+    | ToggleIsFetchingActionType
+    | ToggleFollowingProgressActionType
+
+
+type DispatchType = Dispatch<ActionTypes>
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>
+
+// [!] USING THE INFERENCE TYPE ASSIGMENT APPROACH:
 // "InitialStateType" is created based on "initialState"
 let initialState = {
     users: [] as Array<UserType>,
@@ -53,7 +71,7 @@ let initialState = {
 }
 type InitialStateType = typeof initialState; // [!] inference type assignment;
 
-const usersReducer = (state = initialState, action: any): InitialStateType => {
+const usersReducer = (state = initialState, action: ActionTypes): InitialStateType => {
 
     switch (action.type) {
 
@@ -121,8 +139,7 @@ const usersReducer = (state = initialState, action: any): InitialStateType => {
             }
         }
 
-        default:
-            return state;
+        default: return state;
     }
 }
 
@@ -154,7 +171,8 @@ export const toggleFollowingProgress = (isFetching: boolean, userId: number): To
 );
 
 // THUNKS ARE HERE:
-export const getUsers = (page: number, pageSize: number) => async (dispatch: any) => {
+export const getUsers = (page: number, pageSize: number) => async (dispatch: DispatchType,
+                                                                   getState: GetStateType) => {
     // to pass params to a Thunk we have to create a thunk Creator;
     try {
         dispatch(toggleIsFetching(true));
@@ -164,33 +182,15 @@ export const getUsers = (page: number, pageSize: number) => async (dispatch: any
         dispatch(toggleIsFetching(false));
         dispatch(loadUsers(data.items));
         dispatch(setTotalUsersCount(data.totalCount));
-    } catch (error) {
-        console.log(error)
     }
+    catch (error) { see(error) }
 }
 
-// THUNK:
-export const followUser = (userId: number) => async (dispatch: any) => {
-    try {
-        let apiMethod = usersAPI.requestFollowUser.bind(usersAPI);
-        await followUnfollowFlow(dispatch, userId, apiMethod, follow);
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-// THUNK:
-export const unfollowUser = (userId: number) => async (dispatch: any) => {
-    try {
-        let apiMethod = usersAPI.requestUnfollowUser.bind(usersAPI);
-        await followUnfollowFlow(dispatch, userId, apiMethod, unfollow);
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-// EXTERNAL FUNCTIONAL:
-async function followUnfollowFlow(dispatch: any, userId: number, apiMethod: any, actionCreator: any) {
+// EXTERNAL FUNCTIONAL (INTERNAL):
+async function _followUnfollowFlow(dispatch: DispatchType,
+                                   userId: number,
+                                   apiMethod: any,
+                                   actionCreator: (userId: number) => FollowActionType | UnfollowActionType) {
     // func was created to avoid code doubling; encapsulates follow/unfollow logic;
     dispatch(toggleFollowingProgress(true, userId));
     let response = await apiMethod(userId);
@@ -199,5 +199,27 @@ async function followUnfollowFlow(dispatch: any, userId: number, apiMethod: any,
     }
     dispatch(toggleFollowingProgress(false, userId));
 }
+
+ // THUNK:
+// TYPIFICATION IS DONE ACCORDING REDUX-THUNK DOCUMENTATION
+export const followUser = (userId: number): ThunkType => async (dispatch) => {
+    try {
+        let apiMethod = usersAPI.requestFollowUser.bind(usersAPI);
+        await _followUnfollowFlow(dispatch, userId, apiMethod, follow);
+    }
+    catch (error) { see(error); }
+}
+
+ // THUNK:
+// TYPIFICATION IS DONE ACCORDING REDUX-THUNK DOCUMENTATION
+export const unfollowUser = (userId: number): ThunkType => async (dispatch) => {
+    try {
+        let apiMethod = usersAPI.requestUnfollowUser.bind(usersAPI);
+        await _followUnfollowFlow(dispatch, userId, apiMethod, unfollow);
+    }
+    catch (error) { see(error); }
+}
+
+
 
 export default usersReducer;

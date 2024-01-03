@@ -15,8 +15,6 @@ type PropsType = {
 
 const Profile: FC<PropsType> = (props) => {
 
-    if (props) see(props)
-
     return (
         <div>
             <ProfileInfo profile={props.profile}

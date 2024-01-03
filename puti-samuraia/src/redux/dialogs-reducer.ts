@@ -1,3 +1,7 @@
+import {Dispatch} from "redux";
+import {AppStateType} from "./redux-store.ts";
+import {ThunkAction} from 'redux-thunk';
+
 const SEND_MESSAGE = "SEND-MESSAGE";
 
 type SendMessageCreatorActionType = {
@@ -10,6 +14,10 @@ type InitialStateType = {
     messages: MessageType[]
     dialogs: DialogsType[]
 }
+
+type ActionTypes = SendMessageCreatorActionType
+// type DispatchType = Dispatch<ActionTypes>
+// type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>
 
 let initialState: InitialStateType = {
     messages: [
@@ -25,7 +33,8 @@ let initialState: InitialStateType = {
     ]
 };
 
-const dialogsReducer = (state = initialState, action: any): InitialStateType => {
+
+const dialogsReducer = (state = initialState, action: ActionTypes): InitialStateType => {
 
     switch (action.type) {
 
@@ -42,7 +51,7 @@ const dialogsReducer = (state = initialState, action: any): InitialStateType => 
     }
 }
 
-export const sendMessageCreator = (newMessageBody: string): SendMessageCreatorActionType => (
+export const sendMessageCreator = (newMessageBody: string): ActionTypes => (
     {type: SEND_MESSAGE, newMessageBody}
 );
 

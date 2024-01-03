@@ -1,3 +1,5 @@
+import {AppStateType} from "../redux/redux-store.ts";
+
 export type PostsType = {
     id: number
     message: string
@@ -44,3 +46,5 @@ export type PostType = {
     message: string
     key: any // FIXME[EASY] find the actual type
 }
+
+export type GetStateType = () => AppStateType
