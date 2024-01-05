@@ -37,7 +37,7 @@ type SetCaptchaActionType = {
     captcha?: string
 }
 
-type AuthCredentialsType = {
+export type AuthCredentialsType = {
     // WRITTEN BY MYSELF CONSIDERING I HAVE A DIFFERENT IMPLEMENTATION OF THE THUNK;
     login: string
     password: string

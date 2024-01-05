@@ -1,12 +1,19 @@
-import React from "react";
-import {Field, reduxForm} from "redux-form";
-import {Navigate} from "react-router-dom";
+import classes from "../common/FormsControls/FormsControls.module.css";
 import {createField, Input} from "../common/FormsControls/FormsControls";
 import {required} from "../../utils/validators/validators";
-import classes from "../common/FormsControls/FormsControls.module.css";
+import {DecoratedComponentClass, InjectedFormProps, reduxForm} from "redux-form";
+import React, {FC} from "react";
+import {AuthDetailsType} from "../../types/types.ts";
+import {AuthCredentialsType} from "../../redux/auth-reducer.ts";
 
+type PropsType = {
+    // [!] THIS CODE IS REPEATED  x1:
+    handleSubmit: () => void
+    captcha: string | null
+    error: string
+}
 
-const LoginForm = ({handleSubmit, error, captcha}) => {
+const LoginForm: FC<InjectedFormProps<PropsType>>  = ({handleSubmit, error, captcha}) => {
 
     return (
 
@@ -45,7 +52,7 @@ const LoginForm = ({handleSubmit, error, captcha}) => {
             </div>
 
 
-            {error && // UI HANDLING OF THE ERROR OF WRONG EMAIL/PASS
+            { error && // UI HANDLING OF THE ERROR OF WRONG EMAIL/PASS
                 <div className={classes.formSummaryError}>
                     {error}
                 </div>
@@ -57,33 +64,10 @@ const LoginForm = ({handleSubmit, error, captcha}) => {
         </form>
     );
 }
+
+// |
+// INTO A HIGH ORDER COMPONENT:
 // 􀄩
 const LoginReduxForm = reduxForm({form: "login"})(LoginForm);
-// something similar to connect & mapStateToProps & mapDispatchToProps;
-// EVERY form needs a unique identifier, in our case is "login";
-// now we have the LoginForm in a container (from HOC) that will take care of the functional;
-
-// FOCUS:
-const Login = (props) => {
-
-    const onSubmit = (formData) => {
-        // here we call a THUNK
-        props.authorizeWithCredentials(formData);
-    }
-
-    if (props.auth.isAuth) {
-        return <Navigate to={"/profile"}/>
-    }
-
-    return (
-        <div className={classes.loginContainer}>
-            <h1> LOG IN </h1>
-            <LoginReduxForm onSubmit={onSubmit} captcha={props.auth.captcha}/>
-        </div>
-
-
-    );
-}
-
-
-export default Login;
+// export default LoginReduxForm;
+export default LoginForm;

@@ -3,10 +3,10 @@ import {Textarea} from "../../../common/FormsControls/FormsControls";
 import {maxLengthCreator, required} from "../../../../utils/validators/validators";
 import React, {FC} from "react";
 
-type PropsTypes = {
+type PropsType = {
     handleSubmit: () => void
 }
-const AddNewPostForm: FC<InjectedFormProps<PropsTypes>> = (props) => {
+const AddNewPostForm: FC<InjectedFormProps<PropsType>> = (props) => {
 
     return (
         <form onSubmit={props.handleSubmit}>

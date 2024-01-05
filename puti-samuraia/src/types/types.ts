@@ -48,3 +48,13 @@ export type PostType = {
 }
 
 export type GetStateType = () => AppStateType
+
+
+// LOGIN RELATED TYPES:
+export type AuthDetailsType = {
+    userId: number
+    email: string
+    login: string
+    isAuth: boolean
+    captcha: string
+}
