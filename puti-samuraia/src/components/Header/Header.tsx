@@ -1,8 +1,9 @@
-import React from "react"; 
+import React, {FC} from "react";
 import classes from './Header.module.css';
 import {NavLink} from "react-router-dom";
+import {HeaderPropsType} from "../../types/types.ts";
 
-const Header = (props) => {
+const Header: FC<HeaderPropsType> = (props) => {
 
     return (
         <header className={classes.header}>

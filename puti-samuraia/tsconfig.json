@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "strict": false, // TOGGLE THIS IF YA WANT TO DEBUG TILL MIDNIGHT AND BEYOND :D =)
     "jsx": "react",
     "module": "commonjs",
     "target": "es5",
@@ -10,14 +11,15 @@
 
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
-  "exclude": [
-    "node_modules"
-  ],
+
+  "exclude": ["node_modules"],
 
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "src/**/*.css"
+    "src/**/*.css",
+    "src/**/*.js",
+    "src/**/*.jsx"
   ],
 
 }

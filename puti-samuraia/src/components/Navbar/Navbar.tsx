@@ -2,11 +2,16 @@ import React from "react";
 import classes from './Navbar.module.css';
 import {NavLink} from "react-router-dom";
 
-
+type NavDataType = {
+    isActive: boolean
+    isPending: boolean
+    isTransitioning: boolean
+}
 
 const Navbar = () => {
 
-    function conditionalActiveStyle(navData) {
+    function conditionalActiveStyle(navData: NavDataType) {
+
         // FUNC TO CONDITIONALLY STYLE NAV ELEMENTS IF WE CLICK ON THEM;
        return navData.isActive ? classes.active : classes.item;
     }

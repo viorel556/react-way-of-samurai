@@ -57,7 +57,7 @@ type ActionTypes =
 
 
 type DispatchType = Dispatch<ActionTypes>
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>
+export type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>
 
 // [!] USING THE INFERENCE TYPE ASSIGMENT APPROACH:
 // "InitialStateType" is created based on "initialState"
@@ -67,7 +67,7 @@ let initialState = {
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: false,
-    followingInProgress: [] as Array<number> // array of users IDs
+    followingInProgress: [] as Array<number>, // array of users IDs
 }
 type InitialStateType = typeof initialState; // [!] inference type assignment;
 

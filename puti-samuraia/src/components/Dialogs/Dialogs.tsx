@@ -1,42 +1,37 @@
-import React from 'react';
+import React, {FC} from 'react';
 import classes from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {Field, reduxForm} from "redux-form";
 import {Textarea} from "../common/FormsControls/FormsControls";
 import {maxLengthCreator, required} from "../../utils/validators/validators";
+import AddMessageReduxForm from "./Message/AddMessageForm/AddMessageForm";
+import {DialogType, MessageType} from "../../types/types.ts";
+import {see} from "../../utils/object-helpers.ts";
 
-export const AddMessageForm = (props) => { // THE FORM
+// TS MIGRATION: I'm pretty confident this is properly migrated to TS;
 
-    return (
-        <form onSubmit={props.handleSubmit }>
-            <div>
-
-                <Field component={Textarea}
-                       validate={[required, maxLengthCreator(20)]}
-                       name="newMessageBody"
-                       placeholder="Enter your message"/>
-            </div>
-            <div>
-
-                <button>Send</button>
-
-            </div>
-        </form>
-    );
+type DialogsPropsType = {
+    dialogsPage: {
+        messages: MessageType[]
+        dialogs: DialogType[]
+    }
+    dispatch: () => void
+    isAuth: boolean
+    sendMessage: (newMessageBody: string) => void
 }
-const AddMessageReduxForm = reduxForm({form:"dialogAddMessageForm"})(AddMessageForm);
 
-const Dialogs = (props) => {
+const Dialogs: FC<DialogsPropsType> = (props) => {
     let state = props.dialogsPage;
 
     // Mapping data:
     let dialogsElements = state.dialogs.map(d => <DialogItem name={d.name} key={d.id} id={d.id}/>);
     let messageElements = state.messages.map(msg => <Message message={msg.message} key={msg.id}/>);
 
-    // FOCUS:
-    let addNewMessage = (values) => {
+
+    let addNewMessage = (values: {newMessageBody: string} ) => {
         props.sendMessage(values.newMessageBody);
+        values.newMessageBody = '' // <- nullifying the textarea after sending a message;
     }
 
     return (
@@ -50,7 +45,6 @@ const Dialogs = (props) => {
                 <div>{messageElements}</div>
                 <AddMessageReduxForm onSubmit={addNewMessage} />
             </div>
-
 
         </div>
     );

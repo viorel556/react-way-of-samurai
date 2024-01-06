@@ -102,8 +102,6 @@ export type InputMetaType = {
     // error is related to FormControlType:
     error: string
 }
-
-
 export type InputPropsType = {
     input: {
         name: string
@@ -115,13 +113,20 @@ export type InputPropsType = {
     child: React.ReactNode
 }
 
- // TYPES RELATED TO createFieldType FUNC:
-// here we define the props types and what this func returns
-export type CreateFieldType = (
-    placeholder: string | undefined,
-    name: string,
-    validators: FieldValidatorType[],
-    component: React.Component | React.FC,
-    props?: {}, // not always will be provided
-    text?: string // not always will be provided
-) => React.ReactNode
+// TYPES RELATED TO HEADER:
+export type HeaderPropsType = {
+    isAuth: boolean
+    logOut: () => void
+    login: string
+}
+
+// TYPES RELATED TO MESSAGES:
+export type MessageType = {
+    id: number
+    message: string
+}
+
+export type DialogType = {
+    id: number
+    name: string
+}
