@@ -4,7 +4,6 @@ import classes from "../common/FormsControls/FormsControls.module.css";
 import LoginReduxForm from "./LoginForm";
 import {AuthDetailsType} from "../../types/types.ts";
 import {AuthCredentialsType} from "../../redux/auth-reducer.ts";
-import LoginForm from "./LoginForm";
 
 type PropsType = {
     // DOUBLE CODE
@@ -23,9 +22,7 @@ const Login: FC<PropsType> = (props) => {
     }
 
     // IF logged in we're going to our Profile Page;
-    if (props.auth.isAuth) {
-        return <Navigate to={"/profile"}/>
-    }
+    if (props.auth.isAuth) { return <Navigate to={"/profile"}/> }
 
     return (
         <div className={classes.loginContainer}>
@@ -34,8 +31,6 @@ const Login: FC<PropsType> = (props) => {
                 onSubmit={onSubmit}
                 captcha={props.auth.captcha}
             />
-
-
         </div>
     );
 }

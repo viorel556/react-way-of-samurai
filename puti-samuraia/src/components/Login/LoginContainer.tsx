@@ -1,6 +1,6 @@
 import React from "react";
 import Login from "./Login";
-import {AuthCredentialsType, authorizeMe, authorizeWithCredentials, setCaptcha} from "../../redux/auth-reducer.ts";
+import {AuthCredentialsType, authorizeMe, authorizeWithCredentials} from "../../redux/auth-reducer.ts";
 import {connect} from "react-redux";
 import {compose} from "redux";
 import {AppStateType} from "../../redux/redux-store.ts";
@@ -23,12 +23,7 @@ type PropsType = {
 }
 
 class LoginContainer extends React.Component<PropsType> {
-
     // [!] CAPTCHA WAS TESTED; IT IS SENT PROPERLY VIA PROPS!
-
-    componentDidMount() {
-        // I don't do shit after mounting!
-    }
 
     render() {
 
