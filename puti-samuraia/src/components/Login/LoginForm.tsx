@@ -1,19 +1,22 @@
 import classes from "../common/FormsControls/FormsControls.module.css";
 import {createField, Input} from "../common/FormsControls/FormsControls";
 import {required} from "../../utils/validators/validators";
-import {DecoratedComponentClass, InjectedFormProps, reduxForm} from "redux-form";
+import {DecoratedComponentClass, InjectedFormProps, reduxForm, SubmitHandler} from "redux-form";
 import React, {FC} from "react";
 import {AuthDetailsType} from "../../types/types.ts";
 import {AuthCredentialsType} from "../../redux/auth-reducer.ts";
 
 type PropsType = {
     // [!] THIS CODE IS REPEATED  x1:
-    handleSubmit: () => void
+    handleSubmit?: (() => void) & SubmitHandler<{}, {}, string>
     captcha: string | null
-    error: string
+    error?: string
 }
 
-const LoginForm: FC<InjectedFormProps<PropsType>>  = ({handleSubmit, error, captcha}) => {
+const LoginForm: FC<PropsType & InjectedFormProps>  =
+    ({handleSubmit, error, captcha}) => {
+
+    // the correct props destructurization:// {handleSubmit, error, captcha}
 
     return (
 
@@ -68,6 +71,5 @@ const LoginForm: FC<InjectedFormProps<PropsType>>  = ({handleSubmit, error, capt
 // |
 // INTO A HIGH ORDER COMPONENT:
 // 􀄩
-const LoginReduxForm = reduxForm({form: "login"})(LoginForm);
-// export default LoginReduxForm;
-export default LoginForm;
+const LoginReduxForm = reduxForm<{}, PropsType>({form: "login"})(LoginForm);
+export default LoginReduxForm;
