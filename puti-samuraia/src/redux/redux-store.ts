@@ -23,6 +23,10 @@ let rootReducer = combineReducers(
 type RootReducerType = typeof rootReducer;
 export type AppStateType = ReturnType<RootReducerType>
 
+// HERE WE CREATE SOME ADVANCED SHIT TO DEDUCT THE TYPES OF OUR ACTION CREATORS:
+type PropertiesTypes<T> = T extends {[key: string]: infer U} ? U : never
+export type InferActionsTypes<T extends {[key: string]: (...args: any[]) => any }> = ReturnType<PropertiesTypes<T>>
+
 // HERE WE CREATE THE STORE:
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -35,3 +39,4 @@ const store = createStore(
 window.__store__ = store; // creating a globally available store;
 
 export default store;
+

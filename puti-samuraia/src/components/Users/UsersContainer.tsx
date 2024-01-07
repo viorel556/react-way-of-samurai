@@ -1,12 +1,6 @@
 import React from "react";
-import {connect, MapDispatchToProps} from "react-redux";
-import {
-    follow, followUser,
-    getUsers,
-    setCurrentPage,
-    toggleFollowingProgress,
-    unfollow, unfollowUser
-} from "../../redux/users-reducer";
+import {connect} from "react-redux";
+import {followUser, getUsers, unfollowUser} from "../../redux/users-reducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 import withAuthRedirect from "../../hoc/withAuthRedirect";
@@ -32,15 +26,9 @@ type MapStateToPropsType = {
 }
 
 type MapDispatchToPropsType = {
-     // FIXME[EASY]: setCurrentPage, toggleFollowingProgress
-    // these seems to be redundant. Try to delete and test if anything breaks
     getUsers: (currentPage: number, pageSize: number) => void
-    followUser: (userId: number) => void // +redundant
-    unfollowUser: (userId: number) => void // +redundant
-    follow: (userId: number) => void
-    unfollow: (userId: number) => void
-    setCurrentPage: (currentPage: number) => void
-    toggleFollowingProgress: (isFetching: boolean, userId: number) => void
+    followUser: (userId: number) => void
+    unfollowUser: (userId: number) => void
 }
 
 type OwnPropsType = { pageTitle: string }
@@ -93,10 +81,6 @@ let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 let mapDispatchToProps: MapDispatchToPropsType = (
     {
         // CALLBACKS:
-        follow,
-        unfollow,
-        setCurrentPage,
-        toggleFollowingProgress,
         getUsers,
         followUser,
         unfollowUser,
