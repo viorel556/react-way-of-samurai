@@ -43,7 +43,7 @@ export type UserType = {
 export type PostType = {
     likes: number
     message: string
-    key: any // FIXME[EASY] find the actual type
+    key: number
 }
 export type PostsType = {
     id: number

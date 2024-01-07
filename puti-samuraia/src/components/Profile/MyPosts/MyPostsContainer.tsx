@@ -1,10 +1,11 @@
 import React from "react";
-import {addPostActionCreator} from "../../../redux/profile-reducer";
 import MyPosts from "./MyPosts";
 import {connect} from "react-redux";
 import {PostsType} from "../../../types/types.ts";
 import {AppStateType} from "../../../redux/redux-store.ts";
 import { Dispatch } from 'redux';
+import { actions } from "../../../redux/profile-reducer";
+const {addPostActionCreator} = actions; // extracting just this method from the actions object;
 
 // DEFINING TYPES:
 type MapStateToPropsType = (state: AppStateType) => {

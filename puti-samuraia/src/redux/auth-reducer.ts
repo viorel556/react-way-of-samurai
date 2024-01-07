@@ -2,14 +2,11 @@
 import {profileAPI } from "../api/api"
 import {stopSubmit} from "redux-form";
 import {Dispatch} from "redux";
-import {AppStateType} from "./redux-store.ts";
+import {AppStateType, InferActionsTypes} from "./redux-store.ts";
 import {ThunkAction} from 'redux-thunk';
 import {see} from "../utils/object-helpers.ts";
 import {ResultCodeEnum} from "../api/ApiTypes.ts";
 
-// ACTIONS:
-const SET_AUTH_USER_DATA = "samurai-network/auth/SET_AUTH_USER_DATA";
-const SET_CAPTCHA = "SET_CAPTCHA";
 
 // DECLARING TYPES:
 export type InitialStateType = {
@@ -21,22 +18,10 @@ export type InitialStateType = {
     captcha: string | null
 }
 // ACTION TYPES:
-type SetAuthUserDataActionPayloadType = {
-    userId: number | null
-    email: string | null
-    login: string | null
-    isAuth: boolean
-}
-type SetAuthUserDataActionType = {
-    // [!] if we change "data" -> "payload" it doesn't work for some reason;
-    type: typeof SET_AUTH_USER_DATA,
-    data: SetAuthUserDataActionPayloadType
-}
 type SetCaptchaActionType = {
-    type: typeof SET_CAPTCHA,
+    type: "SET_CAPTCHA",
     captcha?: string
 }
-
 export type AuthCredentialsType = {
     // WRITTEN BY MYSELF CONSIDERING I HAVE A DIFFERENT IMPLEMENTATION OF THE THUNK;
     login: string
@@ -44,9 +29,33 @@ export type AuthCredentialsType = {
     rememberMe: boolean
 }
 
-type ActionTypes = SetAuthUserDataActionType | SetCaptchaActionType
 type DispatchType = Dispatch<ActionTypes>
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>
+
+export const actions = {
+    setCaptcha: (captcha: string): SetCaptchaActionType => { //
+        return (
+            {
+                type: "SET_CAPTCHA",
+                captcha
+            } as const
+        );
+    },
+
+    setAuthUserData: (userId: number | null,
+                      email: string | null,
+                      login: string | null,
+                      isAuth: boolean) => {
+        return (
+            {
+                type: "SET_AUTH_USER_DATA",
+                data: {userId, email, login, isAuth}
+            } as const
+        );
+    }
+}
+
+type ActionTypes = InferActionsTypes<typeof actions>
 
 
 // DECLARING THE INITIAL STATE:
@@ -64,13 +73,13 @@ let initialState: InitialStateType = {
 const authReducer = (state = initialState, action: ActionTypes): InitialStateType => {
     switch (action.type) {
 
-        case SET_AUTH_USER_DATA:
+        case "SET_AUTH_USER_DATA":
             return {
                 ...state,
                 ...action.data
             }
 
-        case SET_CAPTCHA:
+        case "SET_CAPTCHA":
             return {
                 ...state,
                 captcha: action.captcha
@@ -80,24 +89,6 @@ const authReducer = (state = initialState, action: ActionTypes): InitialStateTyp
     }
 }
 
-export const setCaptcha = (captcha: string): SetCaptchaActionType => {
-    return (
-        {
-            type: SET_CAPTCHA,
-            captcha
-        }
-    );
-};
-
-export const setAuthUserData = (userId: number | null, email: string | null,
-                                login: string | null, isAuth: boolean): SetAuthUserDataActionType => {
-    return (
-        {
-            type: SET_AUTH_USER_DATA,
-            data: {userId, email, login, isAuth}
-        }
-    );
-};
 
 // THUNKS ARE HERE:
 export const authorizeMe = (): ThunkType => async (dispatch: DispatchType) => {
@@ -107,7 +98,7 @@ export const authorizeMe = (): ThunkType => async (dispatch: DispatchType) => {
 
         if (response.data.resultCode === ResultCodeEnum.Success) {
             let {email, id, login} = response.data.data;
-            dispatch(setAuthUserData(id, email, login, true));
+            dispatch(actions.setAuthUserData(id, email, login, true));
         }
     }
     catch (error) { see(error); }
@@ -124,18 +115,20 @@ export const authorizeWithCredentials = (formData: AuthCredentialsType): ThunkTy
         let id = response.data.data.userId;
         let login = formData.login;
 
-        dispatch(setAuthUserData(id, email, login, true));
+        dispatch(actions.setAuthUserData(id, email, login, true));
         alert("SUCCESSFULLY LOGGED IN! WELCOME TO MY SOCIAL NETWORK!");
 
-    } else if (response.data.resultCode === ResultCodeEnum.CaptchaRequired) {
+    }
+    else if (response.data.resultCode === ResultCodeEnum.CaptchaRequired) {
 
         profileAPI.requestCaptcha()
             .then(response => {
                 if (response.status === 200) {
-                    dispatch(setCaptcha(response.data.url));
+                    dispatch(actions.setCaptcha(response.data.url));
                 }
             });
-    } else {
+    }
+    else {
         let message = response.data.messages.length > 0
             ? response.data.messages[0]
             : "Some error occurred when getting messages";
@@ -150,11 +143,11 @@ export const logOut = (): ThunkType => async (dispatch: DispatchType) => {
     try {
         let response = await profileAPI.requestLogOut();
         if (response.data.resultCode === ResultCodeEnum.Success) {
-            dispatch(setAuthUserData(null, null, null, false));
+            dispatch(actions.setAuthUserData(null, null, null, false));
             alert("YOU HAVE LOGGED OUT! GOODBYE!");
         }
     }
-    catch (error) { console.log(error); }
+    catch (error) { see(error) }
 }
 
 export default authReducer;
