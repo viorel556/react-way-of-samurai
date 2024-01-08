@@ -1,12 +1,11 @@
-import {usersAPI} from "../api/api";
 import {see, updateObjectInArray} from "../utils/object-helpers";
 import {GetStateType, UserType} from "../types/types";
-import {AppStateType, InferActionsTypes} from "./redux-store.ts";
+import {AppStateType, BaseThunkType, InferActionsTypes} from "./redux-store.ts";
 import {Dispatch} from "redux";
 import {ThunkAction} from 'redux-thunk';
+import {usersApi} from "../api/users-api.ts";
 
-type DispatchType = Dispatch<ActionTypes>
-export type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>
+export type ThunkType = BaseThunkType<ActionTypes>
 
 // COMBINING ACTION TYPES
 type ActionTypes = InferActionsTypes<typeof actions>
@@ -26,7 +25,7 @@ export const actions = {
     ),
 }
 
-// [!] USING THE INFERENCE TYPE ASSIGMENT APPROACH:
+ // [!] USING THE INFERENCE TYPE ASSIGMENT APPROACH:
 // "InitialStateType" is created based on "initialState"
 let initialState = {
     users: [] as Array<UserType>,
@@ -109,14 +108,13 @@ const usersReducer = (state = initialState, action: ActionTypes): InitialStateTy
 }
 
 // THUNKS ARE HERE:
-export const getUsers = (page: number, pageSize: number) => async (dispatch: DispatchType,
-                                                                   getState: GetStateType) => {
+export const getUsers = (page: number, pageSize: number): ThunkType => async (dispatch, getState) => {
     // to pass params to a Thunk we have to create a thunk Creator;
     try {
         dispatch(actions.toggleIsFetching(true));
         dispatch(actions.setCurrentPage(page));
         // server request to get initial users
-        let data = await usersAPI.requestUsers(page, pageSize);
+        let data = await usersApi.requestUsers(page, pageSize);
         dispatch(actions.toggleIsFetching(false));
         dispatch(actions.loadUsers(data.items));
         dispatch(actions.setTotalUsersCount(data.totalCount));
@@ -125,7 +123,7 @@ export const getUsers = (page: number, pageSize: number) => async (dispatch: Dis
 }
 
 // EXTERNAL FUNCTIONAL (INTERNAL):
-async function _followUnfollowFlow(dispatch: DispatchType,
+async function _followUnfollowFlow(dispatch: Dispatch<ActionTypes>,
                                    userId: number,
                                    apiMethod: any,
                                    actionCreator: (userId: number) => ActionTypes) {
@@ -142,7 +140,7 @@ async function _followUnfollowFlow(dispatch: DispatchType,
 // TYPIFICATION IS DONE ACCORDING REDUX-THUNK DOCUMENTATION
 export const followUser = (userId: number): ThunkType => async (dispatch) => {
     try {
-        let apiMethod = usersAPI.requestFollowUser.bind(usersAPI);
+        let apiMethod = usersApi.requestFollowUser.bind(usersApi);
         await _followUnfollowFlow(dispatch, userId, apiMethod, actions.follow);
     }
     catch (error) { see(error); }
@@ -152,7 +150,7 @@ export const followUser = (userId: number): ThunkType => async (dispatch) => {
 // TYPIFICATION IS DONE ACCORDING REDUX-THUNK DOCUMENTATION
 export const unfollowUser = (userId: number): ThunkType => async (dispatch) => {
     try {
-        let apiMethod = usersAPI.requestUnfollowUser.bind(usersAPI);
+        let apiMethod = usersApi.requestUnfollowUser.bind(usersApi);
         await _followUnfollowFlow(dispatch, userId, apiMethod, actions.unfollow);
     }
     catch (error) { see(error); }

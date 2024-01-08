@@ -1,11 +1,12 @@
-import {profileAPI} from "../api/api";
-import {stopSubmit} from "redux-form";
+import {FormAction, stopSubmit} from "redux-form";
 import {PhotosType, PostsType, ProfileType} from "../types/types";
 import {Dispatch} from "redux";
-import {AppStateType, InferActionsTypes} from "./redux-store.ts";
+import {AppStateType, BaseThunkType, InferActionsTypes} from "./redux-store.ts";
 import {ThunkAction} from 'redux-thunk';
-import {GetUsersResponseType, ResultCodeEnum} from "../api/ApiTypes.ts";
+import {GetUsersResponseType} from "../api/api-types.ts";
 import {see} from "../utils/object-helpers.ts";
+import {profileApi} from "../api/profile-api.ts";
+import {ResultCodeEnum} from "../api/api.ts";
 
 // INITIAL STATE TYPE:
 type InitialStateType = {
@@ -17,7 +18,8 @@ type InitialStateType = {
 
 // THE DISPATCH TYPE:
 type DispatchType = Dispatch<ActionTypes>
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>
+// type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>
+type ThunkType = BaseThunkType<ActionTypes | FormAction> // that form action is something ultra general Action Type;
 
 export const actions = {
     addPostActionCreator: (newPostText: string) => ( {type: "ADD_POST", newPostText} as const),
@@ -94,14 +96,15 @@ const profileReducer = (state = initialState, action: ActionTypes): InitialState
 // THUNKS ARE HERE:
 export const getUser = (userId: number): ThunkType => async (dispatch: DispatchType) => {
     try {
-        let response = await profileAPI.requestUser(userId)
+        let response = await profileApi.requestUser(userId)
         dispatch(actions.setUserProfileAction(response.data));
     }
     catch (error) { see(error) }
 }
+
 export const getUserStatus = (userId: number): ThunkType => async (dispatch: DispatchType) => {
     try {
-        let response = await profileAPI.requestUserStatus(userId);
+        let response = await profileApi.requestUserStatus(userId);
         dispatch(actions.setStatusAction(response.data));
           // [!] IMPORTANT
          // this is wild but for some stupid reason the server just returns as payload:
@@ -109,29 +112,31 @@ export const getUserStatus = (userId: number): ThunkType => async (dispatch: Dis
     }
     catch (error) { see(error) }
 }
+
 export const updateMyStatus = (status: string): ThunkType => async (dispatch: DispatchType) => {
     try {
-        let response = await profileAPI.requestUpdateUserStatus(status)
+        let response = await profileApi.requestUpdateUserStatus(status)
         if (response.data.resultCode === ResultCodeEnum.Success) {
             dispatch(actions.setStatusAction(status));
         }
     }
     catch (error) { see(error) }
 }
-export const savePhoto = (file: any): ThunkType => async (dispatch: DispatchType) => {
+
+export const savePhoto = (file: File): ThunkType => async (dispatch: DispatchType) => {
     try {
-        let response = await profileAPI.requestSavePhoto(file);
+        let response = await profileApi.requestSavePhoto(file);
         if (response.data.resultCode === ResultCodeEnum.Success) {
             dispatch(actions.savePhotoSuccessAction(response.data.data.photos));
         }
     }
     catch (error) { see(error) }
 }
-export const saveProfile = (profile: ProfileType) => async (dispatch: any, getState: any) => {
-    // FIXME[MEDIUM]: GIVES AN ERROR WHEN TRYING TO ASSIGN THUNK-TYPE
+
+export const saveProfile = (profile: ProfileType): ThunkType => async (dispatch, getState) => {
     try {
         const userId = getState().auth.userId;
-        const response = await profileAPI.requestSaveProfileData(profile);
+        const response = await profileApi.requestSaveProfileData(profile);
         if (response.data.resultCode === ResultCodeEnum.Success) {
             dispatch(getUser(userId));
         }

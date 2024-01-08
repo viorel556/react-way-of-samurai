@@ -1,7 +1,5 @@
 import {AppStateType} from "../redux/redux-store.ts";
 import React from "react";
-import {FieldValidatorType} from "../utils/validators/validators.ts";
-import {WrappedFieldMetaProps} from "redux-form/lib/Field";
 
  // GENERAL APP STATE TYPE:
 // imported from Redux-Store
@@ -39,7 +37,7 @@ export type UserType = {
     followed: boolean
 }
 
-// POST RELATED TYPE
+// POST RELATED TYPES
 export type PostType = {
     likes: number
     message: string
@@ -58,6 +56,13 @@ export type AuthDetailsType = {
     login: string
     isAuth: boolean
     captcha: string
+}
+
+export type LoginFormDataType = {
+    login: string
+    password: string
+    rememberMe: boolean
+    captcha?: string
 }
 
 // TYPES RELATED TO TEXT AREAS:

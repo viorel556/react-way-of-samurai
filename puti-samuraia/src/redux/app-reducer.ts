@@ -1,25 +1,46 @@
 //import {authorizeMe, setAuthUserData} from "./auth-reducer.ts";
 import {authorizeMe} from "./auth-reducer";
-const INITIALIZED_SUCCESSFULLY = "INITIALIZED_SUCCESSFULLY";
-
-// DECLARING TYPES:
-export type InitialStateType = {
-    initialized: boolean
-}
-type InitializedSuccessfullyActionType = {
-    type: typeof INITIALIZED_SUCCESSFULLY
-}
+import {AppStateType, BaseThunkType, InferActionsTypes} from "./redux-store.ts";
+import {Dispatch} from "redux";
+import {ThunkAction} from 'redux-thunk';
 
 
 // INITIAL STATE:
-let initialState: InitialStateType = {
-    initialized: false,
+let initialState = {
+    initialized: false
 }
-const appReducer = (state = initialState, action: any): InitialStateType => {
+// GETTING THE INITIAL STATE TYPE:
+export type InitialStateType = typeof initialState;
+
+
+export const actions = {
+    initializedSuccessfully: ()  => ({type: "APP/INITIALIZED_SUCCESSFULLY"}) as const
+}
+
+// DEFINING THE ACTIONS TYPE:
+type ActionsType = InferActionsTypes<typeof actions>
+// DEFINING THE DISPATCH TYPE:
+type DispatchType = Dispatch<ActionsType>
+// DEFINING THE THUNK TYPE
+type ThunkType = BaseThunkType<ActionsType>
+
+ // THUNK:
+// FIXME[HARD]: TS TRANSLATION
+export const initializeApp = () => (dispatch) => {
+    // creating a promise:
+    let promise = dispatch(authorizeMe());
+
+    Promise.all([promise])
+        .then(() => {
+            // [!] WHEN ALL THE PROMISES ABOVE ARE DONE -> CODE BELLOW WILL FOLLOW:
+            dispatch(actions.initializedSuccessfully());
+        });
+}
+
+const appReducer = (state = initialState, action: ActionsType): InitialStateType => {
 
     switch (action.type) {
-
-        case INITIALIZED_SUCCESSFULLY:
+        case "APP/INITIALIZED_SUCCESSFULLY":
             return {
                 ...state,
                 initialized: true
@@ -30,19 +51,6 @@ const appReducer = (state = initialState, action: any): InitialStateType => {
     }
 }
 
-export const initializedSuccessfully = ():InitializedSuccessfullyActionType => ({type: INITIALIZED_SUCCESSFULLY});
 
-// THUNK:
-// FIXME[HARD]: TS TRANSLATION
-export const initializeApp = () => (dispatch: any) => {
-    // creating a promise:
-    let promise = dispatch(authorizeMe());
-
-    Promise.all([promise])
-        .then(() => {
-            // [!] WHEN ALL THE PROMISES ABOVE ARE DONE -> CODE BELLOW WILL FOLLOW:
-            dispatch(initializedSuccessfully());
-        });
-}
 
 export default appReducer;

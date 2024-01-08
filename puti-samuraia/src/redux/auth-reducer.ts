@@ -1,11 +1,11 @@
 // ACTIONS:
-import {profileAPI } from "../api/api"
 import {stopSubmit} from "redux-form";
-import {Dispatch} from "redux";
-import {AppStateType, InferActionsTypes} from "./redux-store.ts";
+import {Action, Dispatch} from "redux";
+import {AppStateType, BaseThunkType, InferActionsTypes} from "./redux-store.ts";
 import {ThunkAction} from 'redux-thunk';
 import {see} from "../utils/object-helpers.ts";
-import {ResultCodeEnum} from "../api/ApiTypes.ts";
+import {profileApi} from "../api/profile-api.ts";
+import {ResultCodeEnum} from "../api/api.ts";
 
 
 // DECLARING TYPES:
@@ -30,10 +30,10 @@ export type AuthCredentialsType = {
 }
 
 type DispatchType = Dispatch<ActionTypes>
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>
+export type ThunkType = BaseThunkType<ActionTypes>
 
 export const actions = {
-    setCaptcha: (captcha: string): SetCaptchaActionType => { //
+    setCaptcha: (captcha: string): SetCaptchaActionType => {
         return (
             {
                 type: "SET_CAPTCHA",
@@ -94,7 +94,7 @@ const authReducer = (state = initialState, action: ActionTypes): InitialStateTyp
 export const authorizeMe = (): ThunkType => async (dispatch: DispatchType) => {
     // MAKES AN AUTHORIZATION REQUEST TO THE SERVER WITH THE COOKIES
     try {
-        let response = await profileAPI.authorizeMeRequest();
+        let response = await profileApi.authorizeMeRequest();
 
         if (response.data.resultCode === ResultCodeEnum.Success) {
             let {email, id, login} = response.data.data;
@@ -107,7 +107,7 @@ export const authorizeMe = (): ThunkType => async (dispatch: DispatchType) => {
 // THUNK (login):
 export const authorizeWithCredentials = (formData: AuthCredentialsType): ThunkType => async (dispatch: DispatchType) => {
 
-    let response = await profileAPI.requestAuthorizeWithCredentials(formData);
+    let response = await profileApi.requestAuthorizeWithCredentials(formData);
 
     if (response.data.resultCode === ResultCodeEnum.Success) {
 
@@ -121,7 +121,7 @@ export const authorizeWithCredentials = (formData: AuthCredentialsType): ThunkTy
     }
     else if (response.data.resultCode === ResultCodeEnum.CaptchaRequired) {
 
-        profileAPI.requestCaptcha()
+        profileApi.requestCaptcha()
             .then(response => {
                 if (response.status === 200) {
                     dispatch(actions.setCaptcha(response.data.url));
@@ -141,7 +141,7 @@ export const authorizeWithCredentials = (formData: AuthCredentialsType): ThunkTy
 // THUNK (logout):
 export const logOut = (): ThunkType => async (dispatch: DispatchType) => {
     try {
-        let response = await profileAPI.requestLogOut();
+        let response = await profileApi.requestLogOut();
         if (response.data.resultCode === ResultCodeEnum.Success) {
             dispatch(actions.setAuthUserData(null, null, null, false));
             alert("YOU HAVE LOGGED OUT! GOODBYE!");

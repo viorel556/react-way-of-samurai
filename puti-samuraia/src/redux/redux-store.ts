@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers, compose, legacy_createStore as createStore} from "redux";
+import {Action, applyMiddleware, combineReducers, compose, legacy_createStore as createStore} from "redux";
 import profileReducer from "./profile-reducer";
 import dialogsReducer from "./dialogs-reducer";
 import sidebarReducer from "./sidebar-reducer";
@@ -7,6 +7,7 @@ import authReducer from "./auth-reducer.ts";
 import thunkMiddleware from "redux-thunk";
 import {reducer as formReducer} from 'redux-form';
 import appReducer from "./app-reducer.ts";
+import {ThunkAction} from 'redux-thunk';
 
 let rootReducer = combineReducers(
     {
@@ -22,6 +23,11 @@ let rootReducer = combineReducers(
 
 type RootReducerType = typeof rootReducer;
 export type AppStateType = ReturnType<RootReducerType>
+
+ // CREATING A THUNK-TYPE GENERIC (for thunks):
+// R - return val; A - Action;
+export type BaseThunkType<A extends Action, R=Promise<void>> =
+   ThunkAction<R, AppStateType, unknown, A>
 
 // HERE WE CREATE SOME ADVANCED SHIT TO DEDUCT THE TYPES OF OUR ACTION CREATORS:
 type PropertiesTypes<T> = T extends {[key: string]: infer U} ? U : never

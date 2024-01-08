@@ -2,6 +2,9 @@ import {Dispatch} from "redux";
 import {AppStateType} from "./redux-store.ts";
 import {ThunkAction} from 'redux-thunk';
 
+
+// FIXME[EASY]: Refactoring is required for TS migration:
+
 const SEND_MESSAGE = "SEND-MESSAGE";
 
 type SendMessageCreatorActionType = {
