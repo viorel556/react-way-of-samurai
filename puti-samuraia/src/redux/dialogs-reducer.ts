@@ -1,26 +1,19 @@
-import {Dispatch} from "redux";
-import {AppStateType} from "./redux-store.ts";
-import {ThunkAction} from 'redux-thunk';
+import { InferActionsType} from "./redux-store.ts";
 
 
-// FIXME[EASY]: Refactoring is required for TS migration:
-
-const SEND_MESSAGE = "SEND-MESSAGE";
-
-type SendMessageCreatorActionType = {
-    type: typeof SEND_MESSAGE
-    newMessageBody: string
-}
 type MessageType = { id: number, message: string }
 type DialogsType = { id: number, name: string }
 type InitialStateType = {
     messages: MessageType[]
     dialogs: DialogsType[]
 }
+export const actions = {
+    sendMessage: (newMessageBody: string) => (
+        {type: "SEND_MESSAGE", newMessageBody} as const
+    )
+}
+type ActionTypes = InferActionsType<typeof actions>;
 
-type ActionTypes = SendMessageCreatorActionType
-// type DispatchType = Dispatch<ActionTypes>
-// type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>
 
 let initialState: InitialStateType = {
     messages: [
@@ -41,22 +34,15 @@ const dialogsReducer = (state = initialState, action: ActionTypes): InitialState
 
     switch (action.type) {
 
-        case SEND_MESSAGE: {
+        case "SEND_MESSAGE": {
             let body = action.newMessageBody;
             return { // THIS IS A STATE COPY;
                 ...state,
                 messages: [...state.messages, {id: 5, message: body}]
             }
         }
-
-        default:
-            return state;
+        default: return state;
     }
 }
-
-export const sendMessageCreator = (newMessageBody: string): ActionTypes => (
-    {type: SEND_MESSAGE, newMessageBody}
-);
-
 
 export default dialogsReducer;

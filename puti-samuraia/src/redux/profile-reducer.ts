@@ -1,7 +1,7 @@
 import {FormAction, stopSubmit} from "redux-form";
 import {PhotosType, PostsType, ProfileType} from "../types/types";
 import {Dispatch} from "redux";
-import {AppStateType, BaseThunkType, InferActionsTypes} from "./redux-store.ts";
+import {AppStateType, BaseThunkType, InferActionsType} from "./redux-store.ts";
 import {ThunkAction} from 'redux-thunk';
 import {GetUsersResponseType} from "../api/api-types.ts";
 import {see} from "../utils/object-helpers.ts";
@@ -28,7 +28,7 @@ export const actions = {
     deletePostAction: (postId: number) => ({type: "DELETE_POST", postId} as const),
     savePhotoSuccessAction: (photos: PhotosType) => ({type: "SAVE_PHOTO_SUCCESS", photos} as const)
 }
-type ActionTypes = InferActionsTypes<typeof actions>
+type ActionTypes = InferActionsType<typeof actions>
 
 
 let initialState: InitialStateType = {

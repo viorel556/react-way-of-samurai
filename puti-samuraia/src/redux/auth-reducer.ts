@@ -1,7 +1,7 @@
 // ACTIONS:
 import {stopSubmit} from "redux-form";
 import {Action, Dispatch} from "redux";
-import {AppStateType, BaseThunkType, InferActionsTypes} from "./redux-store.ts";
+import {AppStateType, BaseThunkType, InferActionsType} from "./redux-store.ts";
 import {ThunkAction} from 'redux-thunk';
 import {see} from "../utils/object-helpers.ts";
 import {profileApi} from "../api/profile-api.ts";
@@ -55,7 +55,7 @@ export const actions = {
     }
 }
 
-type ActionTypes = InferActionsTypes<typeof actions>
+type ActionTypes = InferActionsType<typeof actions>
 
 
 // DECLARING THE INITIAL STATE:

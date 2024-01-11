@@ -2,20 +2,13 @@ import React, {FC} from 'react';
 import classes from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {Field, reduxForm} from "redux-form";
-import {Textarea} from "../common/FormsControls/FormsControls";
-import {maxLengthCreator, required} from "../../utils/validators/validators";
 import AddMessageReduxForm from "./Message/AddMessageForm/AddMessageForm";
-import {DialogType, MessageType} from "../../types/types.ts";
-import {see} from "../../utils/object-helpers.ts";
+import {DialogsPageType, DialogType, MessageType} from "../../types/types.ts";
 
 // TS MIGRATION: I'm pretty confident this is properly migrated to TS;
 
 type DialogsPropsType = {
-    dialogsPage: {
-        messages: MessageType[]
-        dialogs: DialogType[]
-    }
+    dialogsPage: DialogsPageType
     dispatch: () => void
     isAuth: boolean
     sendMessage: (newMessageBody: string) => void

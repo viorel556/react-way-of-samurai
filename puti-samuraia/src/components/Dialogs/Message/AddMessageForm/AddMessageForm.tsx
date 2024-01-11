@@ -1,18 +1,16 @@
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {Textarea} from "../../../common/FormsControls/FormsControls";
+import {createField, Textarea} from "../../../common/FormsControls/FormsControls";
 import {maxLengthCreator, required} from "../../../../utils/validators/validators";
 import React, {FC} from "react";
-import {WrappedFieldInputProps, WrappedFieldProps} from "redux-form/lib/Field";
-import {InputMetaType} from "../../../../types/types.ts";
-
+import {LoginFormValueType} from "../../../Login/LoginForm.tsx";
 
 
 const AddMessageForm: FC<InjectedFormProps> = (props) => { // THE FORM
     // THE TYPE IS INJECTED FORM PROPS: the props are injected from redux-form library;
-
     return (
-        <form onSubmit={props.handleSubmit }>
+        <form onSubmit={props.handleSubmit}>
             <div>
+
                 <Field component={Textarea}
                        validate={[required, maxLengthCreator(200)]}
                        name="newMessageBody"
@@ -24,6 +22,6 @@ const AddMessageForm: FC<InjectedFormProps> = (props) => { // THE FORM
         </form>
     );
 }
-const AddMessageReduxForm = reduxForm({form:"dialogAddMessageForm"})(AddMessageForm);
+const AddMessageReduxForm = reduxForm({form: "dialogAddMessageForm"})(AddMessageForm);
 
 export default AddMessageReduxForm;

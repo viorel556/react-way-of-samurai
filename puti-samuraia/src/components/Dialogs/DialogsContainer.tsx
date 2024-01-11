@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {ComponentType} from 'react';
 import classes from './Dialogs.module.css';
-import {sendMessageCreator} from "../../redux/dialogs-reducer";
+import {actions} from "../../redux/dialogs-reducer";
 import {connect} from "react-redux";
 import withAuthRedirect from "../../hoc/withAuthRedirect";
 import Dialogs from "./Dialogs";
@@ -30,14 +30,13 @@ let mapDispatchToProps = (dispatch: any): MapDispatchToPropsType => {
     // here we can write that we expect a thunk type (after set-up in dialogs reducer)
     return {
         sendMessage: (newMessageBody) => {
-            dispatch(sendMessageCreator(newMessageBody));
+            dispatch(actions.sendMessage(newMessageBody));
         }
-
     }
 }
 
 
-export default compose<React.Component>(
+export default compose<ComponentType>(
     connect(mapStateToProps, mapDispatchToProps), // KONVEIER 2
     // 􀄨
     withAuthRedirect, // KONVEIER 1

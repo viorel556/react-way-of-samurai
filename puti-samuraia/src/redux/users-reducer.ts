@@ -1,6 +1,6 @@
 import {see, updateObjectInArray} from "../utils/object-helpers";
 import {GetStateType, UserType} from "../types/types";
-import {AppStateType, BaseThunkType, InferActionsTypes} from "./redux-store.ts";
+import {AppStateType, BaseThunkType, InferActionsType} from "./redux-store.ts";
 import {Dispatch} from "redux";
 import {ThunkAction} from 'redux-thunk';
 import {usersApi} from "../api/users-api.ts";
@@ -8,7 +8,7 @@ import {usersApi} from "../api/users-api.ts";
 export type ThunkType = BaseThunkType<ActionTypes>
 
 // COMBINING ACTION TYPES
-type ActionTypes = InferActionsTypes<typeof actions>
+type ActionTypes = InferActionsType<typeof actions>
 export const actions = {
     follow: (userId: number) => ( {type: "FOLLOW", userId} as const),
     unfollow: (userId: number) => ({type: "UNFOLLOW", userId} as const),

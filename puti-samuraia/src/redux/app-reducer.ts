@@ -1,6 +1,6 @@
 //import {authorizeMe, setAuthUserData} from "./auth-reducer.ts";
 import {authorizeMe} from "./auth-reducer";
-import {AppStateType, BaseThunkType, InferActionsTypes} from "./redux-store.ts";
+import {AppStateType, BaseThunkType, InferActionsType} from "./redux-store.ts";
 import {Dispatch} from "redux";
 import {ThunkAction} from 'redux-thunk';
 
@@ -18,7 +18,7 @@ export const actions = {
 }
 
 // DEFINING THE ACTIONS TYPE:
-type ActionsType = InferActionsTypes<typeof actions>
+type ActionsType = InferActionsType<typeof actions>
 // DEFINING THE DISPATCH TYPE:
 type DispatchType = Dispatch<ActionsType>
 // DEFINING THE THUNK TYPE
@@ -46,8 +46,7 @@ const appReducer = (state = initialState, action: ActionsType): InitialStateType
                 initialized: true
             }
 
-        default:
-            return state;
+        default: return state;
     }
 }
 

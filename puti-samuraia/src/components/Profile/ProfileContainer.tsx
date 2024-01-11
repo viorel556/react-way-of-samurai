@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ComponentType} from "react";
 import Profile from "./Profile";
 import {getUser, getUserStatus, savePhoto, saveProfile, updateMyStatus} from "../../redux/profile-reducer";
 import {connect} from "react-redux";
@@ -98,7 +98,7 @@ let mapDispatchToProps = (
     }
 );
 
-export default compose<React.Component>(
+export default compose<ComponentType>(
     connect(mapStateToProps, mapDispatchToProps),  // KONVEIER 3
     // 􀄨
     withRouter,                                    // KONVEIER 2

@@ -1,7 +1,14 @@
-import React from "react";
+import React, {ComponentType, FC} from "react";
 import classes from "./IntroductionMessaage.module.css";
+import {RouteProps} from "react-router-dom";
 
-export const IntroductionMessage = () => {
+interface propsType {
+
+}
+
+
+
+export const IntroductionMessage: ComponentType = () => {
 
     return (
         <div className={classes.introMessage}>
@@ -18,8 +25,9 @@ export const IntroductionMessage = () => {
                 <li>React</li>
                 <li>Redux</li>
                 <li>Flux Architecture</li>
+                <li>Typescript</li>
                 <li>Some JS gaps you certainly have</li>
-                <li>Handling Network Requests</li>
+                <li>REST API</li>
             </ul>
 
             <p>You can find the full course <a

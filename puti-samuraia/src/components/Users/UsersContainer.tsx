@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ComponentType} from "react";
 import {connect} from "react-redux";
 import {followUser, getUsers, unfollowUser} from "../../redux/users-reducer";
 import Users from "./Users";
@@ -42,7 +42,7 @@ class UsersContainer extends React.Component<PropsType> {
         // when the component is mounted we begin to request the user from the server;
         // we use here a thunkMiddleware to dispatch network requests and also other actions;
         // DESTRUCTURIZATION OF PROPS:
-        let {currentPage, pageSize} = this.props
+        let {currentPage, pageSize} = this.props;
         this.props.getUsers(currentPage, pageSize);
     }
 
@@ -74,7 +74,7 @@ let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
         totalUsersCount: getTotalUsersCount(state),
         currentPage: getCurrentPage(state),
         isFetching: getIsFetching(state),
-        followingInProgress: getFollowingInProgress(state),
+        followingInProgress: getFollowingInProgress(state)
     }
 }
 
@@ -87,7 +87,7 @@ let mapDispatchToProps: MapDispatchToPropsType = (
     }
 );
 
-export default compose<React.Component<PropsType>>(
+export default compose<ComponentType>(
     withAuthRedirect,
     // 􀄨
     connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>
