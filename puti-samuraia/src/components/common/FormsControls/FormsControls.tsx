@@ -51,7 +51,7 @@ export const Input: FC<InputPropsType> = (props) => {
 export function createField<FormKeysType extends string> (placeholder: string | undefined,
                             name: FormKeysType,
                             validators: FieldValidatorType[],
-                            component: React.Component | React.FC,
+                            component: FC,
                             props= {},
                             text='') {
     // [!] createField - is not a React.Component by itself; It's a function that renders stuff;

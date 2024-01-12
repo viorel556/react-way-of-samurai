@@ -16,14 +16,14 @@ import Preloader from "./components/common/Preloader/Preloader";
 import store, {AppStateType} from "./redux/redux-store";
 import {withSuspense} from "./hoc/withSuspense";
 import {IntroductionMessage} from "./components/IntroductionMessage/IntroductionMessage";
+import {NotFoundPage} from "./components/common/NotFoundPage/NotFoundPage.tsx";
 // LAZY IMPORTS:
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"));
 const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"));
 const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
 
 type MapStateToPropsType = ReturnType<typeof mapStateToProps>;
-type MapDispatchToPropsType = { initializeApp: () => (dispatch: any) => void; } ;
-
+type MapDispatchToPropsType = { initializeApp: () => (dispatch: any) => void; };
 
 class App extends Component<MapStateToPropsType & MapDispatchToPropsType> {
 
@@ -52,16 +52,16 @@ class App extends Component<MapStateToPropsType & MapDispatchToPropsType> {
 
                 <div className='app-wrapper-content'>
                     <Routes>
-                        <Route exact path="/" element={<IntroductionMessage/>} />
-                        <Route exact path="/react-puti-samuraia" element={<IntroductionMessage/>}/>
+                        <Route path="/" element={<IntroductionMessage/>} />
+                        <Route path="/react-puti-samuraia" element={<IntroductionMessage/>}/>
                         <Route path="/dialogs/" element={<DialogsContainer/>}/>
                         <Route path="/profile/:userId?" element={<ProfileContainer/>}/>
-                        <Route path="/users" element={<UsersContainer pageTitle={"Samurai"}/>}/>
+                        <Route path="/users" element={<UsersContainer/>}/>
                         <Route path="/news" element={<News/>}/>
                         <Route path="/music" element={<Music/>}/>
                         <Route path="/settings" element={<Settings/>}/>
                         <Route path="/login" element={<LoginContainer/>}/>
-                        <Route path='*' element={ () => <div>404 NOT FOUND</div>}/>
+                        <Route path='*' element={ <NotFoundPage/> }/>
                     </Routes>
                 </div>
             </div>
@@ -91,15 +91,9 @@ const SamuraiJSApp: FC = () => {
 
     return (
         <HashRouter>
-
-            {/*basename={process.env.PUBLIC_URL}*/}
-
             <Provider store={store}>
-
                 <AppContainer />
-
             </Provider>
-
         </HashRouter>
     );
 }

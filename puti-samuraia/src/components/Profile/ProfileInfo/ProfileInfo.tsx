@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import React, {ChangeEvent, FC, useState} from "react";
 import classes from './ProfileInfo.module.css';
 import Preloader from "../../common/Preloader/Preloader";
 import ProfileStatusWithHooks from "./ProfileStatus/ProfileStatusWithHooks";
 import userPhoto from "../../../assets/images/user.png";
-import jobChecker from "../../../assets/images/jobCheck.png"
-import {ProfileDataReduxForm} from "./ProfileDataForm.jsx";
+import {ProfileDataReduxForm} from "./ProfileDataForm.tsx";
 import {ProfileType} from "../../../types/types.ts";
+import {InjectedFormProps} from "redux-form";
 
 
 // FIXME [HARD]: ALL OF THIS REQUIRES URGENT REFACTORING;
@@ -15,25 +15,24 @@ type PropsType = {
     status: string
     isOwner: boolean
     updateMyStatus: (status: string) => void
-    savePhoto: (file: any) => void
+    savePhoto: (file: File) => void
     saveProfile: (profile: ProfileType) => Promise<void>
 }
 
-const ProfileInfo: React.FC<PropsType> = ({profile, status, updateMyStatus, isOwner, savePhoto, saveProfile}) => {
+const ProfileInfo: FC<PropsType> = ({profile, status, updateMyStatus, isOwner, savePhoto, saveProfile}) => {
 
     let [editMode, setEditMode] = useState(false);
 
-    if (!profile) {
-        return <Preloader/>
-    }
+    if (!profile) { return <Preloader/> }
 
-    const onMainPhotoSelected = (e) => {
+    const onMainPhotoSelected = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
             savePhoto(e.target.files[0]);
         }
     }
 
-    const onSubmit = (formData) => {
+    const onSubmit = (formData: ProfileType) => {
+        // todo: remove this then (pure component principle)
         // WE CERTAINLY RECEIVE FORM DATA!
         saveProfile(formData).then(() => setEditMode(false));
     }
@@ -41,7 +40,6 @@ const ProfileInfo: React.FC<PropsType> = ({profile, status, updateMyStatus, isOw
     return (
 
         <div>
-
             <div className={classes.descriptionBlock}>
 
                 <img src={profile.photos.large || userPhoto} className={classes.profileImage}/>
@@ -60,7 +58,6 @@ const ProfileInfo: React.FC<PropsType> = ({profile, status, updateMyStatus, isOw
                 <p>GITHUB: {profile.contacts.github}</p>
 
             </div>
-
         </div>
     );
 }
@@ -90,7 +87,7 @@ export const ProfileData = ({profile, isOwner, goToEditMode}) => {
             </div>
 
             <div>
-                <b>Contacts: </b> {Object.keys(profile.contacts).map(key => {
+                <b>Contacts: </b> {Object.keys(profile.contacts).map(key  => {
                 return <Contact contactTitle={key} contactValue={profile.contacts[key]}/>
             })}
             </div>

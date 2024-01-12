@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ComponentType} from "react";
 import Login from "./Login";
 import {AuthCredentialsType, authorizeMe, authorizeWithCredentials} from "../../redux/auth-reducer.ts";
 import {connect} from "react-redux";
@@ -47,7 +47,7 @@ let mapDispatchToProps: MapDispatchToPropsType = (
     }
 )
 
-export default compose<React.Component<PropsType>>(
+export default compose<ComponentType>(
     connect(mapStateToProps, mapDispatchToProps)
 )(LoginContainer);
 

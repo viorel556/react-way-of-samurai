@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {FC, useEffect, useState} from "react";
 import classes from "../ProfileInfo.module.css"
 
 //<ProfileStatusWithHooks status={status} updateMyStatus={updateMyStatus}/>
@@ -9,7 +9,7 @@ type PropsType = {
 }
 
 
-const ProfileStatusWithHooks: React.FC<PropsType>  = (props) => {
+const ProfileStatusWithHooks: FC<PropsType>  = (props) => {
     // THIS IS A HOOK:
     let [editMode, setEditMode] = useState(false);
     let [status, setStatus] = useState(props.status);

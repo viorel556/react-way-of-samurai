@@ -1,11 +1,11 @@
-import React from "react";
+import React, {FC} from "react";
 import classes from './Post.module.css';
 import {see} from "../../../../utils/object-helpers";
 import {PostType} from "../../../../types/types.ts";
 
 
 
-const Post: React.FC<PostType> = (props) => {
+const Post: FC<PostType> = (props) => {
 
     return (
         <>

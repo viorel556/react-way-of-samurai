@@ -5,7 +5,6 @@ import { InjectedFormProps, reduxForm, SubmitHandler} from "redux-form";
 import React, {FC} from "react";
 
 type PropsType = {
-    // [!] THIS CODE IS REPEATED  x1:
     handleSubmit?: (() => void) & SubmitHandler
     captcha: string | null
     error?: string

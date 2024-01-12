@@ -36,7 +36,6 @@ class ProfileContainer extends React.Component<PropsType> {
         if (!userId) {
             userId = this.props.authorizedUserId; // my number: 30097
         }
-
         // CALLING 2 THUNKS (when the component mounts):
         this.props.getUser(userId);
         this.props.getUserStatus(userId);
@@ -55,14 +54,20 @@ class ProfileContainer extends React.Component<PropsType> {
 
     isOwner = this.checkOwner();
 
+    // LIFECYCLE METHODS:
+    constructor(props: PropsType) {
+        super(props);
+    }
+
     componentDidMount() {
         this.refreshProfile();
     }
-
-
     componentDidUpdate(prevProps, prevState, snapshot) {
         // FIXME: Find a way to update the profile to my profile when clicking to "Profile";
         // if (this.props.match.params.userId != prevProps.match.params.userId) { this.refreshProfile() }
+    }
+    componentWillUnmount() {
+        // I don't do shit!
     }
 
 
