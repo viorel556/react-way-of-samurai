@@ -4,6 +4,8 @@ import {AppStateType, BaseThunkType, InferActionsType} from "./redux-store.ts";
 import {Dispatch} from "redux";
 import {ThunkAction} from 'redux-thunk';
 import {usersApi} from "../api/users-api.ts";
+import {ResultCodeEnum} from "../api/api.ts";
+import {APIResponseType} from "../api/api-types.ts";
 
 export type ThunkType = BaseThunkType<ActionTypes>
 
@@ -35,7 +37,7 @@ let initialState = {
     isFetching: false,
     followingInProgress: [] as Array<number>, // array of users IDs
 }
-type InitialStateType = typeof initialState; // [!] inference type assignment;
+export type InitialStateType = typeof initialState; // [!] inference type assignment;
 
 const usersReducer = (state = initialState, action: ActionTypes): InitialStateType => {
     switch (action.type) {
@@ -111,6 +113,7 @@ const usersReducer = (state = initialState, action: ActionTypes): InitialStateTy
 export const getUsers = (page: number, pageSize: number): ThunkType => async (dispatch, getState) => {
     // to pass params to a Thunk we have to create a thunk Creator;
     try {
+
         dispatch(actions.toggleIsFetching(true));
         dispatch(actions.setCurrentPage(page));
         // server request to get initial users
@@ -119,18 +122,19 @@ export const getUsers = (page: number, pageSize: number): ThunkType => async (di
         dispatch(actions.loadUsers(data.items));
         dispatch(actions.setTotalUsersCount(data.totalCount));
     }
-    catch (error) { see(error) }
+    catch (e) { see(e) }
 }
 
 // EXTERNAL FUNCTIONAL (INTERNAL):
 async function _followUnfollowFlow(dispatch: Dispatch<ActionTypes>,
                                    userId: number,
-                                   apiMethod: any,
+                                   apiMethod: (userId: number) => Promise<APIResponseType>,
                                    actionCreator: (userId: number) => ActionTypes) {
     // func was created to avoid code doubling; encapsulates follow/unfollow logic;
     dispatch(actions.toggleFollowingProgress(true, userId));
-    let response = await apiMethod(userId);
-    if (response.data.resultCode === 0) {
+    let data = await apiMethod(userId);
+
+    if (data.resultCode === ResultCodeEnum.Success) {
         dispatch(actionCreator(userId));
     }
     dispatch(actions.toggleFollowingProgress(false, userId));
@@ -140,10 +144,10 @@ async function _followUnfollowFlow(dispatch: Dispatch<ActionTypes>,
 // TYPIFICATION IS DONE ACCORDING REDUX-THUNK DOCUMENTATION
 export const followUser = (userId: number): ThunkType => async (dispatch) => {
     try {
-        let apiMethod = usersApi.requestFollowUser.bind(usersApi);
+        let apiMethod = await usersApi.requestFollowUser.bind(usersApi);
         await _followUnfollowFlow(dispatch, userId, apiMethod, actions.follow);
     }
-    catch (error) { see(error); }
+    catch (e) { see(e) }
 }
 
  // THUNK:
@@ -153,7 +157,7 @@ export const unfollowUser = (userId: number): ThunkType => async (dispatch) => {
         let apiMethod = usersApi.requestUnfollowUser.bind(usersApi);
         await _followUnfollowFlow(dispatch, userId, apiMethod, actions.unfollow);
     }
-    catch (error) { see(error); }
+    catch (e) { see(e) }
 }
 
 

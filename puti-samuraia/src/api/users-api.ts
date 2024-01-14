@@ -7,17 +7,21 @@ export const usersApi = {
         // SERVER REQUEST TO GET A BUNCH OF USERS (for page rendering)
         const response =
             await instance.get<GetUsersResponseType>(`users?page=${currentPage}&count=${pageSize}`)
+
         return response.data
     },
 
-    requestFollowUser(userId: number) {
-        // SERVER REQUEST TO FOLLOW AN USER
-        return instance.post<APIResponseType>(`follow/${userId}`, {})
+    async requestFollowUser(userId: number) {
+        const response =
+            await instance.post<APIResponseType>(`follow/${userId}`, {})
+
+        return response.data; // in "data" we have the response code;
     },
 
-    requestUnfollowUser(userId: number) {
-        // SERVER REQUEST TO UNFOLLOW AN USER;
-        return instance.delete<APIResponseType>(`follow/${userId}`)
-    }
+    async requestUnfollowUser(userId: number) {
+        const response =
+            await instance.delete<APIResponseType>(`follow/${userId}`)
 
+        return response.data; // in "data" we have the response code;
+    }
 }
