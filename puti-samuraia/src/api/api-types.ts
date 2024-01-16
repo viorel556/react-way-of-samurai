@@ -28,6 +28,7 @@ export type GetUsersResponseType = {
     items: Array<UserType>
     totalCount: number
     error: string | null
+    term: string
 }
 
 export type CaptchaResponseType = { url: string }

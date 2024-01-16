@@ -141,3 +141,9 @@ export type DialogsPageType = {
     messages: MessageType[]
     dialogs: DialogType[]
 }
+
+// TYPES RELATED TO FORMIK FORMS
+export type SearchFormType = {
+    friend: "true" | "false" | "null"
+    term: string
+}

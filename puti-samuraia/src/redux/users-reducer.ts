@@ -12,32 +12,40 @@ export type ThunkType = BaseThunkType<ActionTypes>
 // COMBINING ACTION TYPES
 type ActionTypes = InferActionsType<typeof actions>
 export const actions = {
-    follow: (userId: number) => ( {type: "FOLLOW", userId} as const),
-    unfollow: (userId: number) => ({type: "UNFOLLOW", userId} as const),
-    loadUsers: (users: Array<UserType>) => ({type: "LOAD_USERS", users} as const),
-    setCurrentPage: (currentPage: number) => ({type: "SET_CURRENT_PAGE", currentPage} as const),
-    setTotalUsersCount: (totalUsersCount: number) => ({type: "SET_TOTAL_USERS_COUNT", count: totalUsersCount} as const),
-    toggleIsFetching: (isFetching: boolean) => ({type: "TOGGLE_IS_FETCHING", isFetching} as const),
-    toggleFollowingProgress: (isFetching: boolean, userId: number) => (
-        {
-            type: "TOGGLE_IS_FOLLOWING_PROGRESS",
-            isFetching,
-            userId
-        } as const
-    ),
+    follow:
+        (userId: number) => ( {type: "FOLLOW", userId} as const),
+    unfollow:
+        (userId: number) => ({type: "UNFOLLOW", userId} as const),
+    loadUsers:
+        (users: Array<UserType>) => ({type: "LOAD_USERS", users} as const),
+    setCurrentPage:
+        (currentPage: number) => ({type: "SET_CURRENT_PAGE", currentPage} as const),
+    setTotalUsersCount:
+        (totalUsersCount: number) => ({type: "SET_TOTAL_USERS_COUNT", count: totalUsersCount} as const),
+    toggleIsFetching:
+        (isFetching: boolean) => ({type: "TOGGLE_IS_FETCHING", isFetching} as const),
+    toggleFollowingProgress:
+        (isFetching: boolean, userId: number) => ({type: "TOGGLE_IS_FOLLOWING_PROGRESS", isFetching, userId} as const),
+    setFilter:
+        (filter: FilterType) => ({type: "SET_FILTER", payload:  filter } as const)
 }
 
  // [!] USING THE INFERENCE TYPE ASSIGMENT APPROACH:
 // "InitialStateType" is created based on "initialState"
 let initialState = {
     users: [] as Array<UserType>,
-    pageSize: 5,
+    pageSize: 20,
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: false,
     followingInProgress: [] as Array<number>, // array of users IDs
+    filter: {
+        term: '',
+        friend: null as null | boolean
+    }
 }
 export type InitialStateType = typeof initialState; // [!] inference type assignment;
+export type FilterType = typeof initialState.filter;
 
 const usersReducer = (state = initialState, action: ActionTypes): InitialStateType => {
     switch (action.type) {
@@ -105,19 +113,26 @@ const usersReducer = (state = initialState, action: ActionTypes): InitialStateTy
             }
         }
 
+        case "SET_FILTER": {
+            return {
+                ...state,
+                filter: action.payload
+            }
+        }
+
         default: return state;
     }
 }
 
 // THUNKS ARE HERE:
-export const getUsers = (page: number, pageSize: number): ThunkType => async (dispatch, getState) => {
+export const getUsers = (page: number, pageSize: number, filter: FilterType): ThunkType => async (dispatch, getState) => {
     // to pass params to a Thunk we have to create a thunk Creator;
     try {
-
         dispatch(actions.toggleIsFetching(true));
         dispatch(actions.setCurrentPage(page));
+        dispatch(actions.setFilter(filter));
         // server request to get initial users
-        let data = await usersApi.requestUsers(page, pageSize);
+        let data = await usersApi.requestUsers(page, pageSize, filter);
         dispatch(actions.toggleIsFetching(false));
         dispatch(actions.loadUsers(data.items));
         dispatch(actions.setTotalUsersCount(data.totalCount));

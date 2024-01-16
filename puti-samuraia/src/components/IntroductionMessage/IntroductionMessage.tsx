@@ -1,11 +1,5 @@
 import React, {ComponentType, FC} from "react";
 import classes from "./IntroductionMessaage.module.css";
-import {RouteProps} from "react-router-dom";
-
-interface propsType {
-
-}
-
 
 
 export const IntroductionMessage: ComponentType = () => {
@@ -24,6 +18,7 @@ export const IntroductionMessage: ComponentType = () => {
             <ul>
                 <li>React</li>
                 <li>Redux</li>
+                <li>Formik</li>
                 <li>Flux Architecture</li>
                 <li>Typescript</li>
                 <li>Some JS gaps you certainly have</li>
