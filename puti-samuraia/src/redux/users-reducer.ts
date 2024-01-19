@@ -1,8 +1,7 @@
 import {see, updateObjectInArray} from "../utils/object-helpers";
 import {GetStateType, UserType} from "../types/types";
 import {AppStateType, BaseThunkType, InferActionsType} from "./redux-store.ts";
-import {Dispatch} from "redux";
-import {ThunkAction} from 'redux-thunk';
+import {Action, Dispatch} from "redux";
 import {usersApi} from "../api/users-api.ts";
 import {ResultCodeEnum} from "../api/api.ts";
 import {APIResponseType} from "../api/api-types.ts";
@@ -13,7 +12,7 @@ export type ThunkType = BaseThunkType<ActionTypes>
 type ActionTypes = InferActionsType<typeof actions>
 export const actions = {
     follow:
-        (userId: number) => ( {type: "FOLLOW", userId} as const),
+        (userId: number) => ({type: "FOLLOW", userId} as const),
     unfollow:
         (userId: number) => ({type: "UNFOLLOW", userId} as const),
     loadUsers:
@@ -155,8 +154,7 @@ async function _followUnfollowFlow(dispatch: Dispatch<ActionTypes>,
     dispatch(actions.toggleFollowingProgress(false, userId));
 }
 
- // THUNK:
-// TYPIFICATION IS DONE ACCORDING REDUX-THUNK DOCUMENTATION
+// THUNK: typification done according to redux-thunk documentation
 export const followUser = (userId: number): ThunkType => async (dispatch) => {
     try {
         let apiMethod = await usersApi.requestFollowUser.bind(usersApi);
@@ -165,8 +163,7 @@ export const followUser = (userId: number): ThunkType => async (dispatch) => {
     catch (e) { see(e) }
 }
 
- // THUNK:
-// TYPIFICATION IS DONE ACCORDING REDUX-THUNK DOCUMENTATION
+// THUNK
 export const unfollowUser = (userId: number): ThunkType => async (dispatch) => {
     try {
         let apiMethod = usersApi.requestUnfollowUser.bind(usersApi);

@@ -5,8 +5,6 @@ export const getAllUsers = (state: AppStateType) => { // primitive selector;
     return state.usersPage.users;
 }
 
-// TODO [􀣋]: MAKE A COMPLEX SELECTOR FOR THE USERS YOU FOLLOW;
-
 export const getPageSize = (state: AppStateType) => {
     return state.usersPage.pageSize;
 }

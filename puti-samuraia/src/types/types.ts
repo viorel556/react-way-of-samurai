@@ -1,9 +1,14 @@
 import {AppStateType} from "../redux/redux-store.ts";
 import React from "react";
+import {ThunkDispatch} from "redux-thunk";
+import {AnyAction} from "redux";
 
  // GENERAL APP STATE TYPE:
 // imported from Redux-Store
 export type GetStateType = () => AppStateType
+
+// DISPATCH TYPE (config to receive thunks):
+export type AppDispatch = ThunkDispatch<AppStateType, unknown, AnyAction>
 
 // USER RELATED TYPES:
 export type ContactsType = {

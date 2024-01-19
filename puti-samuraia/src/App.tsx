@@ -20,7 +20,7 @@ import {NotFoundPage} from "./components/common/NotFoundPage/NotFoundPage.tsx";
 // LAZY IMPORTS:
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"));
 const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"));
-const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
+const UsersPage = React.lazy(() => import('./components/Users/UsersPage'));
 
 type MapStateToPropsType = ReturnType<typeof mapStateToProps>;
 type MapDispatchToPropsType = { initializeApp: () => (dispatch: any) => void; };
@@ -56,7 +56,7 @@ class App extends Component<MapStateToPropsType & MapDispatchToPropsType> {
                         <Route path="/react-puti-samuraia" element={<IntroductionMessage/>}/>
                         <Route path="/dialogs/" element={<DialogsContainer/>}/>
                         <Route path="/profile/:userId?" element={<ProfileContainer/>}/>
-                        <Route path="/users" element={<UsersContainer/>}/>
+                        <Route path="/users" element={<UsersPage />}/>
                         <Route path="/news" element={<News/>}/>
                         <Route path="/music" element={<Music/>}/>
                         <Route path="/settings" element={<Settings/>}/>
