@@ -1,9 +1,7 @@
 import {FormAction, stopSubmit} from "redux-form";
 import {PhotosType, PostsType, ProfileType} from "../types/types";
 import {Dispatch} from "redux";
-import {AppStateType, BaseThunkType, InferActionsType} from "./redux-store.ts";
-import {ThunkAction} from 'redux-thunk';
-import {GetUsersResponseType} from "../api/api-types.ts";
+import {BaseThunkType, InferActionsType} from "./redux-store.ts";
 import {see} from "../utils/object-helpers.ts";
 import {profileApi} from "../api/profile-api.ts";
 import {ResultCodeEnum} from "../api/api.ts";
@@ -102,6 +100,7 @@ export const getUser = (userId: number): ThunkType => async (dispatch: DispatchT
     catch (error) { see(error) }
 }
 
+// THUNK:
 export const getUserStatus = (userId: number): ThunkType => async (dispatch: DispatchType) => {
     try {
         let response = await profileApi.requestUserStatus(userId);
@@ -113,6 +112,7 @@ export const getUserStatus = (userId: number): ThunkType => async (dispatch: Dis
     catch (error) { see(error) }
 }
 
+// THUNK:
 export const updateMyStatus = (status: string): ThunkType => async (dispatch: DispatchType) => {
     try {
         let response = await profileApi.requestUpdateUserStatus(status)
@@ -123,6 +123,7 @@ export const updateMyStatus = (status: string): ThunkType => async (dispatch: Di
     catch (error) { see(error) }
 }
 
+// THUNK
 export const savePhoto = (file: File): ThunkType => async (dispatch: DispatchType) => {
     try {
         let response = await profileApi.requestSavePhoto(file);
@@ -133,6 +134,7 @@ export const savePhoto = (file: File): ThunkType => async (dispatch: DispatchTyp
     catch (error) { see(error) }
 }
 
+// THUNK:
 export const saveProfile = (profile: ProfileType): ThunkType => async (dispatch, getState) => {
     try {
         const userId = getState().auth.userId;

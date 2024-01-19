@@ -1,6 +1,5 @@
 import './App.css';
 import React, {Component, ComponentType, FC} from "react";
-import HeaderContainer from './components/Header/HeaderContainer';
 import Navbar from './components/Navbar/Navbar';
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
@@ -16,9 +15,11 @@ import {withSuspense} from "./hoc/withSuspense";
 import {IntroductionMessage} from "./components/IntroductionMessage/IntroductionMessage";
 import {NotFoundPage} from "./components/common/NotFoundPage/NotFoundPage.tsx";
 import Login from "./components/Login/Login.tsx";
+import Dialogs from "./components/Dialogs/Dialogs.tsx";
+import {Header} from "./components/Header/Header.tsx";
+//import ProfilePage from "./components/Profile/ProfilePage.tsx";
 // LAZY IMPORTS:
-const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"));
-const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"));
+const ProfilePage = React.lazy(() => import("./components/Profile/ProfilePage.tsx"));
 const UsersPage = React.lazy(() => import('./components/Users/UsersPage'));
 
 type MapStateToPropsType = ReturnType<typeof mapStateToProps>;
@@ -46,15 +47,15 @@ class App extends Component<MapStateToPropsType & MapDispatchToPropsType> {
         return (
             <div className='app-wrapper'>
 
-                <HeaderContainer />
+                <Header />
                 <Navbar/>
 
                 <div className='app-wrapper-content'>
                     <Routes>
                         <Route path="/" element={<IntroductionMessage/>} />
                         <Route path="/react-puti-samuraia" element={<IntroductionMessage/>}/>
-                        <Route path="/dialogs/" element={<DialogsContainer/>}/>
-                        <Route path="/profile/:userId?" element={<ProfileContainer/>}/>
+                        <Route path="/dialogs/" element={<Dialogs />}/>
+                        <Route path="/profile/:userId?" element={<ProfilePage />}/>
                         <Route path="/users" element={<UsersPage />}/>
                         <Route path="/news" element={<News/>}/>
                         <Route path="/music" element={<Music/>}/>

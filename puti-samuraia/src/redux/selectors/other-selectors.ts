@@ -6,3 +6,15 @@ export const getCaptcha = (state: AppStateType) => {
 export const getIsAuth = (state: AppStateType) => {
     return state.auth.isAuth;
 }
+
+export const getLoginData = (state: AppStateType) => {
+    return state.auth.login;
+}
+
+export const getPosts = (state: AppStateType) => {
+    return state.profilePage.posts;
+}
+
+export const getNewPostText = (state: AppStateType) => {
+    return state.profilePage.newPostText;
+}

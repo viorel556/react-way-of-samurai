@@ -16,7 +16,7 @@ type PropsType = {
     isOwner: boolean
     updateMyStatus: (status: string) => void
     savePhoto: (file: File) => void
-    saveProfile: (profile: ProfileType) => Promise<void>
+    saveProfile: any //(profile: ProfileType) => Promise<void> // FIXME: CORRECT TYPE
 }
 
 const ProfileInfo: FC<PropsType> = ({profile, status, updateMyStatus, isOwner, savePhoto, saveProfile}) => {

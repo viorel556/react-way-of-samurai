@@ -123,13 +123,6 @@ export type InputPropsType = {
     child: React.ReactNode
 }
 
-// TYPES RELATED TO HEADER:
-export type HeaderPropsType = {
-    isAuth: boolean
-    logOut: () => void
-    login: string
-}
-
 // TYPES RELATED TO MESSAGES:
 export type MessageType = {
     id: number
