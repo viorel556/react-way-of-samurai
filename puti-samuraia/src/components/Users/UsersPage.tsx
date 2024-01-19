@@ -2,7 +2,7 @@ import React, {FC} from "react";
 import {useSelector} from "react-redux";
 import {Users} from "./Users";
 import Preloader from "../common/Preloader/Preloader";
-import {getIsFetching} from "../../redux/users-selectors";
+import {getIsFetching} from "../../redux/selectors/users-selectors.ts";
 
 
 const UsersPage: FC = () => {

@@ -2,8 +2,11 @@ import React, {FC} from "react";
 import {Navigate} from "react-router-dom";
 import classes from "../common/FormsControls/FormsControls.module.css";
 import LoginReduxForm from "./LoginForm";
-import {AuthDetailsType} from "../../types/types.ts";
-import {AuthCredentialsType} from "../../redux/auth-reducer.ts";
+import {AppDispatchType, AuthDetailsType} from "../../types/types.ts";
+import {AuthCredentialsType, authorizeWithCredentials} from "../../redux/auth-reducer.ts";
+import {useDispatch, useSelector} from "react-redux";
+import {getCaptcha, getIsAuth} from "../../redux/selectors/other-selectors.ts";
+import {useAppDispatch} from "../../redux/redux-store.ts";
 
 type PropsType = {
     // DOUBLE CODE
@@ -14,22 +17,24 @@ type PropsType = {
 }
 
 // FOCUS:
-const Login: FC<PropsType> = (props) => {
+const Login: FC = () => {
+    const dispatch = useAppDispatch() // | DISPATCH
+    const captcha = useSelector(getCaptcha)   // | SELECTORS
+    const isAuth = useSelector(getIsAuth)
 
     const onSubmit = (formData: AuthCredentialsType) => {
-        // here we call a THUNK
-        props.authorizeWithCredentials(formData);
+        dispatch(authorizeWithCredentials(formData)); // <- THUNK
     }
 
     // IF logged in we're going to our Profile Page;
-    if (props.auth.isAuth) { return <Navigate to={"/profile"}/> }
+    if (isAuth) { return <Navigate to={"/profile"}/> }
 
     return (
         <div className={classes.loginContainer}>
             <h1> LOG IN </h1>
             <LoginReduxForm
                 onSubmit={onSubmit}
-                captcha={props.auth.captcha}
+                captcha={captcha}
             />
         </div>
     );

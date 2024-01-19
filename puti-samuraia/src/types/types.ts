@@ -8,7 +8,7 @@ import {AnyAction} from "redux";
 export type GetStateType = () => AppStateType
 
 // DISPATCH TYPE (config to receive thunks):
-export type AppDispatch = ThunkDispatch<AppStateType, unknown, AnyAction>
+export type AppDispatchType = ThunkDispatch<AppStateType, unknown, AnyAction>
 
 // USER RELATED TYPES:
 export type ContactsType = {

@@ -4,10 +4,8 @@ import HeaderContainer from './components/Header/HeaderContainer';
 import Navbar from './components/Navbar/Navbar';
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
-import {HashRouter, Route, RouteProps} from "react-router-dom";
-import {Routes} from "react-router-dom";
+import {HashRouter, Route, Routes} from "react-router-dom";
 import Settings from "./components/Settings/Settings";
-import LoginContainer from "./components/Login/LoginContainer";
 import {connect, Provider} from "react-redux";
 import withRouter from "./hoc/withRouter";
 import {compose} from "redux";
@@ -17,6 +15,7 @@ import store, {AppStateType} from "./redux/redux-store";
 import {withSuspense} from "./hoc/withSuspense";
 import {IntroductionMessage} from "./components/IntroductionMessage/IntroductionMessage";
 import {NotFoundPage} from "./components/common/NotFoundPage/NotFoundPage.tsx";
+import Login from "./components/Login/Login.tsx";
 // LAZY IMPORTS:
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"));
 const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"));
@@ -60,7 +59,7 @@ class App extends Component<MapStateToPropsType & MapDispatchToPropsType> {
                         <Route path="/news" element={<News/>}/>
                         <Route path="/music" element={<Music/>}/>
                         <Route path="/settings" element={<Settings/>}/>
-                        <Route path="/login" element={<LoginContainer/>}/>
+                        <Route path="/login" element={<Login />}/>
                         <Route path='*' element={ <NotFoundPage/> }/>
                     </Routes>
                 </div>

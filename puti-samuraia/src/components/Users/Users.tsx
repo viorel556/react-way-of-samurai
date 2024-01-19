@@ -1,7 +1,7 @@
 import React, {FC, useEffect} from "react";
 import Paginator from "../common/Paginator/Paginator";
 import User from "./User";
-import {AppDispatch} from "../../types/types";
+import {AppDispatchType} from "../../types/types";
 import {UsersSearchForm} from "./UsersSearchForm.tsx";
 import {FilterType, followUser, getUsers, unfollowUser} from "../../redux/users-reducer.ts";
 import {useDispatch, useSelector} from "react-redux";
@@ -12,12 +12,12 @@ import {
     getPageSize,
     getTotalUsersCount,
     getUsersFilter
-} from "../../redux/users-selectors.ts";
+} from "../../redux/selectors/users-selectors.ts";
 
 
 export const Users: FC = () => {
     // DISPATCH:
-    const dispatch: AppDispatch = useDispatch();
+    const dispatch: AppDispatchType = useDispatch();
 
     // SELECTORS:
     const currentPage = useSelector(getCurrentPage)
