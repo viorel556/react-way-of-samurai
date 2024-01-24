@@ -13,11 +13,13 @@ import {
     getTotalUsersCount,
     getUsersFilter
 } from "../../redux/selectors/users-selectors.ts";
+import {createSearchParams, NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
 
 
 export const Users: FC = () => {
-    // DISPATCH:
-    const dispatch: AppDispatchType = useDispatch();
+
+    const dispatch: AppDispatchType = useDispatch(); // DISPATCH
+    const navigate = useNavigate();  // NAVIGATE HOOK
 
     // SELECTORS:
     const currentPage = useSelector(getCurrentPage)
@@ -30,7 +32,6 @@ export const Users: FC = () => {
     // CALLBACKS:
     const onPageChanged = (pageNumber: number) => {
         dispatch(getUsers(pageNumber, pageSize, filter));
-        // we might need dispatch() here, not sure;
     }
     const onFilterChanged = (filter: FilterType) => {
         dispatch(getUsers(1, pageSize, filter));
@@ -43,10 +44,67 @@ export const Users: FC = () => {
         dispatch(unfollowUser(userId));
     }
 
-    // COMPONENT DID MOUNT:
-    useEffect( () => {
+    // LOADING DATA:
+    useEffect(() => {
         dispatch(getUsers(currentPage, pageSize, filter));
     }, []);
+
+
+    // URL PARAMS LOGIC:
+    const useNavigateSearch = () => {
+        // making a custom hook:
+        const navigate = useNavigate();
+        return (pathname, params) => navigate(`${pathname}?${createSearchParams(params)}`);
+    };
+    const navigateSearch = useNavigateSearch();
+    const location = useLocation();
+
+    // EFFECT 1:
+    useEffect(() => {
+        // ^ Is triggered when the filter changes
+        navigateSearch("/users", {
+            page: `${currentPage}`,
+            count: `${pageSize}`,
+            term: `${filter.term}`,
+            friend: `${filter.friend}`,
+        });
+    }, [filter, currentPage, pageSize]);
+
+    // EFFECT 2:
+    useEffect(() => {
+        const query = new URLSearchParams(location.search);
+
+        let actualPage = currentPage;
+        let actualFilter = filter;
+
+        const queryFriend = query.get("friend");
+        const queryPage = query.get("page");
+        const queryTerm = query.get("term");
+
+        if (queryPage) actualPage = +queryPage;
+
+        if (queryTerm) {
+            actualFilter = {...actualFilter, term: queryTerm};
+        }
+
+        switch (queryFriend) {
+            case "null":
+                actualFilter = {...actualFilter, friend: null};
+                break;
+
+            case "true":
+                actualFilter = {...actualFilter, friend: true};
+                break;
+
+            case "false":
+                actualFilter = {...actualFilter, friend: false};
+                break;
+
+            default: break;
+        }
+        dispatch(getUsers(actualPage, pageSize, actualFilter));
+    }, [location.search]);
+
 
     return (
         <div>
