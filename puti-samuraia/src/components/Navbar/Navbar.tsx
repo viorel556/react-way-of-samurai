@@ -18,23 +18,7 @@ const Navbar = () => {
 
     return ( 
         <nav className={classes.nav}>
-            <div className={classes.item}>
-                <NavLink to='/profile' className={ conditionalActiveStyle }>
-                    Profile
-                </NavLink>
-            </div>
 
-            <div className={`${classes.item} ${classes.active}`}>
-                <NavLink to='/dialogs' className={ conditionalActiveStyle }>
-                    Messages
-                </NavLink>
-            </div>
-
-            <div className={`${classes.item} ${classes.active}`}>
-                <NavLink to='/users' className={ conditionalActiveStyle }>
-                    Users
-                </NavLink>
-            </div>
 
             <div className={classes.item}>
                 <NavLink to='/news' className={ conditionalActiveStyle }>

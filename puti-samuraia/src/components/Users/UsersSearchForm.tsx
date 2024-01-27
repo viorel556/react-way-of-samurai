@@ -1,22 +1,15 @@
-// TYPES:
+
 import {Field, Form, Formik} from "formik";
 import React, {FC, memo} from "react";
 import {FilterType} from "../../redux/users-reducer.ts";
 import {SearchFormType} from "../../types/types.ts";
 import {searchBarFormTypeConvertor} from "../../utils/validators/FormikUtils.ts";
 
+// TYPES:
+type PropsType = { onFilterChanged: (filter: FilterType) => void; }
+type SetSubmittingType = {  setSubmitting: (isSubmitting: boolean) => void; }
 
-type PropsType = {
-    onFilterChanged: (filter: FilterType) => void;
-}
-
-type SetSubmittingType = {
-    setSubmitting: (isSubmitting: boolean) => void;
-}
-
-
-
-function usersSearchFormValidate(values) { // VALIDATION LOGIC:
+function usersSearchFormValidate(values) { // VALIDATION LOGIC: (not set yet)
     const errors = {};
     return errors;
 }
@@ -38,6 +31,7 @@ export const UsersSearchForm: FC<PropsType> = memo( ({onFilterChanged}) => {
     return <div>
         <div>
             <h2>Search an user</h2>
+            <p> Try Searching "Viorel". I have an original name. I'm pretty sure I'm still the only Viorel on the platform :)) </p>
 
             <Formik
                 initialValues={{term:'', friend: null}}

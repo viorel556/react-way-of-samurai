@@ -3,6 +3,7 @@ import userPhoto from "../../assets/images/user.png";
 import React, {FC} from "react";
 import {NavLink} from "react-router-dom";
 import {UserType} from "../../types/types.ts";
+import {Button} from "antd";
 
 type PropsType = {
     user: UserType,
@@ -16,7 +17,7 @@ const User: FC<PropsType> = ({user, followingInProgress, unfollowUser, followUse
 
     return (
 
-        <div>
+        <div className={styles.userContainer}>
             <span>
                 <div>
                     <NavLink to={'/profile/' + user.id}>
@@ -26,17 +27,17 @@ const User: FC<PropsType> = ({user, followingInProgress, unfollowUser, followUse
                 </div>
 
                 <div>
-                    {user.followed ? <button disabled={followingInProgress.some(id => id === user.id)}
+                    {user.followed ? <Button type={'primary'} disabled={followingInProgress.some(id => id === user.id)}
                                              onClick={() => {
                                                  // CALLING A THUNK:
                                                  unfollowUser(user.id);
-                                             }}>Unfollow</button>
+                                             }}>Unfollow</Button>
 
-                                    : <button disabled={followingInProgress.some(id => id === user.id)}
+                                    : <Button disabled={followingInProgress.some(id => id === user.id)}
                                         onClick={() => {
                                             // CALLING A THUNK:
                                             followUser(user.id)
-                                        }}>Follow</button>}
+                                        }}>Follow</Button>}
                 </div>
             </span>
 

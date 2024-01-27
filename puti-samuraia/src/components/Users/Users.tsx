@@ -14,7 +14,7 @@ import {
     getUsersFilter
 } from "../../redux/selectors/users-selectors.ts";
 import {createSearchParams, NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
-
+import styles from "./users.module.css";
 
 export const Users: FC = () => {
 
@@ -116,13 +116,17 @@ export const Users: FC = () => {
                        pageSize={pageSize}
             />
 
-            {
-                users.map(u => <User user={u}
-                                     followingInProgress={followingInProgress}
-                                     unfollowUser={unfollow}
-                                     followUser={follow}
-                />)
-            }
+
+            <div className={styles.usersContainer}>
+                {
+                    users.map(u => <User user={u}
+                                         followingInProgress={followingInProgress}
+                                         unfollowUser={unfollow}
+                                         followUser={follow}
+                    />)
+                }
+            </div>
+
         </div>
     );
 }

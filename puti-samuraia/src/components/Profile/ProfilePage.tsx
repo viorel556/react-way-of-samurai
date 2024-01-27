@@ -22,7 +22,6 @@ type PropsType = {
 
 
 const ProfilePage: FC<PropsType> = (props) => {
-    debugger;
     const dispatch = useAppDispatch()
     function checkOwner (authorizedUserId: number, displayedUser: number){
         // CHECKS IF THE DISPLAYED PROFILE MATCHES THE LOGIN PROFILE
