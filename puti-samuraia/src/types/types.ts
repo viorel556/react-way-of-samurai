@@ -145,3 +145,14 @@ export type SearchFormType = {
     friend: "true" | "false" | "null"
     term: string
 }
+
+// THE TYPE OF MESSAGE WE GET FROM WEBSOCKET:
+export type ChatMessageType = {
+    message: string
+    photo: string
+    userId: number
+    userName: string
+}
+export interface ChatMessagePropsType {
+    message: ChatMessageType
+}

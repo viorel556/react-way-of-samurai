@@ -1,3 +1,4 @@
+
 import './App.css';
 import {Layout, Menu} from 'antd';
 import Icon from '@ant-design/icons';
@@ -20,12 +21,13 @@ import {NotFoundPage} from "./components/common/NotFoundPage/NotFoundPage.tsx";
 import {AuthButton} from "./components/AuthButton/AuthButton.tsx";
 import {Footer} from "antd/lib/layout/layout";
 
-const {Header, Sider, Content} = Layout;
-
-
 // LAZY IMPORTS:
 const ProfilePage = React.lazy(() => import("./components/Profile/ProfilePage.tsx"));
 const UsersPage = React.lazy(() => import('./components/Users/UsersPage'));
+const ChatPage = React.lazy(() => import('./pages/Chat/ChatPage.tsx'));
+
+
+const {Header, Sider, Content} = Layout;
 
 type MapStateToPropsType = ReturnType<typeof mapStateToProps>;
 type MapDispatchToPropsType = { initializeApp: () => (dispatch: any) => void; };
@@ -54,35 +56,20 @@ class App extends React.Component<MapStateToPropsType & MapDispatchToPropsType> 
 
         if (!this.props.initialized) { return <Preloader/> }
 
+         // FIXME[HARD]: ANT DESIGN DOESN'T READ ITS ICONS; Figure it out. ITS IMPORTANT!
+         // FIXME[EASY]: Make the logo pressable and change the routing to IntroductionPage when clicked;
         return (
             <Layout>
                 <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-                    <div className="logo"/>
+                    <div className="logo" />
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']}>
-                        <Menu.Item key="1">
-                            <Icon type={'profile'}/>
-                            <Link to='/profile'>Profile</Link>
-                        </Menu.Item>
-                        <Menu.Item key="2">
-                            <Icon type="video-camera"/>
-                            <Link to='/dialogs'>Messages</Link>
-                        </Menu.Item>
-                        <Menu.Item key="3">
-                            <Icon type="upload"/>
-                            <Link to='/users'>Users</Link>
-                        </Menu.Item>
-                        <Menu.Item key="4">
-                            <Icon type="news"/>
-                            <Link to='/news'>News</Link>
-                        </Menu.Item>
-                        <Menu.Item key="5">
-                            <Icon type="music"/>
-                            <Link to='/music'>Music</Link>
-                        </Menu.Item>
-                        <Menu.Item key="6">
-                            <Icon type="settings"/>
-                            <Link to='/settings'>Settings</Link>
-                        </Menu.Item>
+                        <Menu.Item key="1"> <Icon type={'profile'}/> <Link to='/profile'>Profile</Link> </Menu.Item>
+                        <Menu.Item key="2"> <Icon type="video-camera"/> <Link to='/dialogs'>Messages</Link> </Menu.Item>
+                        <Menu.Item key="3"> <Icon type="chat"/> <Link to='/chat'>Chat</Link> </Menu.Item>
+                        <Menu.Item key="4"> <Icon type="upload"/> <Link to='/users'>Users</Link> </Menu.Item>
+                        <Menu.Item key="5"> <Icon type="news"/> <Link to='/news'>News</Link> </Menu.Item>
+                        <Menu.Item key="6"> <Icon type="music"/> <Link to='/music'>Music</Link> </Menu.Item>
+                        <Menu.Item key="7"> <Icon type="settings"/> <Link to='/settings'>Settings</Link> </Menu.Item>
                     </Menu>
                 </Sider>
 
@@ -103,6 +90,7 @@ class App extends React.Component<MapStateToPropsType & MapDispatchToPropsType> 
                                 <Route path="/music" element={<Music/>}/>
                                 <Route path="/settings" element={<Settings/>}/>
                                 <Route path="/login" element={<Login/>}/>
+                                <Route path='/chat' element={<ChatPage/>}/>
                                 <Route path='*' element={<NotFoundPage/>}/>
                             </Routes>
                         </div>

@@ -20,9 +20,11 @@ export const IntroductionMessage: ComponentType = () => {
                 <li>Redux</li>
                 <li>Formik</li>
                 <li>Flux Architecture</li>
-                <li>Typescript</li>
-                <li>Some JS gaps you certainly have</li>
                 <li>REST API</li>
+                <li>Websocket</li>
+                <li>Typescript</li>
+                <li>Ant-Design</li>
+                <li>Some JS gaps you certainly have</li>
             </ul>
 
             <p>You can find the full course <a
