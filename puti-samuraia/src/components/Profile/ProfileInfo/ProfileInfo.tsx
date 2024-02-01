@@ -5,10 +5,7 @@ import ProfileStatusWithHooks from "./ProfileStatus/ProfileStatusWithHooks";
 import userPhoto from "../../../assets/images/user.png";
 import {ProfileDataReduxForm} from "./ProfileDataForm.tsx";
 import {ProfileType} from "../../../types/types.ts";
-import {InjectedFormProps} from "redux-form";
-
-
-// FIXME [HARD]: ALL OF THIS REQUIRES URGENT REFACTORING;
+import {ThunkType} from "../../../redux/profile-reducer.ts";
 
 type PropsType = {
     profile: ProfileType
@@ -16,7 +13,10 @@ type PropsType = {
     isOwner: boolean
     updateMyStatus: (status: string) => void
     savePhoto: (file: File) => void
-    saveProfile: any //(profile: ProfileType) => Promise<void> // FIXME: CORRECT TYPE
+    saveProfile: any
+      // FIXME[HARD]: CORRECT TYPE; saveProfile is not any
+     // its important that we use the Thunk here as Promise but we might want to refactor this shit anyway;
+    // its simply bad UX to change your profile data by submitting a multiple line form;
 }
 
 const ProfileInfo: FC<PropsType> = ({profile, status, updateMyStatus, isOwner, savePhoto, saveProfile}) => {
@@ -32,13 +32,10 @@ const ProfileInfo: FC<PropsType> = ({profile, status, updateMyStatus, isOwner, s
     }
 
     const onSubmit = (formData: ProfileType) => {
-        // todo: remove this then (pure component principle)
-        // WE CERTAINLY RECEIVE FORM DATA!
         saveProfile(formData).then(() => setEditMode(false));
     }
 
     return (
-
         <div>
             <div className={classes.descriptionBlock}>
 

@@ -20,13 +20,12 @@ export const actions = {
 // DEFINING THE ACTIONS TYPE:
 type ActionsType = InferActionsType<typeof actions>
 // DEFINING THE DISPATCH TYPE:
-type DispatchType = Dispatch<ActionsType>
-// DEFINING THE THUNK TYPE
+type DispatchType = (actions: ThunkType | ActionsType) => void  // it's either an action type or a thunk;
+// DEFINING THE THUNK TYPE:
 type ThunkType = BaseThunkType<ActionsType>
 
- // THUNK:
-// FIXME[HARD]: TS TRANSLATION
-export const initializeApp = () => (dispatch) => {
+// THUNK:
+export const initializeApp = () => (dispatch: DispatchType) => {
     // creating a promise:
     let promise = dispatch(authorizeMe());
 

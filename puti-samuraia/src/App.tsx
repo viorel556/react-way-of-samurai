@@ -20,6 +20,7 @@ import Login from "./components/Login/Login.tsx";
 import {NotFoundPage} from "./components/common/NotFoundPage/NotFoundPage.tsx";
 import {AuthButton} from "./components/AuthButton/AuthButton.tsx";
 import {Footer} from "antd/lib/layout/layout";
+import * as url from "url";
 
 // LAZY IMPORTS:
 const ProfilePage = React.lazy(() => import("./components/Profile/ProfilePage.tsx"));
@@ -57,11 +58,15 @@ class App extends React.Component<MapStateToPropsType & MapDispatchToPropsType> 
         if (!this.props.initialized) { return <Preloader/> }
 
          // FIXME[HARD]: ANT DESIGN DOESN'T READ ITS ICONS; Figure it out. ITS IMPORTANT!
-         // FIXME[EASY]: Make the logo pressable and change the routing to IntroductionPage when clicked;
         return (
             <Layout>
                 <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-                    <div className="logo" />
+
+
+
+                    <Link to="/" className={'logoContainer'} >
+                        <img className='logo'/>
+                    </Link>
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']}>
                         <Menu.Item key="1"> <Icon type={'profile'}/> <Link to='/profile'>Profile</Link> </Menu.Item>
                         <Menu.Item key="2"> <Icon type="video-camera"/> <Link to='/dialogs'>Messages</Link> </Menu.Item>

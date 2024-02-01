@@ -25,8 +25,8 @@ export const AuthButton: FC = () => {
                 ? <div> { login === 'viorel.harabaru@gmail.com'
                     ? <Avatar className={classes.avatarStyle} size={'large'}>VIOREL</Avatar>
                     : <Avatar className={classes.avatarStyle} size={'large'}>GUEST</Avatar>}
-                    <Button onClick={handleLogOut}>LOG OUT</Button></div>
-                : <Button onClick={handleNavigation}>Login </Button>
+                    <Button onClick={handleLogOut} type={'primary'}>LOG OUT</Button></div>
+                : <Button onClick={handleNavigation} type={'dashed'}>Login </Button>
             }
         </div>
     );

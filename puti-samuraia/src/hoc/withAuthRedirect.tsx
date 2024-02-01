@@ -5,7 +5,6 @@ import {Navigate} from 'react-router-dom'
 import {connect} from "react-redux";
 import {AppStateType} from "../redux/redux-store.ts";
 
-// FIXME[CRITICAL]; RENDERING ISSUE bug might be from here:
 let mapStateToPropsForRedirect = (state: AppStateType) => (
     {   // USED ONLY FOR withAuthRedirect() HOC;
         isAuth: state.auth.isAuth

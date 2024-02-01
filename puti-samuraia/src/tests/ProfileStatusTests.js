@@ -4,7 +4,6 @@
 //
 //
 // // TESTING A COMPONENT:
-// // FIXME: DEPRECATED
 // // describe() takes and runs a suite of tests;
 // describe('Profile status component', () => {
 //

@@ -3,12 +3,23 @@ import ProfileInfo from "./ProfileInfo/ProfileInfo";
 // import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import {connect, useSelector} from "react-redux";
 import {getAuthorizedUserId, getProfile, getStatus} from "../../redux/selectors/profile-salectors.ts";
-import {getUser, getUserStatus, savePhoto, saveProfile, updateMyStatus} from "../../redux/profile-reducer.ts";
+import {
+    getUser,
+    getUserStatus,
+    savePhoto,
+    saveProfile,
+    ThunkType,
+    updateMyStatus
+} from "../../redux/profile-reducer.ts";
 import {useAppDispatch} from "../../redux/redux-store.ts";
 import {compose} from "redux";
 import withRouter from "../../hoc/withRouter.tsx";
 import withAuthRedirect from "../../hoc/withAuthRedirect.tsx";
 import MyPosts from "./MyPosts/MyPosts.tsx";
+import {HistoryRouterProps, MemoryRouterProps, RouterProviderProps} from "react-router-dom";
+import {ProfileType} from "../../types/types.ts";
+
+
 
 type PropsType = {
     // profile: ProfileType
@@ -17,8 +28,11 @@ type PropsType = {
     // saveProfile: (profile: ProfileType) => Promise<void>
     // updateMyStatus: (status: string) => void
     // savePhoto: (file: any) => void
-    router?: any // FIXME: CORRECT TYPE
+
+    router?: any  // FIXME[HARD]: CORRECT TYPE; We might want to refactor this. There has to be a certain hook for this task;
 }
+
+
 
 
 const ProfilePage: FC<PropsType> = (props) => {

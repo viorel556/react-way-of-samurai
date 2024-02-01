@@ -17,7 +17,9 @@ type InitialStateType = {
 // THE DISPATCH TYPE:
 type DispatchType = Dispatch<ActionTypes>
 // type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionTypes>
-type ThunkType = BaseThunkType<ActionTypes | FormAction> // that form action is something ultra general Action Type;
+export type ThunkType = BaseThunkType<ActionTypes | FormAction>
+
+// that form action is something ultra general Action Type;
 
 export const actions = {
     addPostActionCreator: (newPostText: string) => ( {type: "ADD_POST", newPostText} as const),

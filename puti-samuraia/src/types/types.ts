@@ -156,3 +156,7 @@ export type ChatMessageType = {
 export interface ChatMessagePropsType {
     message: ChatMessageType
 }
+
+export interface WebSocketChannelType {
+    wsChannel: WebSocket | null
+}
