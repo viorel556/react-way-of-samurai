@@ -69,7 +69,6 @@ let initialState: InitialStateType = {
     captcha: ''
 }
 
-// THE MAIN REDUCER:
 const authReducer = (state = initialState, action: ActionTypes): InitialStateType => {
     switch (action.type) {
 
@@ -88,7 +87,6 @@ const authReducer = (state = initialState, action: ActionTypes): InitialStateTyp
         default: return state;
     }
 }
-
 
 // THUNKS ARE HERE:
 export const authorizeMe = (): ThunkType => async (dispatch: DispatchType) => {

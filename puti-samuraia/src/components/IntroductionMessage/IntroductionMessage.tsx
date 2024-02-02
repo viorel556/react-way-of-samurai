@@ -1,5 +1,6 @@
 import React, {ComponentType, FC} from "react";
 import classes from "./IntroductionMessaage.module.css";
+import Icon from "@ant-design/icons";
 
 
 export const IntroductionMessage: ComponentType = () => {
@@ -39,7 +40,6 @@ export const IntroductionMessage: ComponentType = () => {
             <p>However, stay focused, consistent and if you put the hours, the results will come! </p>
 
             <p>Thank you Dymich!</p>
-
         </div>
     )
 }

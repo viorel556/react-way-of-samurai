@@ -2,38 +2,22 @@ import React, {FC, useEffect, useState} from "react";
 import {Avatar, Button} from "antd";
 import s from "./Chat.module.css";
 import {see} from "../../utils/object-helpers.ts";
-import {ChatMessagePropsType, ChatMessageType, WebSocketChannelType} from "../../types/types.ts";
+import {AppDispatchType, ChatMessagePropsType, ChatMessageType, WebSocketChannelType} from "../../types/types.ts";
 import {Field, Form, Formik} from "formik";
 import {Textarea} from "../../components/common/FormsControls/FormsControls.tsx";
+import {useDispatch, useSelector} from "react-redux";
+import {sendMessage, startMessageListening, stopMessageListening} from "../../redux/chat-reducer.ts";
+import {getMessages} from "../../redux/selectors/chat-selectors.ts";
 
 
 // ChatMessageType
 const Chat: FC = () => {
-    const [wsChannel, setWsChannel] = useState<WebSocket>(null);
+    const dispatch: AppDispatchType = useDispatch()
 
     useEffect(() => {
-        let ws: WebSocket;
-
-        function closeHandler() {
-            see('WS CHANNEL IS CLOSED!')
-            see("CREATING A NEW CHANNEL... ")
-            setTimeout(createChannel, 3000) // launches the function after 3s;
-        }
-
-        function createChannel() {
-            // if a previous channel existed, we remove it
-            ws?.removeEventListener('close', closeHandler); ws?.close();
-
-            ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx');
-            ws?.addEventListener('close', closeHandler);
-            setWsChannel(ws);
-        }
-
-        createChannel();
-
-        return() => {
-            ws?.removeEventListener('close', closeHandler);
-            ws.close();
+        dispatch(startMessageListening())
+        return () => {
+            dispatch(stopMessageListening()); // Clean up;
         }
     }, []);
 
@@ -41,30 +25,13 @@ const Chat: FC = () => {
     return <div>
         <h1>Chat</h1>
         <p>If the chat is not showing yet, please reload the page!</p>
-        <Messages wsChannel={wsChannel}/>
-        <AddMessage wsChannel={wsChannel}/>
+        <Messages/>
+        <AddMessage/>
     </div>
 }
 
-const Messages: FC<WebSocketChannelType> = ({wsChannel}) => {
-
-    // for now, we create a local state:
-    const [messages, setMessages] =
-        useState<ChatMessageType[]>([]);
-
-    useEffect(() => {
-        let messageHandler = (e: MessageEvent) => {
-            let newMessages = JSON.parse(e.data)
-            setMessages((prevMessages) => [...prevMessages, ...newMessages]);
-            // for those messages that exist we ADD new ones;
-        };
-
-        wsChannel?.addEventListener('message', messageHandler);
-
-        return () => {
-            wsChannel?.removeEventListener('message', messageHandler)
-        }
-    }, [wsChannel]);
+const Messages: FC = () => {
+    const messages = useSelector(getMessages);
 
     return (
         <div style={{height: '500px', overflowY: "auto"}}>
@@ -73,27 +40,17 @@ const Messages: FC<WebSocketChannelType> = ({wsChannel}) => {
     );
 }
 
-const AddMessage: FC<WebSocketChannelType> = ({wsChannel}) => {
-
+const AddMessage: FC = () => {
+    // LOCAL STATES: we use a local state to get the message from the prompt + handling BUTTON
     const [message, setMessage] = useState('');
-    const [readyStatus, setReadyStatus] =
-        useState<'pending' | 'ready'>('pending');
 
-    useEffect(() => {
-        function openHandler() { setReadyStatus('ready') }
+    const dispatch: AppDispatchType = useDispatch();
 
-        wsChannel?.addEventListener('open', openHandler)
-
-        return () => {
-            wsChannel?.removeEventListener('open', openHandler)
-        }
-    }, [wsChannel]);
-
-    function sendMessage() {
-        wsChannel?.send(message);
-        setMessage(''); // nullify textarea after sending the message
+    function sendMessageHandler(message) {
+        // if (!message) { return } // if there is no message do NOTHING;
+        dispatch(sendMessage(message)) // dispatching a Thunk;
+        setMessage('') // nullifying prompt
     }
-
 
     return (
         <div>
@@ -103,8 +60,7 @@ const AddMessage: FC<WebSocketChannelType> = ({wsChannel}) => {
                 </textarea>
             </div>
             <div>
-                <Button disabled={readyStatus !== 'ready'}
-                        onClick={sendMessage}>
+                <Button onClick={sendMessageHandler}>
                     Send
                 </Button>
             </div>
@@ -113,7 +69,6 @@ const AddMessage: FC<WebSocketChannelType> = ({wsChannel}) => {
 }
 
 const Message: FC<ChatMessagePropsType> = ({message}) => {
-
 
     return (
         <>

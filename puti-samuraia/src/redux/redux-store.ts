@@ -10,6 +10,7 @@ import appReducer from "./app-reducer.ts";
 import {ThunkAction} from 'redux-thunk';
 import {AppDispatchType} from "../types/types.ts";
 import {useDispatch} from "react-redux";
+import chatReducer from "./chat-reducer.ts";
 
 let rootReducer = combineReducers(
     {
@@ -19,7 +20,8 @@ let rootReducer = combineReducers(
         usersPage: usersReducer,
         auth: authReducer,
         form: formReducer,
-        app: appReducer
+        app: appReducer,
+        chat: chatReducer
     }
 );
 

@@ -35,7 +35,7 @@ var initializeApp = function () { return function (dispatch) {
     var promise = dispatch((0, auth_reducer_1.authorizeMe)());
     Promise.all([promise])
         .then(function () {
-        // 􀇾 WHEN ALL THE PROMISES ABOVE ARE DONE -> CODE BELLOW WILL FOLLOW:
+        // WHEN ALL THE PROMISES ABOVE ARE DONE CODE BELLOW WILL FOLLOW:
         dispatch((0, exports.initializedSuccessfully)());
     });
 }; };
