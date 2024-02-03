@@ -1,59 +1,73 @@
+
 import {ChatMessageType} from "../types/types.ts";
 import {see} from "../utils/object-helpers.ts";
-type SubscriberType = (messages: ChatMessageType[]) => void;
+import {StatusType} from "../redux/chat-reducer.ts";
 
+// TYPES:
+type MessageReceivedSubscriberType = (messages: ChatMessageType[]) => void;
+type StatusChangedSubscriberType = (status: StatusType) => void;
+type EventType = 'messages-received' | 'status-changed';
 
-let subscribers = [] as SubscriberType[];
+const subscribers = {
+    'messages-received': [] as MessageReceivedSubscriberType[],
+    'status-changed': [] as StatusChangedSubscriberType[],
+}
+
 let ws: WebSocket;
-
 
 // HANDLERS:
 function closeHandler() {
-    see("WS CHANNEL IS CLOSED! CREATING A NEW CHANNEL... ");
-    setTimeout(createChannel, 3000) // launches the function after 3s;
+    see("WS CHANNEL CLOSED! CREATING A NEW CHANNEL... ");
+    setTimeout(createChannel, 3000); // launches the function after 3s;
 }
-let messageHandler = (e: MessageEvent) => {
-    // handles received messages: (1) Parses them;
 
-    try {
-        const newMessages = JSON.parse(e.data);
-        subscribers.forEach(s => s(newMessages)); // {!} s - as argument si completely different than s-as function; its just shitty code really;
-    }
-    catch (e) { see(e) }
+let messageHandler = (e: MessageEvent) => { // handles received messages: (1) Parses them;
+    const newMessages = JSON.parse(e.data);
+    subscribers['messages-received'].forEach(s => s(newMessages));
+    // {!} s - as argument si completely different from s-as function;
+}
 
+function cleanUp() {
+    ws?.removeEventListener('close', closeHandler)
+    ws?.removeEventListener('message', messageHandler)
 }
 
 function createChannel() {
     // if a previous channel existed, we remove it
-    ws?.removeEventListener('close', closeHandler)
-    ws?.close()
+    cleanUp();
+    ws?.close();
     ws = new WebSocket('wss://social-network.samuraijs.com/handlers/ChatHandler.ashx');
-    ws?.addEventListener('close', closeHandler)
-    ws?.addEventListener('message', messageHandler)
+    // @ts-ignore
+    subscribers["messages-received"]
+        .forEach(s => s('pending')) // LAST POINT
+    cleanUp();
 }
 
 export const chatAPI = {
 
     start() { createChannel() },
     stop() {
-        subscribers = []
-        ws?.removeEventListener('close', closeHandler)
-        ws?.removeEventListener('message', messageHandler)
-        ws?.close()
+        subscribers['messages-received'] = [];
+        subscribers['status-changed'] = [];
+        cleanUp();
+        ws?.close();
     },
 
-    subscribe (callback: SubscriberType) {
-        subscribers.push(callback);
-        return () => {
-            subscribers = subscribers.filter(s =>  s !== callback)
+    subscribe(event: EventType, callback: MessageReceivedSubscriberType | StatusChangedSubscriberType) {
+        // @ts-ignore
+        subscribers[event].push(callback);
+        return () => { // FIXME[EASY] this return statement seems redundant; CHECK;
+            // @ts-ignore
+            subscribers[event] = subscribers[event].filter(s => s !== callback);
         }
     },
 
-    unsubscribe (callback: SubscriberType) {
-        subscribers = subscribers.filter(s =>  s !== callback)
+    unsubscribe(event: EventType, callback: MessageReceivedSubscriberType | StatusChangedSubscriberType) {
+        // @ts-ignore
+        subscribers[event] = subscribers[event].filter(s => s !== callback);
     },
 
-    sendMessage (message: string) {
+    sendMessage(message: string) {
         ws.send(message);
     }
 }

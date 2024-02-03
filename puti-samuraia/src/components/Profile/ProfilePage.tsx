@@ -2,7 +2,6 @@ import React, {ComponentType, FC, useEffect} from "react";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 // import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import {connect, useSelector} from "react-redux";
-import {getAuthorizedUserId, getProfile, getStatus} from "../../redux/selectors/profile-salectors.ts";
 import {
     getUser,
     getUserStatus,
@@ -18,6 +17,7 @@ import withAuthRedirect from "../../hoc/withAuthRedirect.tsx";
 import MyPosts from "./MyPosts/MyPosts.tsx";
 import {HistoryRouterProps, MemoryRouterProps, RouterProviderProps} from "react-router-dom";
 import {ProfileType} from "../../types/types.ts";
+import {getAuthorizedUserId, getProfile, getStatus} from "../../redux/selectors/selectors.ts";
 
 
 

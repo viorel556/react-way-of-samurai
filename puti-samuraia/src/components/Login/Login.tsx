@@ -5,8 +5,8 @@ import LoginReduxForm from "./LoginForm";
 import {AppDispatchType, AuthDetailsType} from "../../types/types.ts";
 import {AuthCredentialsType, authorizeWithCredentials} from "../../redux/auth-reducer.ts";
 import {useDispatch, useSelector} from "react-redux";
-import {getCaptcha, getIsAuth} from "../../redux/selectors/other-selectors.ts";
 import {useAppDispatch} from "../../redux/redux-store.ts";
+import {getCaptcha, getIsAuth} from "../../redux/selectors/selectors.ts";
 
 type PropsType = {
     // DOUBLE CODE

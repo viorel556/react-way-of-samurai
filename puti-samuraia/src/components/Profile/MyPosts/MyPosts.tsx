@@ -7,7 +7,8 @@ import {PostsType, PostType} from "../../../types/types.ts";
 import {useAppDispatch} from "../../../redux/redux-store.ts";
 import {actions} from "../../../redux/profile-reducer.ts";
 import {useSelector} from "react-redux";
-import {getNewPostText, getPosts} from "../../../redux/selectors/other-selectors.ts";
+
+import {getNewPostText, getPosts} from "../../../redux/selectors/selectors.ts";
 const {addPostActionCreator} = actions;
 
 type AddPostType = (newPostText: string) => void

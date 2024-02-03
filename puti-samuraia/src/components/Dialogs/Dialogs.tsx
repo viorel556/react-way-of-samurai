@@ -5,11 +5,10 @@ import Message from "./Message/Message";
 import AddMessageReduxForm from "./Message/AddMessageForm/AddMessageForm";
 import {actions} from "./../../redux/dialogs-reducer.ts"
 import {connect, useSelector} from "react-redux";
-import {getDialogsPage} from "../../redux/selectors/dialogs-selectors.ts";
-import {getIsAuth} from "../../redux/selectors/other-selectors.ts";
 import {useAppDispatch} from "../../redux/redux-store.ts";
 import {compose} from "redux";
 import withAuthRedirect from "../../hoc/withAuthRedirect.tsx";
+import {getDialogsPage, getIsAuth} from "../../redux/selectors/selectors.ts";
 
 
 const Dialogs: FC = () => {

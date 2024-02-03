@@ -5,16 +5,15 @@ import {AppDispatchType} from "../../types/types";
 import {UsersSearchForm} from "./UsersSearchForm.tsx";
 import {FilterType, followUser, getUsers, unfollowUser} from "../../redux/users-reducer.ts";
 import {useDispatch, useSelector} from "react-redux";
+import {createSearchParams, NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
+import styles from "./users.module.css";
 import {
     getAllUsers,
     getCurrentPage,
-    getFollowingInProgress,
-    getPageSize,
+    getFollowingInProgress, getPageSize,
     getTotalUsersCount,
     getUsersFilter
-} from "../../redux/selectors/users-selectors.ts";
-import {createSearchParams, NavigateFunction, useLocation, useNavigate} from 'react-router-dom';
-import styles from "./users.module.css";
+} from "../../redux/selectors/selectors.ts";
 
 export const Users: FC = () => {
 

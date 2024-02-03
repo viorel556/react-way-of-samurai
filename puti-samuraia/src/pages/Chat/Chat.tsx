@@ -7,7 +7,7 @@ import {Field, Form, Formik} from "formik";
 import {Textarea} from "../../components/common/FormsControls/FormsControls.tsx";
 import {useDispatch, useSelector} from "react-redux";
 import {sendMessage, startMessageListening, stopMessageListening} from "../../redux/chat-reducer.ts";
-import {getMessages} from "../../redux/selectors/chat-selectors.ts";
+import {getMessages, getWebSocketStatus} from "../../redux/selectors/selectors.ts";
 
 
 // ChatMessageType
@@ -43,11 +43,11 @@ const Messages: FC = () => {
 const AddMessage: FC = () => {
     // LOCAL STATES: we use a local state to get the message from the prompt + handling BUTTON
     const [message, setMessage] = useState('');
-
     const dispatch: AppDispatchType = useDispatch();
+    const status = useSelector(getWebSocketStatus);
 
-    function sendMessageHandler(message) {
-        // if (!message) { return } // if there is no message do NOTHING;
+    function sendMessageHandler() {
+        if (!message) { return } // no message ? do NOTHING;
         dispatch(sendMessage(message)) // dispatching a Thunk;
         setMessage('') // nullifying prompt
     }
@@ -60,7 +60,9 @@ const AddMessage: FC = () => {
                 </textarea>
             </div>
             <div>
-                <Button onClick={sendMessageHandler}>
+                <Button
+                    disabled={status !== 'ready'} // disable button if the status IS NOT 'ready'
+                    onClick={sendMessageHandler}>
                     Send
                 </Button>
             </div>
@@ -75,7 +77,6 @@ const Message: FC<ChatMessagePropsType> = ({message}) => {
             <img src={message.photo} className={s.avatar}/> <b>{message.userName}</b>
             <br/>
             <p>{message.message}</p>
-
             <hr/>
         </>
     );

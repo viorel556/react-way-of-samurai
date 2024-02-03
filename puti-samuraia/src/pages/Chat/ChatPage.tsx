@@ -6,9 +6,6 @@ import {withSuspense} from "../../hoc/withSuspense.tsx";
 import withAuthRedirect from "../../hoc/withAuthRedirect.tsx";
 import Chat from "./Chat.tsx";
 
-// establishing a WS channel:
-
-
 const ChatPage: FC = () => {
 
     return (

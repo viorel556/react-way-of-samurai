@@ -2,10 +2,10 @@ import React, {FC} from "react";
 import classes from './AuthButton.module.css';
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {getIsAuth, getLoginData} from "../../redux/selectors/other-selectors.ts";
 import {logOut} from "../../redux/auth-reducer.ts";
 import {useAppDispatch} from "../../redux/redux-store.ts";
 import {Avatar, Button} from "antd";
+import {getIsAuth, getLoginData} from "../../redux/selectors/selectors.ts";
 
 
 export const AuthButton: FC = () => {
