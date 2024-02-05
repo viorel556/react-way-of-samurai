@@ -13,7 +13,7 @@ type InitialStateType = {
 }
 type ActionTypes = InferActionsType<typeof actions>
 type DispatchType = Dispatch<ActionTypes> // [!] THIS DISPATCH CAN WORK ALSO WITH DISPATCH (without explicitly specifying the actions);
-export type StatusType = 'pending' | 'ready';
+export type StatusType = 'pending' | 'ready' | 'error';
 
 // THE INITIAL STATE
 let initialState: InitialStateType = {
