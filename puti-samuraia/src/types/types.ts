@@ -147,14 +147,14 @@ export type SearchFormType = {
 }
 
 // THE TYPE OF MESSAGE WE GET FROM WEBSOCKET:
-export type ChatMessageType = {
+export type ChatMessageAPIType = {
     message: string
     photo: string
     userId: number
     userName: string
 }
 export interface ChatMessagePropsType {
-    message: ChatMessageType
+    message: ChatMessageAPIType
 }
 
 export interface WebSocketChannelType {

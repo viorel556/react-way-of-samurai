@@ -1,11 +1,11 @@
 
-import {ChatMessageType} from "../types/types.ts";
+import {ChatMessageAPIType} from "../types/types.ts";
 import {see} from "../utils/object-helpers.ts";
 import {StatusType} from "../redux/chat-reducer.ts";
 import message from "../components/Dialogs/Message/Message.tsx";
 
 // TYPES:
-type MessageReceivedSubscriberType = (messages: ChatMessageType[]) => void;
+type MessageReceivedSubscriberType = (messages: ChatMessageAPIType[]) => void;
 type StatusChangedSubscriberType = (status: StatusType) => void;
 type EventType = 'messages-received' | 'status-changed';
 

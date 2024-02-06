@@ -1,11 +1,12 @@
-import React, {FC, useEffect, useRef, useState, UIEventHandler} from "react";
+import React, {FC, useEffect, useRef, useState, UIEventHandler, memo} from "react";
 import {Avatar, Button} from "antd";
 import s from "./Chat.module.css";
 import {see} from "../../utils/object-helpers.ts";
-import {AppDispatchType, ChatMessagePropsType, ChatMessageType, WebSocketChannelType} from "../../types/types.ts";
+import {AppDispatchType, ChatMessagePropsType, ChatMessageAPIType, WebSocketChannelType} from "../../types/types.ts";
 import {useDispatch, useSelector} from "react-redux";
-import {sendMessage, startMessageListening, stopMessageListening} from "../../redux/chat-reducer.ts";
+import {ChatMessageType, sendMessage, startMessageListening, stopMessageListening} from "../../redux/chat-reducer.ts";
 import {getMessages, getStatus, getWebSocketStatus} from "../../redux/selectors/selectors.ts";
+
 
 
 // ChatMessageType
@@ -40,20 +41,20 @@ const Messages: FC = () => {
     // CREATING A REF (to implement auto-scrolling):
     const messagesAnchorRef = useRef<HTMLDivElement>(null);
     // CREATING A LOCAL STATE FOR AUTO-SCROLL
-    const [autoScroll, setAutoScroll] = useState(false);
+    const [autoScroll, setAutoScroll] = useState(true);
 
     function scrollHandler(e: any) {
         let element = e.currentTarget;
 
         if (element.scrollHeight - element.scrollTop === element.clientHeight) {
             see('>>>> USER SCROLLED TILL THE END OF THE VIEW-SCREEN');
-            !setAutoScroll && setAutoScroll(true);
-            // FIXME[EASY]: We might probably need to make something just simple as setAutoScroll(true)
+            setAutoScroll(true)
+
+
         }
         else {
             see('>>> USER IS SCROLLING');
-            setAutoScroll && setAutoScroll(false);
-            // FIXME[EASY]: We might probably need to make something just simple as setAutoScroll(true)
+            // setAutoScroll && setAutoScroll(false);
         }
     }
 
@@ -67,8 +68,8 @@ const Messages: FC = () => {
     return <div style={{height: '500px', overflowY: "auto"}} onScroll={scrollHandler}>
         {
             messages
-                .map((m, index) =>
-                    <Message key={index} message={m}/>)
+                .map((m: ChatMessageType, index) =>
+                    <Message key={m.id} message={m}/>)
         }
         <div ref={messagesAnchorRef}>
 
@@ -76,7 +77,7 @@ const Messages: FC = () => {
     </div>
 }
 
-const Message: FC<ChatMessagePropsType> = ({message}) => {
+const Message: FC<ChatMessagePropsType> = memo( ({message}) => {
     return (
         <>
             <img src={message.photo} className={s.avatar}/> <b>{message.userName}</b>
@@ -84,8 +85,8 @@ const Message: FC<ChatMessagePropsType> = ({message}) => {
             <p>{message.message}</p>
             <hr/>
         </>
-    );
-}
+    )
+});
 
 const AddMessage: FC = () => {
     // LOCAL STATES: we use a local state to get the message from the prompt + handling BUTTON
@@ -94,6 +95,7 @@ const AddMessage: FC = () => {
     const status = useSelector(getWebSocketStatus);
 
     function sendMessageHandler() {
+        // FIXME[MEDIUM](**): implement sending messages via ENTER (hint: keyApp)
         if (!message) { return } // no message ? do NOTHING;
         dispatch(sendMessage(message)) // dispatching a Thunk;
         setMessage('') // nullifying prompt

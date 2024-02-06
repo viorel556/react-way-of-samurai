@@ -1,19 +1,21 @@
 import { InferActionsType} from "./redux-store.ts";
-import {ChatMessageType} from "../types/types.ts";
+import {ChatMessageAPIType} from "../types/types.ts";
 import {ThunkType} from "./auth-reducer.ts";
 import {chatAPI} from "../api/chat-api.ts";
 import {Dispatch} from "redux";
+import {v1} from 'uuid';
 
 
 // FIXME[MEDIUM]: CHECK WHY THE MESSAGE IS NOT SENT PROPERLY
 // TYPES:
 type InitialStateType = {
-    messages: ChatMessageType[]
+    messages: ChatMessageAPIType[]
     status: string
 }
 type ActionTypes = InferActionsType<typeof actions>
 type DispatchType = Dispatch<ActionTypes> // [!] THIS DISPATCH CAN WORK ALSO WITH DISPATCH (without explicitly specifying the actions);
 export type StatusType = 'pending' | 'ready' | 'error';
+export type ChatMessageType = ChatMessageAPIType & {id: string} // id probably is number
 
 // THE INITIAL STATE
 let initialState: InitialStateType = {
@@ -24,7 +26,7 @@ let initialState: InitialStateType = {
 
 export const actions = {
 
-    messagesReceived: (messages: ChatMessageType[]) => (
+    messagesReceived: (messages: ChatMessageAPIType[]) => (
         { type: "MESSAGES_RECEIVED", payload: {messages} } as const
     ),
 
@@ -38,7 +40,13 @@ const chatReducer = (state = initialState, action: ActionTypes): InitialStateTyp
         case "MESSAGES_RECEIVED": {
             return {
                 ...state,
+                 // FIXME[HARD]: old code here; Only for optimization. It seems like TS doesn't see messages as array
+                // not high priority - fix it if you have too much time at disposal
+                // messages: [...state.messages, ...action.payload.messages.map(m => ({...m, id: v1()}))]
+                //     .filter((m, index, array) => index >= array.length - 100)
+
                 messages: [...state.messages, ...action.payload.messages]
+                    .filter((m, index, array) => index >= array.length - 100)
             }
         }
         case "STATUS_CHANGED": {
@@ -47,17 +55,18 @@ const chatReducer = (state = initialState, action: ActionTypes): InitialStateTyp
                 status: action.payload.status
             }
         }
-        default: return state;
+        default:
+            return state;
     }
 }
 
-let _newMessageHandler: ((messages: ChatMessageType[]) => void) | null = null;
+let _newMessageHandler: ((messages: ChatMessageAPIType[]) => void) | null = null;
 let _statusChangedHandler: ((status: StatusType) => void) | null = null;
  // ?
 
 const newMessageHandlerCreator = (dispatch: DispatchType) => {
     if (_newMessageHandler === null) {
-        _newMessageHandler = (messages: ChatMessageType[]) => { // WE, PRETTY MUCH, CREATE THE FUNCTION HERE (BS CODE)
+        _newMessageHandler = (messages) => { // WE, PRETTY MUCH, CREATE THE FUNCTION HERE (BS CODE)
             dispatch(actions.messagesReceived(messages));
         }
     }
