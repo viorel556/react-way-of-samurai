@@ -1,0 +1,19 @@
+.container{
+    font-family: Onest;
+    width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.image {
+    width: 300px;
+    margin-right: auto;
+    margin-left: auto;
+    filter: hue-rotate(30deg);
+}
+
+.paragraph {
+    font-size: 20px;
+    color: gray;
+}

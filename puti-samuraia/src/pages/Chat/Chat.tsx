@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useRef, useState, UIEventHandler, memo} from "react";
-import {Avatar, Button} from "antd";
+import {Avatar, Button, Input} from "antd";
 import s from "./Chat.module.css";
 import {see} from "../../utils/object-helpers.ts";
 import {AppDispatchType, ChatMessagePropsType, ChatMessageAPIType, WebSocketChannelType} from "../../types/types.ts";
@@ -21,9 +21,11 @@ const Chat: FC = () => {
         }
     }, []);
 
+    const [name, setName] = useState('Michael');
 
-    return <div>
-        <h1>Chat</h1>
+
+    return <div className={s.chatContainer}>
+        <h1>General Chat</h1>
         <p>If the chat is not showing yet, please reload the page!</p>
         {status === 'error'
             ? <div>Some error occured, Please refresh the page;</div>
@@ -49,8 +51,6 @@ const Messages: FC = () => {
         if (element.scrollHeight - element.scrollTop === element.clientHeight) {
             see('>>>> USER SCROLLED TILL THE END OF THE VIEW-SCREEN');
             setAutoScroll(true)
-
-
         }
         else {
             see('>>> USER IS SCROLLING');
@@ -65,7 +65,9 @@ const Messages: FC = () => {
         }
     }, [messages]);
 
-    return <div style={{height: '500px', overflowY: "auto"}} onScroll={scrollHandler}>
+    return <div style={{height: '500px', overflowY: "auto"}}
+                onScroll={scrollHandler}
+            >
         {
             messages
                 .map((m: ChatMessageType, index) =>
@@ -80,9 +82,13 @@ const Messages: FC = () => {
 const Message: FC<ChatMessagePropsType> = memo( ({message}) => {
     return (
         <>
-            <img src={message.photo} className={s.avatar}/> <b>{message.userName}</b>
+            <div className={s.nameAndImage}>
+                <img src={message.photo} className={s.avatar}/>
+                <b>{message.userName}</b>
+            </div>
+
             <br/>
-            <p>{message.message}</p>
+            <p className={s.message}>{message.message}</p>
             <hr/>
         </>
     )
@@ -94,8 +100,14 @@ const AddMessage: FC = () => {
     const dispatch: AppDispatchType = useDispatch();
     const status = useSelector(getWebSocketStatus);
 
+    function handleKeyPress (event) {
+        // Function to send a message just by pressing enter;
+        if (event.key === 'Enter' && message.trim() !== '') {
+            sendMessageHandler(); // Call the sendMessageHandler when Enter key is pressed and message is not empty
+        }
+    }
+
     function sendMessageHandler() {
-        // FIXME[MEDIUM](**): implement sending messages via ENTER (hint: keyApp)
         if (!message) { return } // no message ? do NOTHING;
         dispatch(sendMessage(message)) // dispatching a Thunk;
         setMessage('') // nullifying prompt
@@ -103,14 +115,15 @@ const AddMessage: FC = () => {
 
     return (
         <div>
-            <div>
-                <textarea onChange={(e) => setMessage(e.currentTarget.value)}
-                          value={message}>
-                </textarea>
-            </div>
-            <div>
-                <Button
-                    // disabled={status !== 'ready'} // disable button if the status IS NOT 'ready'
+            <div className={s.inputAndSendArea}>
+                <Input
+                    className={s.input}
+                    onChange={(e) => setMessage(e.currentTarget.value)}
+                    value={message}
+                    onPressEnter={handleKeyPress}
+                >
+                </Input>
+                <Button size={"large"}
                     onClick={sendMessageHandler}>
                     Send
                 </Button>

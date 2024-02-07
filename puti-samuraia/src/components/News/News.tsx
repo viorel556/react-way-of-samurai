@@ -1,10 +1,11 @@
 import React from 'react';
 import classes from './News.module.css';
+import InConstructionPage from "../InConstruction/InConstructionPage.tsx";
 
 const News = (props) => {
     return (
         <div>
-            News
+            <InConstructionPage />
         </div>
     );
 }

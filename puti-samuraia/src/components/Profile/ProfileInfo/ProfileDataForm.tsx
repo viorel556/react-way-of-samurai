@@ -4,16 +4,14 @@ import {createField, Input, Textarea} from "../../common/FormsControls/FormsCont
 import {InjectedFormProps, reduxForm} from "redux-form";
 import {ProfileType} from "../../../types/types.ts";
 
-  // FIXME[HARD AND TIME-CONSUMING]: I FUCKING HATE THIS; MAJOR REFACTORING REQUIRED;
+  // FIXME[HARD](***): I FUCKING HATE THIS; MAJOR REFACTORING REQUIRED;
  // just put all this shit in settings and make separate functional (api & thunks) for each piece of data;
 // at the end of the day nobody edits their profile BY SUBMITTING A FUCKING FORM really; You do it with each piece of data;
 
-type PropsType = {
-    profile: ProfileType
-}
+type PropsType = { profile: ProfileType }
 
-
-const ProfileDataForm: FC<InjectedFormProps<ProfileType, PropsType> & PropsType> = ({handleSubmit, profile, error}) => {
+const ProfileDataForm: FC<InjectedFormProps<ProfileType, PropsType> & PropsType> =
+    ({handleSubmit, profile, error}) => {
 
     return (
         <form onSubmit={handleSubmit}>

@@ -18,8 +18,12 @@ type PropsType = {
 
 // FOCUS:
 const Login: FC = () => {
+      // FIXME[MEDIUM](***): This page is #UGLY! Migrate this form to Formik;
+     // I want to make this migration just for the sake of styling;
+    // Although the functional for Auth is gut, this is time-consuming;
+
     const dispatch = useAppDispatch() // | DISPATCH
-    const captcha = useSelector(getCaptcha)   // | SELECTORS
+    const captcha = useSelector(getCaptcha)    // | SELECTORS
     const isAuth = useSelector(getIsAuth)
 
     const onSubmit = (formData: AuthCredentialsType) => {
@@ -32,6 +36,8 @@ const Login: FC = () => {
     return (
         <div className={classes.loginContainer}>
             <h1> LOG IN </h1>
+            <p>You have to be logged in to access this content!
+           If you don't have an account feel free to use: Email: free@samuraijs.com Password: free</p>
             <LoginReduxForm
                 onSubmit={onSubmit}
                 captcha={captcha}

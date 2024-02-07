@@ -8,7 +8,7 @@ import Chat from "./Chat.tsx";
 
 const ChatPage: FC = () => {
 
-    return ( // FIXME[EASY]: Make that page beautiful. Now its legit UGLY!
+    return (
        <div>
             <Chat />
        </div>

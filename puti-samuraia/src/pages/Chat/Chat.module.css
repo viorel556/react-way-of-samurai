@@ -3,4 +3,44 @@
     height: 50px;
     width: 50px;
     border-radius: 50%;
+    margin-right: 7px;
 }
+
+.chatContainer {
+    width: 800px;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.input {
+    height: 50px;
+}
+
+.sendBtn {
+    height: 200px;
+    padding-top: 50px;
+    color: black;
+}
+
+.inputAndSendArea {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.nameAndImage {
+    display: flex;
+    align-items: center;
+}
+
+.message {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 25px;
+}
+
+/*.messageContainer {*/
+
+/*}*/

@@ -1,10 +1,11 @@
 import React from 'react';
 import classes from './Settings.module.css';
+import InConstructionPage from "../InConstruction/InConstructionPage.tsx";
 const Settings = () => {
     return (
-        <div>
-            <h2> Settings </h2>
-        </div>
+        <>
+            <InConstructionPage />
+        </>
     );
 }
 
