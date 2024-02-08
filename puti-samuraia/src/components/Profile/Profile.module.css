@@ -3,7 +3,15 @@
     background-color: aqua;
 }
 
-/* .content img {
-    width: 100%;
-    height: 150px;
-} */
+/* MAIN BIG ASS CONTAINER */
+.container {
+    margin-top: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1000px;
+    background-color: #ffffff;
+    border-radius: 20px; /* Adjust as needed */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Soft shadow */
+    padding-top: 50px;
+    padding-left: 50px;
+}

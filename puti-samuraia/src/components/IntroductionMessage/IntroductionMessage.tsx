@@ -7,11 +7,11 @@ export const IntroductionMessage: FC = () => {
 
     return (
         <div className={classes.introMessage}>
-            <h2>Social Network Project </h2>
+            <h1>Social Network Project </h1>
 
-            <p> Hey, fellow developer! </p>
+            <h3> Hey, fellow developer! </h3>
 
-            <p>This is an awesome guided project developed by <a href="https://www.youtube.com/@ITKAMASUTRA">Dymich</a>.
+            <p>This is an awesome guided project, originally developed by <a href="https://www.youtube.com/@ITKAMASUTRA">Dymich</a>.
             </p>
             <p>It is mostly created for newbies in front-end and for developers interested to learn more about React &
                 Redux. It covers the followings: </p>
@@ -22,7 +22,7 @@ export const IntroductionMessage: FC = () => {
                 <li>Formik</li>
                 <li>Flux Architecture</li>
                 <li>REST API</li>
-                <li>Websocket</li>
+                <li>Websockets</li>
                 <li>Typescript</li>
                 <li>Ant-Design</li>
                 <li>Some JS gaps you certainly have</li>
@@ -33,8 +33,7 @@ export const IntroductionMessage: FC = () => {
             </p>
 
             <p>Some legends are saying that those who finished this course-project changed their lives forever for good
-                and
-                entered Tech some few years ago. At the time you're reading this the market-requirements are way
+                and entered Tech some few years ago. At the time you're reading this, the market-requirements are way
                 higher. </p>
 
             <p>However, stay focused, consistent and if you put the hours, the results will come! </p>

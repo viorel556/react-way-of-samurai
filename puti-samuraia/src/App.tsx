@@ -62,16 +62,14 @@ class App extends React.Component<MapStateToPropsType & MapDispatchToPropsType> 
             <Layout>
                 <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
 
-
-
                     <Link to="/" className={'logoContainer'} >
                         <img className='logo'/>
                     </Link>
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']}>
-                        <Menu.Item key="1"> <Icon type={'profile'}/> <Link to='/profile'>Profile</Link> </Menu.Item>
-                        <Menu.Item key="2"> <Icon type="video-camera"/> <Link to='/dialogs'>Messages</Link> </Menu.Item>
+                        <Menu.Item key="1"> <Icon type="profile"/> <Link to='/profile'>Profile</Link> </Menu.Item>
                         <Menu.Item key="3"> <Icon type="chat"/> <Link to='/chat'>Chat</Link> </Menu.Item>
                         <Menu.Item key="4"> <Icon type="upload"/> <Link to='/users'>Users</Link> </Menu.Item>
+                        <Menu.Item key="2"> <Icon type="video-camera"/> <Link to='/dialogs'>Messages</Link> </Menu.Item>
                         <Menu.Item key="5"> <Icon type="news"/> <Link to='/news'>News</Link> </Menu.Item>
                         <Menu.Item key="6"> <Icon type="music"/> <Link to='/music'>Music</Link> </Menu.Item>
                         <Menu.Item key="7"> <Icon type="settings"/> <Link to='/settings'>Settings</Link> </Menu.Item>

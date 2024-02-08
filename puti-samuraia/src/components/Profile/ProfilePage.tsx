@@ -7,7 +7,6 @@ import {
     getUserStatus,
     savePhoto,
     saveProfile,
-    ThunkType,
     updateMyStatus
 } from "../../redux/profile-reducer.ts";
 import {useAppDispatch} from "../../redux/redux-store.ts";
@@ -18,22 +17,13 @@ import MyPosts from "./MyPosts/MyPosts.tsx";
 import {HistoryRouterProps, MemoryRouterProps, RouterProviderProps} from "react-router-dom";
 import {ProfileType} from "../../types/types.ts";
 import {getAuthorizedUserId, getProfile, getStatus} from "../../redux/selectors/selectors.ts";
+import classes from './Profile.module.css';
 
 
 
 type PropsType = {
-    // profile: ProfileType
-    // isOwner: boolean
-    // status: string
-    // saveProfile: (profile: ProfileType) => Promise<void>
-    // updateMyStatus: (status: string) => void
-    // savePhoto: (file: any) => void
-
     router?: any  // FIXME[HARD]: CORRECT TYPE; We might want to refactor this. There has to be a certain hook for this task;
 }
-
-
-
 
 const ProfilePage: FC<PropsType> = (props) => {
     const dispatch = useAppDispatch()
@@ -45,7 +35,6 @@ const ProfilePage: FC<PropsType> = (props) => {
     function refreshProfile() {
         let userId = props.router.params.userId;
         if (!userId) { userId = authorizedUserId } // my number: 30097
-
         // CALLING 2 THUNKS (when the component mounts):
         dispatch(getUser(userId));
         dispatch(getUserStatus(userId));
@@ -63,7 +52,7 @@ const ProfilePage: FC<PropsType> = (props) => {
     }, [])
 
     return (
-        <div>
+        <div className={classes.container}>
             <ProfileInfo profile={profile}
                          isOwner={isOwner}
                          status={status}

@@ -3,7 +3,6 @@ import {createField, Input} from "../common/FormsControls/FormsControls";
 import {required} from "../../utils/validators/validators";
 import {InjectedFormProps, reduxForm, SubmitHandler} from "redux-form";
 import React, {FC} from "react";
-import {Button} from "antd";
 
 type PropsType = {
     handleSubmit?: (() => void) & SubmitHandler
@@ -34,33 +33,29 @@ const LoginForm: FC<InjectedFormProps & PropsType> =
 
             <form className={classes.formContainer} onSubmit={handleSubmit}>
 
-                {   // LOGIN FIELD
-                    createField<LoginFormValueTypeKeys>(
-                        'email',
-                        'login',
-                        [required],
-                        Input)
-                }
-
-                {   // PASSWORD FIELD
-                    createField<LoginFormValueTypeKeys>(
-                        'password',
-                        'password',
-                        [required],
-                        Input,
-                        {type: 'password'},)
-                }
-
-                <div className={classes.checkBox}>
-                    {   // CHECKBOX FIELD
+                <div className={classes.loginField}>
+                    { // LOGIN FIELD
                         createField<LoginFormValueTypeKeys>(
-                            null,
-                            'rememberMe',
-                            null,
-                            Input,
-                            {type: 'checkbox'},
-                            'Remember Me!')
+                            'email',
+                            'login',
+                            [required],
+                            Input)
                     }
+                </div>
+
+                <div className={classes.passwordField}>
+                    {   // PASSWORD FIELD
+                        createField<LoginFormValueTypeKeys>(
+                            'password',
+                            'password',
+                            [required],
+                            Input,
+                            {type: 'password'},)
+                    }
+                </div>
+
+                <div>
+                    <input type="checkbox" id="checkbox"/> Remember me!
                 </div>
 
                 <div>
@@ -81,14 +76,14 @@ const LoginForm: FC<InjectedFormProps & PropsType> =
                 </div>
 
 
-                {error && // UI HANDLING OF THE ERROR OF WRONG EMAIL/PASS
+                { error && // UI HANDLING OF THE ERROR OF WRONG EMAIL/PASS
                     <div className={classes.formSummaryError}>
                         {error}
                     </div>
                 }
 
                 <div>
-                    <button>LOGIN</button>
+                    <button className={classes.loginBtn}>Login</button>
                 </div>
             </form>
         );

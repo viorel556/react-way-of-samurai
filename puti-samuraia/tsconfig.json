@@ -7,7 +7,7 @@
     "sourceMap": true,
     "esModuleInterop": true,
     "allowImportingTsExtensions": true,
-    "noEmit": true, // ADDED idk why
+    "noEmit": true,
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
 

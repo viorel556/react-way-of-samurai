@@ -19,24 +19,73 @@
 .loginContainer {
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
     justify-content: center;
     align-items: center;
+    width: 800px;
+    height: 700px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #ffffff;
+    border-radius: 20px; /* Adjust as needed */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Soft shadow */
 }
 
 .loginContainer > p {
     width: 600px;
     text-align: center;
+    font-size: 16px;
     font-family: Onest;
+
 }
 
-.formContainer input {
+
+
+.checkBox p {
+
+    margin: 0;
+}
+
+.loginField input {
     width: 200px;
-    display: flex;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333; /* Text color */
 }
 
-.checkBox  {
-    display: flex;
+.passwordField input {
+    width: 200px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333; /* Text color */
 }
 
+.loginBtn {
+    margin-top: 12px;
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 16px;
+    color: #000000;
+    background-color: #ffffff; /* Green */
+    border: 1px dashed #868686;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
 
+.loginBtn:hover {
+    background-color: #006c8f; /* Blue on hover */
+    color: white;
+    border: 1px solid gray;
+}
+.loginImage {
+    width: 200px;
+    margin: 0;
+}

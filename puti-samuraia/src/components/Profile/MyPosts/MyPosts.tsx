@@ -30,6 +30,7 @@ const MyPosts: FC = React.memo(props => {
 
     let onAddPost = (values: any) => {
         addPost(values.newPostText);
+        values.newPostText = ''; // nullifying text-area
     };
 
     return (

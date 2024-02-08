@@ -10,7 +10,8 @@
     width: 300px;
     margin-right: auto;
     margin-left: auto;
-    filter: hue-rotate(30deg);
+    opacity: 0.7;
+
 }
 
 .paragraph {

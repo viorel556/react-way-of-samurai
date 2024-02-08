@@ -7,7 +7,8 @@ import {AuthCredentialsType, authorizeWithCredentials} from "../../redux/auth-re
 import {useDispatch, useSelector} from "react-redux";
 import {useAppDispatch} from "../../redux/redux-store.ts";
 import {getCaptcha, getIsAuth} from "../../redux/selectors/selectors.ts";
-
+// @ts-ignore // FIXME[EASY]: Type (don't have time for this now)
+import lock from './../../assets/images/lock.jpg';
 type PropsType = {
     // DOUBLE CODE
     auth: AuthDetailsType
@@ -35,9 +36,13 @@ const Login: FC = () => {
 
     return (
         <div className={classes.loginContainer}>
+            <img className={classes.loginImage}src={lock}/>
             <h1> LOG IN </h1>
-            <p>You have to be logged in to access this content!
-           If you don't have an account feel free to use: Email: free@samuraijs.com Password: free</p>
+            <p>
+                You have to be logged in to access this content!
+                If you don't have an account feel free to use: Email: free@samuraijs.com Password: free
+            </p>
+
             <LoginReduxForm
                 onSubmit={onSubmit}
                 captcha={captcha}
