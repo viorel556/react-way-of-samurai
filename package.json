@@ -1,0 +1,74 @@
+{
+  "name": "puti-samuraia",
+  "homepage": "https://viorel556.github.io/react-puti-samuraia",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@ant-design/icons": "^5.2.6",
+    "@react-buddy/ide-toolbox": "^2.4.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/classnames": "^2.3.1",
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.10.5",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "antd": "^5.13.2",
+    "axios": "^1.6.0",
+    "classnames": "^2.3.2",
+    "formik": "^2.4.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.1.2",
+    "react-router-dom": "^6.20.1",
+    "react-scripts": "^5.0.1",
+    "redux": "^4.2.1",
+    "redux-form": "^8.3.10",
+    "reselect": "^4.1.8",
+    "Router": "^2.1.0",
+    "typescript": "^5.0.2",
+    "uuid": "^9.0.1",
+    "web-vitals": "^2.1.4",
+    "redux-thunk": "^2.3.0"
+  },
+  "overrides": {
+    "typescript": "^5.0.2"
+  },
+  "scripts": {
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-leaflet|@react-leaflet|d3-*|axios))"
+    ]
+  },
+  "devDependencies": {
+    "@types/redux-form": "^8.3.10",
+    "gh-pages": "^6.1.0",
+    "react-test-renderer": "^18.2.0"
+  }
+}
