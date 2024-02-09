@@ -5,7 +5,6 @@
     border: solid red 2px;
 }
 
-
 .formControl.error span {
     color: red;
 }
@@ -37,13 +36,9 @@
     text-align: center;
     font-size: 16px;
     font-family: Onest;
-
 }
 
-
-
 .checkBox p {
-
     margin: 0;
 }
 
@@ -85,6 +80,7 @@
     color: white;
     border: 1px solid gray;
 }
+
 .loginImage {
     width: 200px;
     margin: 0;

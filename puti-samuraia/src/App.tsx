@@ -61,8 +61,7 @@ class App extends React.Component<MapStateToPropsType & MapDispatchToPropsType> 
         return (
             <Layout>
                 <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-
-                    <Link to="/" className={'logoContainer'} >
+                    <Link to="/" className={'logoContainer'}>
                         <img className='logo'/>
                     </Link>
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['0']}>
@@ -98,7 +97,11 @@ class App extends React.Component<MapStateToPropsType & MapDispatchToPropsType> 
                             </Routes>
                         </div>
                     </Content>
-                    <Footer>  SAMURAI JS SOCIAL NETWORK 2024 (c) All Rights Reserved </Footer>
+                    <Footer>
+                        <p>
+                            SAMURAI JS SOCIAL NETWORK 2024 (c) All Rights Reserved
+                        </p>
+                    </Footer>
                 </Layout>
             </Layout>
         );

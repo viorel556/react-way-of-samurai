@@ -23,7 +23,58 @@
     cursor: pointer;
 }
 
+.followUnfollowContainer button {
+    margin-left: 5px
+}
+
 .usersContainer {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+}
+
+.searchBarContainer {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.searchBarContainer input {
+    height: 39px;
+    width: 230px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333; /* Text color */
+}
+
+.searchBarContainer select {
+    height: 39px;
+    margin-left: 10px;
+    width: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+}
+
+.searchBarContainer button {
+    height: 39px;
+    margin-left: 10px;
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 13px;
+    color: #000000;
+    background-color: #ffffff; /* Green */
+    border: 1px dashed #868686;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.userContainer span {
+    margin-left: 5px;
 }

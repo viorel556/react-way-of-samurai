@@ -28,5 +28,10 @@
     padding: 50px;
 }
 
+footer p {
+    color: dimgray;
+    text-align: right;
+}
+
 
 

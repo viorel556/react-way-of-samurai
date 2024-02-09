@@ -18,7 +18,6 @@ import {
 export const Users: FC = () => {
 
     const dispatch: AppDispatchType = useDispatch(); // DISPATCH
-    const navigate = useNavigate();  // NAVIGATE HOOK
 
     // SELECTORS:
     const currentPage = useSelector(getCurrentPage)
@@ -115,7 +114,6 @@ export const Users: FC = () => {
                        pageSize={pageSize}
             />
 
-
             <div className={styles.usersContainer}>
                 {
                     users.map(u => <User user={u}
@@ -125,7 +123,6 @@ export const Users: FC = () => {
                     />)
                 }
             </div>
-
         </div>
     );
 }

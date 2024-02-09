@@ -14,7 +14,6 @@ type PropsType = {
 
 const User: FC<PropsType> = ({user, followingInProgress, unfollowUser, followUser}) => {
 
-
     return (
 
         <div className={styles.userContainer}>
@@ -26,7 +25,7 @@ const User: FC<PropsType> = ({user, followingInProgress, unfollowUser, followUse
                     </NavLink>
                 </div>
 
-                <div>
+                <div className={styles.followUnfollowContainer}>
                     {user.followed ? <Button type={'primary'} disabled={followingInProgress.some(id => id === user.id)}
                                              onClick={() => {
                                                  // CALLING A THUNK:
@@ -44,7 +43,7 @@ const User: FC<PropsType> = ({user, followingInProgress, unfollowUser, followUse
 
             <span>
                 <span>
-                    <div>{user.name}</div> <div>{user.status}</div>
+                    <b>{user.name}</b> <div>{user.status}</div>
                 </span>
 
                 <span>
