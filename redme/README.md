@@ -1,4 +1,4 @@
-# react-puti-samuraia
+# React Way of samurai
 Курс "React JS - путь самурая 
 
 link: 

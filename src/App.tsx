@@ -84,7 +84,7 @@ class App extends React.Component<MapStateToPropsType & MapDispatchToPropsType> 
                         <div className='app-wrapper-content'>
                             <Routes>
                                 <Route path="/" element={<IntroductionMessage/>}/>
-                                <Route path="/react-puti-samuraia" element={<IntroductionMessage/>}/>
+                                <Route path="/react-way-of-samurai" element={<IntroductionMessage/>}/>
                                 <Route path="/dialogs/" element={<Dialogs/>}/>
                                 <Route path="/profile/:userId?" element={<ProfilePage/>}/>
                                 <Route path="/users" element={<UsersPage/>}/>
