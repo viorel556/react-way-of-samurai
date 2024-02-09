@@ -1,0 +1,36 @@
+{
+  "files": {
+    "main.css": "/react-way-of-samurai/static/css/main.33990cc5.css",
+    "main.js": "/react-way-of-samurai/static/js/main.b2dded3e.js",
+    "static/css/566.c2cda4a5.chunk.css": "/react-way-of-samurai/static/css/566.c2cda4a5.chunk.css",
+    "static/js/566.f07d1aa9.chunk.js": "/react-way-of-samurai/static/js/566.f07d1aa9.chunk.js",
+    "static/css/476.d9fdd309.chunk.css": "/react-way-of-samurai/static/css/476.d9fdd309.chunk.css",
+    "static/js/476.65415211.chunk.js": "/react-way-of-samurai/static/js/476.65415211.chunk.js",
+    "static/css/266.be40aae9.chunk.css": "/react-way-of-samurai/static/css/266.be40aae9.chunk.css",
+    "static/js/266.d85c6140.chunk.js": "/react-way-of-samurai/static/js/266.d85c6140.chunk.js",
+    "static/js/787.7ba4a4d8.chunk.js": "/react-way-of-samurai/static/js/787.7ba4a4d8.chunk.js",
+    "static/js/705.d505a4eb.chunk.js": "/react-way-of-samurai/static/js/705.d505a4eb.chunk.js",
+    "static/js/311.1889ca96.chunk.js": "/react-way-of-samurai/static/js/311.1889ca96.chunk.js",
+    "static/media/preloader.gif": "/react-way-of-samurai/static/media/preloader.0b63fe22cfbe69ae87e2.gif",
+    "static/media/lock.jpg": "/react-way-of-samurai/static/media/lock.2f9ee54ebc10a318a124.jpg",
+    "static/media/logo.png": "/react-way-of-samurai/static/media/logo.044f102c4ea4966943ba.png",
+    "static/media/user.png": "/react-way-of-samurai/static/media/user.a1158b938d4f9c73d102.png",
+    "static/media/under_construction.png": "/react-way-of-samurai/static/media/under_construction.4b9314108b1129e0de35.png",
+    "index.html": "/react-way-of-samurai/index.html",
+    "main.33990cc5.css.map": "/react-way-of-samurai/static/css/main.33990cc5.css.map",
+    "main.b2dded3e.js.map": "/react-way-of-samurai/static/js/main.b2dded3e.js.map",
+    "566.c2cda4a5.chunk.css.map": "/react-way-of-samurai/static/css/566.c2cda4a5.chunk.css.map",
+    "566.f07d1aa9.chunk.js.map": "/react-way-of-samurai/static/js/566.f07d1aa9.chunk.js.map",
+    "476.d9fdd309.chunk.css.map": "/react-way-of-samurai/static/css/476.d9fdd309.chunk.css.map",
+    "476.65415211.chunk.js.map": "/react-way-of-samurai/static/js/476.65415211.chunk.js.map",
+    "266.be40aae9.chunk.css.map": "/react-way-of-samurai/static/css/266.be40aae9.chunk.css.map",
+    "266.d85c6140.chunk.js.map": "/react-way-of-samurai/static/js/266.d85c6140.chunk.js.map",
+    "787.7ba4a4d8.chunk.js.map": "/react-way-of-samurai/static/js/787.7ba4a4d8.chunk.js.map",
+    "705.d505a4eb.chunk.js.map": "/react-way-of-samurai/static/js/705.d505a4eb.chunk.js.map",
+    "311.1889ca96.chunk.js.map": "/react-way-of-samurai/static/js/311.1889ca96.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.33990cc5.css",
+    "static/js/main.b2dded3e.js"
+  ]
+}
